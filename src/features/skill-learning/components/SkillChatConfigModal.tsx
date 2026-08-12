@@ -1,3 +1,4 @@
+import { Colors } from '@/shared/theme';
 import React, { useState } from 'react';
 import {
   View,
@@ -71,11 +72,11 @@ export const SkillChatConfigModal: React.FC<SkillChatConfigModalProps> = ({
         <View style={[styles.modalSheet, { paddingBottom: Math.max(insets.bottom + 16, 24) }]}>
           <View style={styles.sheetHeader}>
             <View style={styles.headerLeft}>
-              <Ionicons name="server-outline" size={20} color="#38BDF8" />
+              <Ionicons name="server-outline" size={20} color={Colors.accentCyan} />
               <Text style={styles.sheetTitle}>API Connection Settings</Text>
             </View>
             <TouchableOpacity activeOpacity={0.7} onPress={onClose}>
-              <Feather name="x" size={22} color="#94A3B8" />
+              <Feather name="x" size={22} color={Colors.textSecondary} />
             </TouchableOpacity>
           </View>
 
@@ -88,7 +89,7 @@ export const SkillChatConfigModal: React.FC<SkillChatConfigModalProps> = ({
                 value={inputUrl}
                 onChangeText={setInputUrl}
                 placeholder="http://10.0.2.2:4021"
-                placeholderTextColor="#64748B"
+                placeholderTextColor={Colors.textMuted}
                 autoCapitalize="none"
                 autoCorrect={false}
               />
@@ -106,7 +107,7 @@ export const SkillChatConfigModal: React.FC<SkillChatConfigModalProps> = ({
                   onPress={() => setInputUrl('http://10.0.2.2:4021')}
                   style={styles.presetBtn}
                 >
-                  <MaterialCommunityIcons name="android" size={15} color="#38BDF8" />
+                  <MaterialCommunityIcons name="android" size={15} color={Colors.accentCyan} />
                   <Text style={styles.presetText}>Emulator (10.0.2.2)</Text>
                 </TouchableOpacity>
 
@@ -115,7 +116,7 @@ export const SkillChatConfigModal: React.FC<SkillChatConfigModalProps> = ({
                   onPress={() => setInputUrl(`http://${detectedLanIp}:4021`)}
                   style={styles.presetBtn}
                 >
-                  <Feather name="wifi" size={14} color="#22C55E" />
+                  <Feather name="wifi" size={14} color={Colors.success} />
                   <Text style={styles.presetText}>LAN ({detectedLanIp})</Text>
                 </TouchableOpacity>
 
@@ -124,7 +125,7 @@ export const SkillChatConfigModal: React.FC<SkillChatConfigModalProps> = ({
                   onPress={() => setInputUrl('http://localhost:4021')}
                   style={styles.presetBtn}
                 >
-                  <MaterialCommunityIcons name="laptop" size={15} color="#FBBF24" />
+                  <MaterialCommunityIcons name="laptop" size={15} color={Colors.warning} />
                   <Text style={styles.presetText}>Localhost</Text>
                 </TouchableOpacity>
               </View>
@@ -216,11 +217,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalSheet: {
-    backgroundColor: '#0F121C',
+    backgroundColor: Colors.bgApp,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     borderTopWidth: 1,
-    borderColor: '#1E2538',
+    borderColor: Colors.borderCard,
     padding: 20,
     maxHeight: '85%',
   },
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#1A2030',
+    borderBottomColor: Colors.borderSubtle,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   sheetTitle: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '700',
   },
@@ -247,30 +248,30 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionLabel: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.5,
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#242D42',
+    borderColor: Colors.borderCard,
     borderRadius: 12,
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14,
     paddingHorizontal: 14,
     paddingVertical: 10,
   },
   helperText: {
-    color: '#64748B',
+    color: Colors.textMuted,
     fontSize: 11.5,
     marginTop: 6,
     lineHeight: 16,
   },
   codeText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
   },
   presetRow: {
@@ -282,15 +283,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#242D42',
+    borderColor: Colors.borderCard,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 10,
   },
   presetText: {
-    color: '#CBD5E1',
+    color: Colors.textSecondary,
     fontSize: 11.5,
     fontWeight: '600',
   },
@@ -300,24 +301,24 @@ const styles = StyleSheet.create({
   },
   toggleBtn: {
     flex: 1,
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#242D42',
+    borderColor: Colors.borderCard,
     paddingVertical: 8,
     borderRadius: 10,
     alignItems: 'center',
   },
   toggleBtnActive: {
-    backgroundColor: '#0F263E',
-    borderColor: '#38BDF8',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.accentCyan,
   },
   toggleBtnText: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 11.5,
     fontWeight: '700',
   },
   toggleBtnTextActive: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
   },
   voiceGrid: {
     flexDirection: 'row',
@@ -325,25 +326,25 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   voiceBtn: {
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#242D42',
+    borderColor: Colors.borderCard,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 10,
   },
   voiceBtnActive: {
-    backgroundColor: '#0F263E',
-    borderColor: '#22C55E',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.success,
   },
   voiceBtnText: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 12,
     textTransform: 'capitalize',
     fontWeight: '600',
   },
   voiceBtnTextActive: {
-    color: '#22C55E',
+    color: Colors.success,
     fontWeight: '700',
   },
   actionsRow: {
@@ -352,34 +353,34 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingTop: 14,
     borderTopWidth: 1,
-    borderTopColor: '#1A2030',
+    borderTopColor: Colors.borderSubtle,
   },
   resetBtn: {
     flex: 1,
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     paddingVertical: 12,
     borderRadius: 12,
     alignItems: 'center',
   },
   resetBtnText: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '600',
   },
   saveBtn: {
     flex: 1,
-    backgroundColor: '#2F69FE',
+    backgroundColor: Colors.primaryBtn,
     paddingVertical: 12,
     borderRadius: 12,
     alignItems: 'center',
-    shadowColor: '#2F69FE',
+    shadowColor: Colors.primaryBtn,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
     shadowRadius: 4,
     elevation: 3,
   },
   saveBtnText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 13,
     fontWeight: '700',
   },

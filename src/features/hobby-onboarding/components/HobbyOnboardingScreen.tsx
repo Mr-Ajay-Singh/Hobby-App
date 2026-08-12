@@ -12,6 +12,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQueryClient } from '@tanstack/react-query';
+import { Colors } from '@/shared/theme';
 import { submitHobbyOnboarding } from '../api/hobbyOnboardingApi';
 
 import { Step1HobbySelection } from './Step1HobbySelection';
@@ -116,7 +117,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
       {/* ── Top Header Navigation Bar ────────────────────────────────────────────── */}
       <View style={styles.navHeader}>
         <TouchableOpacity style={styles.iconBtn} onPress={handlePrevStep} activeOpacity={0.7}>
-          <Feather name="arrow-left" size={20} color="#F1F5F9" />
+          <Feather name="arrow-left" size={20} color={Colors.textPrimary} />
         </TouchableOpacity>
 
         <View style={styles.headerTitleCenter}>
@@ -126,7 +127,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
 
         {/* ❌ Explicit Close Button */}
         <TouchableOpacity style={styles.iconBtn} onPress={confirmCancel} activeOpacity={0.7}>
-          <Ionicons name="close" size={22} color="#94A3B8" />
+          <Ionicons name="close" size={22} color={Colors.textSecondary} />
         </TouchableOpacity>
       </View>
 
@@ -181,7 +182,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
       {/* ── Bottom Sticky Action Footer Bar ───────────────────────────────────────── */}
       <View style={[styles.footerBar, { paddingBottom: Math.max(insets.bottom + 12, 24) }]}>
         <TouchableOpacity style={styles.footerBackBtn} onPress={handlePrevStep} activeOpacity={0.7}>
-          <Feather name="arrow-left" size={16} color="#94A3B8" />
+          <Feather name="arrow-left" size={16} color={Colors.textSecondary} />
           <Text style={styles.footerBackText}>{step === 1 ? 'Cancel' : 'Back'}</Text>
         </TouchableOpacity>
 
@@ -198,7 +199,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
             activeOpacity={0.85}
           >
             <Text style={styles.footerNextText}>Next Step</Text>
-            <Feather name="arrow-right" size={16} color="#FFFFFF" />
+            <Feather name="arrow-right" size={16} color={Colors.textPrimary} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
@@ -208,7 +209,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
             activeOpacity={0.85}
           >
             {submitting ? (
-              <ActivityIndicator color="#FFFFFF" size="small" />
+              <ActivityIndicator color={Colors.textPrimary} size="small" />
             ) : (
               <Text style={styles.footerFinishText}>Launch AI Coaching 🚀</Text>
             )}
@@ -222,7 +223,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#0B0813',
+    backgroundColor: Colors.bgAppAlt,
   },
   navHeader: {
     flexDirection: 'row',
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     borderRadius: 19,
-    backgroundColor: '#191329',
+    backgroundColor: Colors.bgCardAlt,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -243,24 +244,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    color: '#F1F5F9',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '800',
   },
   headerSubtitle: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 11,
     fontWeight: '700',
     marginTop: 2,
   },
   progressTrackBg: {
     height: 4,
-    backgroundColor: '#1E1933',
+    backgroundColor: Colors.bgCardAlt,
     width: '100%',
   },
   progressTrackFill: {
     height: '100%',
-    backgroundColor: '#38BDF8',
+    backgroundColor: Colors.accentCyan,
   },
   scrollBody: {
     flex: 1,
@@ -277,9 +278,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 12,
     paddingBottom: 24,
-    backgroundColor: '#0B0813',
+    backgroundColor: Colors.bgAppAlt,
     borderTopWidth: 1,
-    borderTopColor: '#1F1833',
+    borderTopColor: Colors.borderSubtle,
   },
   footerBackBtn: {
     flexDirection: 'row',
@@ -289,7 +290,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   footerBackText: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '600',
   },
@@ -297,22 +298,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#2563EB',
+    backgroundColor: Colors.primaryBtn,
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 14,
   },
   footerNextBtnDisabled: {
-    backgroundColor: '#1E293B',
+    backgroundColor: Colors.bgCardAlt,
     opacity: 0.5,
   },
   footerNextText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '800',
   },
   footerFinishBtn: {
-    backgroundColor: '#16A34A',
+    backgroundColor: Colors.success,
     paddingHorizontal: 22,
     paddingVertical: 12,
     borderRadius: 14,
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   footerFinishText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '800',
   },

@@ -1,3 +1,4 @@
+import { Colors } from '@/shared/theme';
 import React, { useRef, useEffect, useState } from 'react';
 import {
   View,
@@ -155,8 +156,8 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
           <RefreshControl
             refreshing={historyQuery.isRefetching}
             onRefresh={() => historyQuery.refetch()}
-            tintColor="#38BDF8"
-            colors={['#38BDF8']}
+            tintColor={Colors.accentCyan}
+            colors={[Colors.accentCyan]}
           />
         }
         ListHeaderComponent={
@@ -168,10 +169,10 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
               style={styles.loadEarlierBtn}
             >
               {historyQuery.isFetching ? (
-                <ActivityIndicator size="small" color="#38BDF8" />
+                <ActivityIndicator size="small" color={Colors.accentCyan} />
               ) : (
                 <>
-                  <Feather name="clock" size={13} color="#38BDF8" />
+                  <Feather name="clock" size={13} color={Colors.accentCyan} />
                   <Text style={styles.loadEarlierText}>
                     Load earlier messages ({totalMessages - messages.length} more)
                   </Text>
@@ -183,16 +184,16 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
         ListEmptyComponent={
           historyQuery.isLoading ? (
             <View style={{ paddingVertical: 50, alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-              <ActivityIndicator size="large" color="#38BDF8" />
-              <Text style={{ color: '#94A3B8', fontSize: 13, fontWeight: '600' }}>Loading chat history...</Text>
+              <ActivityIndicator size="large" color={Colors.accentCyan} />
+              <Text style={{ color: Colors.textSecondary, fontSize: 13, fontWeight: '600' }}>Loading chat history...</Text>
             </View>
           ) : historyQuery.isError ? (
             <View style={{ paddingVertical: 30, paddingHorizontal: 16, alignItems: 'center', gap: 12 }}>
-              <MaterialCommunityIcons name="wifi-off" size={40} color="#EF4444" />
-              <Text style={{ color: '#EF4444', fontSize: 16, fontWeight: '700', textAlign: 'center' }}>
+              <MaterialCommunityIcons name="wifi-off" size={40} color={Colors.danger} />
+              <Text style={{ color: Colors.danger, fontSize: 16, fontWeight: '700', textAlign: 'center' }}>
                 Unable to load chat history
               </Text>
-              <Text style={{ color: '#94A3B8', fontSize: 13, textAlign: 'center', lineHeight: 18 }}>
+              <Text style={{ color: Colors.textSecondary, fontSize: 13, textAlign: 'center', lineHeight: 18 }}>
                 Check if the backend server is active at {baseUrl}
               </Text>
               <View style={{ flexDirection: 'row', gap: 10, marginTop: 6 }}>
@@ -201,7 +202,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
                   onPress={() => historyQuery.refetch()}
                   style={styles.retryButton}
                 >
-                  <Feather name="refresh-cw" size={14} color="#38BDF8" />
+                  <Feather name="refresh-cw" size={14} color={Colors.accentCyan} />
                   <Text style={styles.retryButtonText}>Retry</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -209,7 +210,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
                   onPress={() => setConfigModalVisible(true)}
                   style={styles.configErrorButton}
                 >
-                  <Ionicons name="server-outline" size={15} color="#FBBF24" />
+                  <Ionicons name="server-outline" size={15} color={Colors.warning} />
                   <Text style={styles.configErrorButtonText}>Change Server IP</Text>
                 </TouchableOpacity>
               </View>
@@ -217,7 +218,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
           ) : (
             <View style={styles.emptyStateContainer}>
               <View style={styles.emptyStateIcon}>
-                <MaterialCommunityIcons name="robot-happy" size={36} color="#38BDF8" />
+                <MaterialCommunityIcons name="robot-happy" size={36} color={Colors.accentCyan} />
               </View>
               <Text style={styles.emptyStateTitle}>Multi-Modal Skill Learning</Text>
               <Text style={styles.emptyStateSubtitle}>
@@ -241,10 +242,10 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
             {sendMutation.isPending && (
               <View style={styles.loadingRow}>
                 <View style={styles.aiLoadingAvatar}>
-                  <MaterialCommunityIcons name="robot-happy" size={16} color="#38BDF8" />
+                  <MaterialCommunityIcons name="robot-happy" size={16} color={Colors.accentCyan} />
                 </View>
                 <View style={styles.loadingBubble}>
-                  <ActivityIndicator size="small" color="#38BDF8" />
+                  <ActivityIndicator size="small" color={Colors.accentCyan} />
                   <Text style={styles.loadingText}>Fetching from {baseUrl}...</Text>
                 </View>
               </View>
@@ -258,7 +259,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
                   onPress={() => handleSendMessage(lastFailedPrompt)}
                   style={styles.retryButton}
                 >
-                  <Feather name="refresh-cw" size={14} color="#38BDF8" />
+                  <Feather name="refresh-cw" size={14} color={Colors.accentCyan} />
                   <Text style={styles.retryButtonText}>Retry Request</Text>
                 </TouchableOpacity>
 
@@ -267,7 +268,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
                   onPress={() => setConfigModalVisible(true)}
                   style={styles.configErrorButton}
                 >
-                  <Ionicons name="server-outline" size={15} color="#FBBF24" />
+                  <Ionicons name="server-outline" size={15} color={Colors.warning} />
                   <Text style={styles.configErrorButtonText}>Change Server IP</Text>
                 </TouchableOpacity>
               </View>
@@ -289,7 +290,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
             value={inputMessage}
             onChangeText={setInputMessage}
             placeholder="Type your prompt for the backend AI..."
-            placeholderTextColor="#64748B"
+            placeholderTextColor={Colors.textMuted}
             multiline
             maxLength={500}
             onSubmitEditing={() => handleSendMessage()}
@@ -304,7 +305,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
             ]}
             disabled={!inputMessage.trim() || sendMutation.isPending}
           >
-            <Feather name="arrow-up" size={20} color="#FFFFFF" />
+            <Feather name="arrow-up" size={20} color={Colors.textPrimary} />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -321,7 +322,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0C12',
+    backgroundColor: Colors.bgAppAlt,
   },
   progressHeaderWrapper: {
     paddingHorizontal: 14,
@@ -344,9 +345,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#0E1724',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1,
-    borderColor: '#192C44',
+    borderColor: Colors.borderCard,
     paddingVertical: 8,
     borderRadius: 14,
     marginBottom: 12,
@@ -354,7 +355,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   loadEarlierText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 12,
     fontWeight: '700',
   },
@@ -368,31 +369,31 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: '#0E2338',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1.5,
-    borderColor: '#1E4976',
+    borderColor: Colors.borderCard,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,
   },
   emptyStateTitle: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 18,
     fontWeight: '700',
     marginBottom: 6,
   },
   emptyStateSubtitle: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 12.5,
     marginBottom: 10,
   },
   serverHighlight: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontFamily: 'monospace',
     fontWeight: '700',
   },
   emptyStateDesc: {
-    color: '#64748B',
+    color: Colors.textMuted,
     fontSize: 13,
     textAlign: 'center',
     lineHeight: 19,
@@ -407,9 +408,9 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#0F263E',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1,
-    borderColor: '#1D456E',
+    borderColor: Colors.borderCard,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -417,15 +418,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: '#121622',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#1E2538',
+    borderColor: Colors.borderCard,
     borderRadius: 18,
     paddingHorizontal: 14,
     paddingVertical: 10,
   },
   loadingText: {
-    color: '#8E9BB0',
+    color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '500',
   },
@@ -441,15 +442,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#0F2338',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1,
-    borderColor: '#1E4976',
+    borderColor: Colors.borderCard,
     paddingVertical: 8,
     borderRadius: 12,
     paddingHorizontal: 14,
   },
   retryButtonText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 13,
     fontWeight: '700',
   },
@@ -458,15 +459,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#261C0D',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1,
-    borderColor: '#78350F',
+    borderColor: Colors.borderCard,
     paddingVertical: 8,
     borderRadius: 12,
     paddingHorizontal: 14,
   },
   configErrorButtonText: {
-    color: '#FBBF24',
+    color: Colors.warning,
     fontSize: 13,
     fontWeight: '700',
   },
@@ -475,18 +476,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     paddingHorizontal: 14,
     paddingTop: 10,
-    backgroundColor: '#0F121C',
+    backgroundColor: Colors.bgApp,
     borderTopWidth: 1,
-    borderTopColor: '#1A2030',
+    borderTopColor: Colors.borderSubtle,
     gap: 10,
   },
   textInput: {
     flex: 1,
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#242D42',
+    borderColor: Colors.borderCard,
     borderRadius: 22,
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14.5,
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -496,10 +497,10 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 21,
-    backgroundColor: '#2F69FE',
+    backgroundColor: Colors.primaryBtn,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#2F69FE',
+    shadowColor: Colors.primaryBtn,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 6,

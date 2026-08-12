@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LeaderboardUser } from '../types';
+import { Colors } from '@/shared/theme';
 
 interface StickyUserRankFooterProps {
   userRank: LeaderboardUser | null;
@@ -35,7 +36,7 @@ export const StickyUserRankFooter: React.FC<StickyUserRankFooterProps> = ({ user
           onPress={() => router.push('/skill-chat')}
           style={styles.practiceBtn}
         >
-          <MaterialCommunityIcons name="target" size={16} color="#FFFFFF" />
+          <MaterialCommunityIcons name="target" size={16} color={Colors.textPrimary} />
           <Text style={styles.practiceBtnText}>Practice</Text>
         </TouchableOpacity>
       </View>
@@ -49,25 +50,25 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#0B0813',
+    backgroundColor: Colors.bgAppAlt,
     paddingHorizontal: 16,
     paddingTop: 10,
     paddingBottom: 24,
     borderTopWidth: 1,
-    borderTopColor: '#2B2144',
+    borderTopColor: Colors.borderSubtle,
   },
   innerCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#271B47',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#9333EA',
+    borderColor: Colors.accentPurple,
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: 10,
   },
   rankBadge: {
-    backgroundColor: '#A855F7',
+    backgroundColor: Colors.accentPurple,
     width: 36,
     height: 36,
     borderRadius: 18,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   rankText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '900',
   },
@@ -84,30 +85,30 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleText: {
-    color: '#F3E8FF',
+    color: Colors.textPrimary,
     fontSize: 13,
     fontWeight: '800',
   },
   motivationText: {
-    color: '#CBD5E1',
+    color: Colors.textSecondary,
     fontSize: 11,
     marginTop: 2,
   },
   highlight: {
-    color: '#F59E0B',
+    color: Colors.warning,
     fontWeight: '800',
   },
   practiceBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#9333EA',
+    backgroundColor: Colors.accentPurple,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 10,
   },
   practiceBtnText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 12,
     fontWeight: '700',
   },

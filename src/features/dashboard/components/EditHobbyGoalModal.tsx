@@ -15,6 +15,7 @@ import {
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { updateHobbySettings } from '../api/dashboardApi';
+import { Colors } from '@/shared/theme';
 
 interface EditHobbyGoalModalProps {
   visible: boolean;
@@ -99,11 +100,11 @@ export const EditHobbyGoalModal: React.FC<EditHobbyGoalModalProps> = ({
           {/* Modal Header */}
           <View style={styles.header}>
             <View style={styles.titleRow}>
-              <Feather name="edit-3" size={20} color="#38BDF8" />
+              <Feather name="edit-3" size={20} color={Colors.accentCyan} />
               <Text style={styles.title}>Edit Goal & Settings</Text>
             </View>
             <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-              <Ionicons name="close" size={22} color="#9CA3AF" />
+              <Ionicons name="close" size={22} color={Colors.textSecondary} />
             </TouchableOpacity>
           </View>
 
@@ -115,7 +116,7 @@ export const EditHobbyGoalModal: React.FC<EditHobbyGoalModalProps> = ({
               value={goal}
               onChangeText={(text) => { setGoal(text); if (goalError) setGoalError(''); }}
               placeholder="e.g. Play Chopin Nocturne Op. 9 No. 2"
-              placeholderTextColor="#6B7280"
+              placeholderTextColor={Colors.textMuted}
               multiline
             />
             {goalError ? (
@@ -184,10 +185,10 @@ export const EditHobbyGoalModal: React.FC<EditHobbyGoalModalProps> = ({
               activeOpacity={0.8}
             >
               {loading ? (
-                <ActivityIndicator color="#FFFFFF" />
+                <ActivityIndicator color={Colors.textPrimary} />
               ) : (
                 <>
-                  <Feather name="check" size={18} color="#FFFFFF" />
+                  <Feather name="check" size={18} color={Colors.textPrimary} />
                   <Text style={styles.saveBtnText}>Save Settings</Text>
                 </>
               )}
@@ -206,13 +207,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   sheetContainer: {
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     maxHeight: '85%',
     paddingBottom: 24,
     borderTopWidth: 1,
-    borderTopColor: '#242C3F',
+    borderTopColor: Colors.borderCard,
   },
   header: {
     flexDirection: 'row',
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#242C3F',
+    borderBottomColor: Colors.borderCard,
   },
   titleRow: {
     flexDirection: 'row',
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 18,
     fontWeight: '800',
   },
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#1E2638',
+    backgroundColor: Colors.borderSubtle,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   label: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '700',
     textTransform: 'uppercase',
@@ -255,17 +256,17 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   textInput: {
-    backgroundColor: '#0F121C',
-    borderColor: '#242C3F',
+    backgroundColor: Colors.bgApp,
+    borderColor: Colors.borderCard,
     borderWidth: 1,
     borderRadius: 12,
     padding: 12,
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 15,
     minHeight: 80,
   },
   errorText: {
-    color: '#EF4444',
+    color: Colors.danger,
     fontSize: 12,
     fontWeight: '600',
     marginTop: 6,
@@ -279,27 +280,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#0F121C',
+    backgroundColor: Colors.bgApp,
     borderWidth: 1,
-    borderColor: '#242C3F',
+    borderColor: Colors.borderCard,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
   },
   levelChipSelected: {
     backgroundColor: 'rgba(56, 189, 248, 0.15)',
-    borderColor: '#38BDF8',
+    borderColor: Colors.accentCyan,
   },
   chipEmoji: {
     fontSize: 14,
   },
   chipText: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '600',
   },
   chipTextSelected: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontWeight: '800',
   },
   presetGrid: {
@@ -310,26 +311,26 @@ const styles = StyleSheet.create({
   },
   presetCard: {
     width: '48%',
-    backgroundColor: '#0F121C',
+    backgroundColor: Colors.bgApp,
     borderWidth: 1,
-    borderColor: '#242C3F',
+    borderColor: Colors.borderCard,
     borderRadius: 12,
     padding: 12,
   },
   presetCardSelected: {
     backgroundColor: 'rgba(56, 189, 248, 0.15)',
-    borderColor: '#38BDF8',
+    borderColor: Colors.accentCyan,
   },
   presetLabel: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '700',
   },
   presetLabelSelected: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
   },
   presetSub: {
-    color: '#6B7280',
+    color: Colors.textMuted,
     fontSize: 11,
     marginTop: 2,
   },
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   saveBtn: {
-    backgroundColor: '#2563EB',
+    backgroundColor: Colors.primaryBtn,
     borderRadius: 14,
     paddingVertical: 14,
     flexDirection: 'row',
@@ -347,7 +348,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   saveBtnText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '800',
   },

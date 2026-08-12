@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LeaderboardUser } from '../types';
+import { Colors } from '@/shared/theme';
 
 interface LeaderboardPodiumProps {
   podium: LeaderboardUser[];
@@ -38,7 +39,7 @@ export const LeaderboardPodium: React.FC<LeaderboardPodiumProps> = ({ podium }) 
       {/* Rank 1 (Center - Taller & Glowing) */}
       {rank1 && (
         <View style={[styles.stepWrapper, styles.stepWrapper1]}>
-          <MaterialCommunityIcons name="crown" size={24} color="#F59E0B" style={styles.crownIcon} />
+          <MaterialCommunityIcons name="crown" size={24} color={Colors.warning} style={styles.crownIcon} />
           <View style={styles.avatarRingGold}>
             <Text style={styles.avatarEmoji}>{rank1.avatar || '⚡'}</Text>
             <View style={styles.rankBadgeGold}>
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: '#382506',
     borderWidth: 2.5,
-    borderColor: '#F59E0B',
+    borderColor: Colors.warning,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: '#1E293B',
     borderWidth: 2,
-    borderColor: '#94A3B8',
+    borderColor: Colors.textMuted,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
   rankBadgeGold: {
     position: 'absolute',
     bottom: -6,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Colors.warning,
     width: 18,
     height: 18,
     borderRadius: 9,
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
   rankBadgeSilver: {
     position: 'absolute',
     bottom: -6,
-    backgroundColor: '#94A3B8',
+    backgroundColor: Colors.textMuted,
     width: 18,
     height: 18,
     borderRadius: 9,
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   userName: {
-    color: '#CBD5E1',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontWeight: '700',
     marginBottom: 2,
@@ -189,13 +190,13 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   userXp: {
-    color: '#94A3B8',
+    color: Colors.textMuted,
     fontSize: 11,
     fontWeight: '600',
     marginBottom: 6,
   },
   userXpGold: {
-    color: '#F59E0B',
+    color: Colors.warning,
     fontSize: 12,
     fontWeight: '800',
     marginBottom: 6,
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: 'rgba(245, 158, 11, 0.2)',
     borderWidth: 1,
-    borderColor: '#F59E0B',
+    borderColor: Colors.warning,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     alignItems: 'center',
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: 'rgba(148, 163, 184, 0.15)',
     borderWidth: 1,
-    borderColor: '#64748B',
+    borderColor: Colors.textMuted,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     alignItems: 'center',

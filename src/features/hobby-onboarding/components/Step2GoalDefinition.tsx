@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { HOBBY_CATALOG } from '../constants';
+import { Colors } from '@/shared/theme';
 
 interface Step2GoalDefinitionProps {
   activeHobbyName: string;
@@ -30,7 +31,7 @@ export const Step2GoalDefinition: React.FC<Step2GoalDefinitionProps> = ({
         multiline
         numberOfLines={3}
         placeholder={`e.g. Master ${activeHobbyName} fundamentals & rules`}
-        placeholderTextColor="#64748B"
+        placeholderTextColor={Colors.textMuted}
       />
 
       {currentHobbyPreset && (
@@ -44,7 +45,7 @@ export const Step2GoalDefinition: React.FC<Step2GoalDefinitionProps> = ({
                 onPress={() => setGoal(tmpl)}
                 activeOpacity={0.7}
               >
-                <Feather name="target" size={14} color={goal === tmpl ? '#38BDF8' : '#94A3B8'} />
+                <Feather name="target" size={14} color={goal === tmpl ? Colors.accentCyan : Colors.textSecondary} />
                 <Text style={[styles.templateText, goal === tmpl && styles.templateTextSelected]}>
                   {tmpl}
                 </Text>
@@ -62,32 +63,32 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   stepTitle: {
-    color: '#F8FAFC',
+    color: Colors.textPrimary,
     fontSize: 20,
     fontWeight: '800',
     lineHeight: 26,
   },
   stepSub: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 18,
     marginBottom: 8,
   },
   textInputArea: {
-    backgroundColor: '#151124',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#292044',
+    borderColor: Colors.borderCard,
     borderRadius: 14,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '600',
     minHeight: 80,
     textAlignVertical: 'top',
   },
   gridTitle: {
-    color: '#E2E8F0',
+    color: Colors.textPrimary,
     fontSize: 13,
     fontWeight: '700',
     marginTop: 10,
@@ -99,25 +100,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#151124',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#261F3E',
+    borderColor: Colors.borderSubtle,
     borderRadius: 12,
     paddingHorizontal: 14,
     paddingVertical: 10,
   },
   templateChipSelected: {
-    backgroundColor: '#0F2942',
-    borderColor: '#38BDF8',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.accentCyan,
   },
   templateText: {
     flex: 1,
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '600',
   },
   templateTextSelected: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontWeight: '700',
   },
 });

@@ -18,6 +18,7 @@ import { useApiConfigStore } from '@/features/skill-learning/store/useApiConfigS
 import { SkillChatConfigModal } from '@/features/skill-learning/components/SkillChatConfigModal';
 import { EditHobbyGoalModal } from './EditHobbyGoalModal';
 import { HobbySwitcherModal } from './HobbySwitcherModal';
+import { Colors } from '@/shared/theme';
 
 const HOBBY_EMOJI_MAP: Record<string, string> = {
   piano: '🎹',
@@ -90,7 +91,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
             activeOpacity={0.7}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            <MaterialCommunityIcons name="trophy" size={20} color="#F59E0B" />
+            <MaterialCommunityIcons name="trophy" size={20} color={Colors.warning} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -99,7 +100,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
             activeOpacity={0.7}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            <Feather name="refresh-cw" size={18} color="#9CA3AF" />
+            <Feather name="refresh-cw" size={18} color={Colors.textSecondary} />
           </TouchableOpacity>
         </View>
       </View>
@@ -116,19 +117,19 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
           <RefreshControl
             refreshing={isRefetching}
             onRefresh={refetch}
-            tintColor="#38BDF8"
-            colors={['#38BDF8']}
+            tintColor={Colors.accentCyan}
+            colors={[Colors.accentCyan]}
           />
         }
       >
         {isLoading ? (
           <View style={styles.centerContainer}>
-            <ActivityIndicator size="large" color="#38BDF8" />
+            <ActivityIndicator size="large" color={Colors.accentCyan} />
             <Text style={styles.loadingText}>Loading learning dashboard...</Text>
           </View>
         ) : isError ? (
           <View style={styles.errorContainer}>
-            <Feather name="alert-circle" size={40} color="#EF4444" />
+            <Feather name="alert-circle" size={40} color={Colors.danger} />
             <Text style={styles.errorTitle}>Failed to load dashboard</Text>
             <Text style={styles.errorSubtext}>
               Make sure backend server is running on {baseUrl}
@@ -139,14 +140,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
           </View>
         ) : !hasActiveHobby || !dashboard || !dashboard.hobbyInfo ? (
           <View style={styles.emptyContainer}>
-            <MaterialCommunityIcons name="compass-outline" size={48} color="#6B7280" />
+            <MaterialCommunityIcons name="compass-outline" size={48} color={Colors.textMuted} />
             <Text style={styles.emptyTitle}>No Active Hobby Found</Text>
             <Text style={styles.emptySubtext}>
               Start a practice conversation with your AI Coach to enroll in a new skill!
             </Text>
             <TouchableOpacity style={styles.primaryChatBtn} onPress={() => onOpenChat()}>
               <Text style={styles.primaryChatBtnText}>Open AI Coach Chat</Text>
-              <Feather name="arrow-right" size={18} color="#FFFFFF" />
+              <Feather name="arrow-right" size={18} color={Colors.textPrimary} />
             </TouchableOpacity>
           </View>
         ) : (
@@ -163,7 +164,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
                   <Text style={styles.hobbyName} numberOfLines={1} ellipsizeMode="tail">
                     {dashboard.hobbyInfo?.hobbyName || 'Hobby'}
                   </Text>
-                  <Feather name="chevron-down" size={18} color="#38BDF8" style={{ marginLeft: 2 }} />
+                  <Feather name="chevron-down" size={18} color={Colors.accentCyan} style={{ marginLeft: 2 }} />
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -171,7 +172,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
                   onPress={() => setSwitcherModalVisible(true)}
                   activeOpacity={0.7}
                 >
-                  <Feather name="grid" size={14} color="#38BDF8" />
+                  <Feather name="grid" size={14} color={Colors.accentCyan} />
                   <Text style={styles.switchHobbyBadgeText}>Switch / + Add</Text>
                 </TouchableOpacity>
               </View>
@@ -182,7 +183,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
               <View style={styles.onboardingBannerCard}>
                 <View style={styles.onboardingBannerHeader}>
                   <View style={styles.onboardingIconBg}>
-                    <Ionicons name="sparkles" size={20} color="#F59E0B" />
+                    <Ionicons name="sparkles" size={20} color={Colors.warning} />
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.onboardingBannerTitle}>
@@ -205,7 +206,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
                   activeOpacity={0.85}
                 >
                   <Text style={styles.onboardingBannerBtnText}>Complete Setup Now 🎯</Text>
-                  <Feather name="arrow-right" size={16} color="#FFFFFF" />
+                  <Feather name="arrow-right" size={16} color={Colors.textPrimary} />
                 </TouchableOpacity>
               </View>
             )}
@@ -213,7 +214,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
             {/* ─── 1. Current Stage Stepper Card ───────────────────────────── */}
             <View style={styles.card}>
               <View style={styles.cardHeader}>
-                <MaterialCommunityIcons name="shoe-print" size={20} color="#38BDF8" />
+                <MaterialCommunityIcons name="shoe-print" size={20} color={Colors.accentCyan} />
                 <Text style={styles.cardTitle}>Learning Curriculum Stage</Text>
                 <Text style={styles.cardMeta}>
                   Step {dashboard.currentStage.stepNumber} of {dashboard.currentStage.totalSteps}
@@ -273,14 +274,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
             {/* ─── 2. Main Goal & Target Countdown Card ──────────────────────── */}
             <View style={styles.card}>
               <View style={styles.cardHeader}>
-                <Feather name="target" size={20} color="#F59E0B" />
+                <Feather name="target" size={20} color={Colors.warning} />
                 <Text style={styles.cardTitle}>Primary Learning Goal</Text>
                 <TouchableOpacity
                   onPress={() => setEditGoalModalVisible(true)}
                   activeOpacity={0.7}
                   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                 >
-                  <Feather name="edit-2" size={16} color="#38BDF8" />
+                  <Feather name="edit-2" size={16} color={Colors.accentCyan} />
                 </TouchableOpacity>
               </View>
 
@@ -296,7 +297,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
 
                 {dashboard.goalAndTarget.daysRemaining !== null && (
                   <View style={styles.countdownBadge}>
-                    <Feather name="clock" size={13} color="#F59E0B" />
+                    <Feather name="clock" size={13} color={Colors.warning} />
                     <Text style={styles.countdownText}>
                       {dashboard.goalAndTarget.daysRemaining} Days Left
                     </Text>
@@ -308,7 +309,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
             {/* ─── 3. Weekly Practice Goal Tracker Card ──────────────────────── */}
             <View style={styles.card}>
               <View style={styles.cardHeader}>
-                <Ionicons name="flame-outline" size={20} color="#EF4444" />
+                <Ionicons name="flame-outline" size={20} color={Colors.danger} />
                 <Text style={styles.cardTitle}>Weekly Practice Goal</Text>
                 <Text style={styles.cardMeta}>
                   {dashboard.weeklyPracticeTracker.progressPercentage}%
@@ -357,7 +358,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
               {/* Stat 1: Practice Time */}
               <View style={styles.statCard}>
                 <View style={[styles.statIconBg, { backgroundColor: '#1E293B' }]}>
-                  <Feather name="clock" size={18} color="#38BDF8" />
+                  <Feather name="clock" size={18} color={Colors.accentCyan} />
                 </View>
                 <Text style={styles.statVal}>
                   {dashboard.quickStats.totalPracticeTimeFormatted}
@@ -379,7 +380,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
               {/* Stat 3: Skill Mastery */}
               <View style={styles.statCard}>
                 <View style={[styles.statIconBg, { backgroundColor: '#451A03' }]}>
-                  <MaterialCommunityIcons name="star-four-points" size={18} color="#F59E0B" />
+                  <MaterialCommunityIcons name="star-four-points" size={18} color={Colors.warning} />
                 </View>
                 <Text style={styles.statVal}>
                   {dashboard.quickStats.overallSkillMasteryScore}
@@ -407,7 +408,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
               activeOpacity={0.85}
             >
               <View style={styles.btnIconCircle}>
-                <Ionicons name="chatbubbles" size={20} color="#38BDF8" />
+                <Ionicons name="chatbubbles" size={20} color={Colors.accentCyan} />
               </View>
 
               <View style={styles.btnTextCol}>
@@ -415,7 +416,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
                 <Text style={styles.btnSubtext}>Chat, get lessons & submit assignments</Text>
               </View>
 
-              <Feather name="chevron-right" size={22} color="#FFFFFF" />
+              <Feather name="chevron-right" size={22} color={Colors.textPrimary} />
             </TouchableOpacity>
           </>
         )}
@@ -428,7 +429,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
           onPress={() => onOpenChat(dashboard?.hobbyInfo?.userHobbyId)}
           activeOpacity={0.85}
         >
-          <Ionicons name="chatbubbles" size={24} color="#FFFFFF" />
+          <Ionicons name="chatbubbles" size={24} color={Colors.textPrimary} />
         </TouchableOpacity>
       )}
 
@@ -466,7 +467,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0F121C',
+    backgroundColor: Colors.bgApp,
   },
   header: {
     flexDirection: 'row',
@@ -475,7 +476,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#1B2132',
+    borderBottomColor: Colors.borderSubtle,
   },
   headerSubtitle: {
     color: '#8E9BB0',
@@ -485,7 +486,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   headerTitle: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 22,
     fontWeight: '800',
     marginTop: 2,
@@ -498,11 +499,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#242C3F',
+    borderColor: Colors.borderCard,
   },
   leaderboardHeaderBtn: {
     width: 40,
@@ -526,7 +527,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     marginTop: 12,
     fontSize: 14,
   },
@@ -540,13 +541,13 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   errorTitle: {
-    color: '#EF4444',
+    color: Colors.danger,
     fontSize: 18,
     fontWeight: '700',
     marginTop: 12,
   },
   errorSubtext: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontSize: 13,
     textAlign: 'center',
     marginTop: 6,
@@ -559,27 +560,27 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   retryBtnText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontWeight: '700',
     fontSize: 14,
   },
   emptyContainer: {
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderRadius: 16,
     padding: 30,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#242C3F',
+    borderColor: Colors.borderCard,
     marginVertical: 20,
   },
   emptyTitle: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 18,
     fontWeight: '700',
     marginTop: 12,
   },
   emptySubtext: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontSize: 14,
     textAlign: 'center',
     marginTop: 8,
@@ -587,12 +588,12 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   hobbyCard: {
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#242C3F',
+    borderColor: Colors.borderCard,
   },
   hobbyHeaderRow: {
     flexDirection: 'row',
@@ -613,10 +614,10 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#38BDF8',
+    borderColor: Colors.accentCyan,
   },
   switchHobbyBadgeText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 11,
     fontWeight: '700',
   },
@@ -629,11 +630,11 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#F59E0B',
+    borderColor: Colors.warning,
     marginLeft: 6,
   },
   leaderboardBadgeText: {
-    color: '#F59E0B',
+    color: Colors.warning,
     fontSize: 11,
     fontWeight: '800',
   },
@@ -641,7 +642,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   hobbyName: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 20,
     fontWeight: '800',
   },
@@ -653,15 +654,15 @@ const styles = StyleSheet.create({
   statusActive: {
     backgroundColor: 'rgba(34, 197, 94, 0.15)',
     borderWidth: 1,
-    borderColor: '#22C55E',
+    borderColor: Colors.success,
   },
   statusPaused: {
     backgroundColor: 'rgba(245, 158, 11, 0.15)',
     borderWidth: 1,
-    borderColor: '#F59E0B',
+    borderColor: Colors.warning,
   },
   statusText: {
-    color: '#22C55E',
+    color: Colors.success,
     fontSize: 11,
     fontWeight: '800',
   },
@@ -672,23 +673,23 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   capChip: {
-    backgroundColor: '#1E2638',
+    backgroundColor: Colors.borderSubtle,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
   },
   capText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 11,
     fontWeight: '600',
   },
   card: {
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderRadius: 16,
     padding: 18,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#242C3F',
+    borderColor: Colors.borderCard,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -697,37 +698,37 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cardTitle: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 15,
     fontWeight: '700',
     flex: 1,
   },
   cardMeta: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontWeight: '600',
   },
   currentStageBadgeText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 18,
     fontWeight: '800',
     marginBottom: 10,
   },
   progressBarBg: {
     height: 8,
-    backgroundColor: '#1E2638',
+    backgroundColor: Colors.borderSubtle,
     borderRadius: 4,
     overflow: 'hidden',
     marginBottom: 14,
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#38BDF8',
+    backgroundColor: Colors.accentCyan,
     borderRadius: 4,
   },
   progressBarFillWeekly: {
     height: '100%',
-    backgroundColor: '#EF4444',
+    backgroundColor: Colors.danger,
     borderRadius: 4,
   },
   stepperScroll: {
@@ -738,7 +739,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   stepPill: {
-    backgroundColor: '#1E2638',
+    backgroundColor: Colors.borderSubtle,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
@@ -747,23 +748,23 @@ const styles = StyleSheet.create({
   },
   stepPillCurrent: {
     backgroundColor: 'rgba(56, 189, 248, 0.2)',
-    borderColor: '#38BDF8',
+    borderColor: Colors.accentCyan,
   },
   stepPillCompleted: {
     backgroundColor: 'rgba(34, 197, 94, 0.15)',
-    borderColor: '#22C55E',
+    borderColor: Colors.success,
   },
   stepPillText: {
-    color: '#6B7280',
+    color: Colors.textMuted,
     fontSize: 12,
     fontWeight: '600',
   },
   stepPillTextCurrent: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontWeight: '800',
   },
   stepPillTextCompleted: {
-    color: '#22C55E',
+    color: Colors.success,
     fontWeight: '700',
   },
   goalText: {
@@ -805,7 +806,7 @@ const styles = StyleSheet.create({
     borderColor: '#78350F',
   },
   countdownText: {
-    color: '#F59E0B',
+    color: Colors.warning,
     fontSize: 11,
     fontWeight: '800',
   },
@@ -819,17 +820,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   trackerBigNum: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 22,
     fontWeight: '800',
   },
   trackerUnit: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '600',
   },
   trackerSubtext: {
-    color: '#6B7280',
+    color: Colors.textMuted,
     fontSize: 12,
     marginTop: 2,
   },
@@ -839,17 +840,17 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: 'rgba(239, 68, 68, 0.15)',
     borderWidth: 2,
-    borderColor: '#EF4444',
+    borderColor: Colors.danger,
     alignItems: 'center',
     justifyContent: 'center',
   },
   ringText: {
-    color: '#EF4444',
+    color: Colors.danger,
     fontSize: 13,
     fontWeight: '800',
   },
   sectionTitle: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '700',
     marginTop: 8,
@@ -863,11 +864,11 @@ const styles = StyleSheet.create({
   },
   statCard: {
     width: '48%',
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderRadius: 14,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#242C3F',
+    borderColor: Colors.borderCard,
   },
   statIconBg: {
     width: 36,
@@ -878,23 +879,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   statVal: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 18,
     fontWeight: '800',
   },
   statMaxVal: {
-    color: '#6B7280',
+    color: Colors.textMuted,
     fontSize: 12,
     fontWeight: '600',
   },
   statLbl: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontWeight: '600',
     marginTop: 4,
   },
   primaryChatBtn: {
-    backgroundColor: '#2563EB',
+    backgroundColor: Colors.primaryBtn,
     borderRadius: 16,
     padding: 16,
     flexDirection: 'row',
@@ -908,7 +909,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   primaryChatBtnText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '800',
   },
@@ -930,7 +931,7 @@ const styles = StyleSheet.create({
   },
   onboardingBannerCard: {
     backgroundColor: '#271B11',
-    borderColor: '#F59E0B',
+    borderColor: Colors.warning,
     borderWidth: 1,
     borderRadius: 16,
     padding: 16,
@@ -951,7 +952,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   onboardingBannerTitle: {
-    color: '#F59E0B',
+    color: Colors.warning,
     fontSize: 15,
     fontWeight: '800',
   },
@@ -972,7 +973,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   onboardingBannerBtnText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '800',
   },
@@ -982,7 +983,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 16,
-    backgroundColor: '#2563EB',
+    backgroundColor: Colors.primaryBtn,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#3B82F6',

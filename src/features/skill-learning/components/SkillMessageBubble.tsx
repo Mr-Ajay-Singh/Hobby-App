@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Colors } from '@/shared/theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LearningResponse, responseTypeSchema } from '../schemas/skillChatSchema';
 import { ChatTurnItem } from '../store/useSkillChatStore';
@@ -29,7 +30,7 @@ export const SkillMessageBubble: React.FC<SkillMessageBubbleProps> = ({
       <View style={styles.errorRow}>
         <View style={styles.errorCard}>
           <View style={styles.errorHeader}>
-            <MaterialCommunityIcons name="alert-circle-outline" size={18} color="#EF4444" />
+            <MaterialCommunityIcons name="alert-circle-outline" size={18} color={Colors.danger} />
             <Text style={styles.errorTitle}>Request Failed</Text>
           </View>
           <Text style={styles.errorText}>{item.content}</Text>
@@ -62,33 +63,33 @@ export const SkillMessageBubble: React.FC<SkillMessageBubbleProps> = ({
   const forms = content.formsDelivered || ['text'];
 
   let typeLabel = 'LESSON CONTENT';
-  let typeColor = '#38BDF8';
+  let typeColor: string = Colors.accentCyan;
   let typeIcon: any = 'school-outline';
 
   switch (data.responseType) {
     case 'clarification':
       typeLabel = 'CLARIFICATION NEEDED';
-      typeColor = '#F59E0B';
+      typeColor = Colors.warning;
       typeIcon = 'help-circle-outline';
       break;
     case 'practice_drill':
       typeLabel = 'PRACTICE DRILL';
-      typeColor = '#A855F7';
+      typeColor = Colors.accentPurple;
       typeIcon = 'target';
       break;
     case 'assessment':
       typeLabel = 'ASSESSMENT EVALUATION';
-      typeColor = '#22C55E';
+      typeColor = Colors.success;
       typeIcon = 'clipboard-check-outline';
       break;
     case 'off_topic_redirect':
       typeLabel = 'SKILL GUIDANCE';
-      typeColor = '#818CF8';
+      typeColor = Colors.textPrimary;
       typeIcon = 'compass-outline';
       break;
     default:
       typeLabel = 'LESSON CONTENT';
-      typeColor = '#38BDF8';
+      typeColor = Colors.accentCyan;
       typeIcon = 'school-outline';
   }
 
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
   },
   userBubble: {
-    backgroundColor: '#2F69FE',
+    backgroundColor: Colors.primaryBtn,
     borderRadius: 18,
     borderBottomRightRadius: 4,
     paddingHorizontal: 16,
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
     maxWidth: '85%',
   },
   userText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14.5,
     lineHeight: 21,
     fontWeight: '500',
@@ -251,18 +252,18 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#0F263E',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1,
-    borderColor: '#1D456E',
+    borderColor: Colors.borderCard,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 4,
   },
   assistantCard: {
     flex: 1,
-    backgroundColor: '#121622',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#1E2538',
+    borderColor: Colors.borderCard,
     borderRadius: 20,
     borderBottomLeftRadius: 4,
     padding: 14,
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#1A2030',
+    borderBottomColor: Colors.borderSubtle,
   },
   typeBadge: {
     flexDirection: 'row',
@@ -293,15 +294,15 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   formPill: {
-    backgroundColor: '#182030',
+    backgroundColor: Colors.bgCardAlt,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: '#243048',
+    borderColor: Colors.borderCard,
   },
   formPillText: {
-    color: '#8E9BB0',
+    color: Colors.textSecondary,
     fontSize: 9.5,
     fontWeight: '700',
   },
@@ -309,7 +310,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   assistantTime: {
-    color: '#64748B',
+    color: Colors.textMuted,
     fontSize: 10.5,
     marginTop: 6,
     alignSelf: 'flex-end',
@@ -318,9 +319,9 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   errorCard: {
-    backgroundColor: '#1F1215',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1,
-    borderColor: '#4A1D24',
+    borderColor: Colors.borderCard,
     borderRadius: 14,
     padding: 12,
   },
@@ -331,17 +332,17 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   errorTitle: {
-    color: '#F87171',
+    color: Colors.danger,
     fontSize: 13,
     fontWeight: '700',
   },
   errorText: {
-    color: '#FCA5A5',
+    color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 18,
   },
   errorTime: {
-    color: '#7F1D1D',
+    color: Colors.danger,
     fontSize: 10,
     marginTop: 4,
     alignSelf: 'flex-end',

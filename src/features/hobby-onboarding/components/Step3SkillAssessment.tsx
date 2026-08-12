@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { EXPERIENCE_LEVELS } from '../constants';
+import { Colors } from '@/shared/theme';
 
 interface Step3SkillAssessmentProps {
   activeHobbyName: string;
@@ -33,7 +34,7 @@ export const Step3SkillAssessment: React.FC<Step3SkillAssessmentProps> = ({
                 <Text style={[styles.levelCardTitle, isSelected && styles.levelCardTitleSelected]}>
                   {lvl.title}
                 </Text>
-                {isSelected && <Feather name="check-circle" size={18} color="#38BDF8" />}
+                {isSelected && <Feather name="check-circle" size={18} color={Colors.accentCyan} />}
               </View>
               <Text style={styles.levelCardDesc}>{lvl.desc}</Text>
             </TouchableOpacity>
@@ -49,13 +50,13 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   stepTitle: {
-    color: '#F8FAFC',
+    color: Colors.textPrimary,
     fontSize: 20,
     fontWeight: '800',
     lineHeight: 26,
   },
   stepSub: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 18,
     marginBottom: 8,
@@ -64,15 +65,15 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   levelCard: {
-    backgroundColor: '#151124',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#261F3E',
+    borderColor: Colors.borderSubtle,
     borderRadius: 14,
     padding: 14,
   },
   levelCardSelected: {
-    backgroundColor: '#0F2942',
-    borderColor: '#38BDF8',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.accentCyan,
   },
   levelCardHeader: {
     flexDirection: 'row',
@@ -81,15 +82,15 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   levelCardTitle: {
-    color: '#F1F5F9',
+    color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '700',
   },
   levelCardTitleSelected: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
   },
   levelCardDesc: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 12,
     lineHeight: 16,
   },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LeaderboardUser } from '../types';
+import { Colors } from '@/shared/theme';
 
 interface LeaderboardRowItemProps {
   item: LeaderboardUser;
@@ -45,35 +46,35 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#13111E',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#231D38',
+    borderColor: Colors.borderSubtle,
     borderRadius: 14,
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 8,
   },
   currentUserContainer: {
-    backgroundColor: '#2A1F4D',
-    borderColor: '#A855F7',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.accentPurple,
   },
   rankBadge: {
     width: 32,
     alignItems: 'center',
   },
   rankText: {
-    color: '#94A3B8',
+    color: Colors.textMuted,
     fontSize: 13,
     fontWeight: '800',
   },
   currentUserRankText: {
-    color: '#E9D5FF',
+    color: Colors.textPrimary,
   },
   avatarWrapper: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#1E1933',
+    backgroundColor: Colors.bgAppAlt,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
@@ -85,12 +86,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   nameText: {
-    color: '#F1F5F9',
+    color: Colors.textPrimary,
     fontSize: 13.5,
     fontWeight: '700',
   },
   currentUserNameText: {
-    color: '#F472B6',
+    color: Colors.accentPurple,
     fontWeight: '800',
   },
   subRow: {
@@ -100,27 +101,27 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   levelText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 10,
     fontWeight: '700',
   },
   dot: {
-    color: '#64748B',
+    color: Colors.textMuted,
     fontSize: 10,
   },
   streakText: {
-    color: '#F59E0B',
+    color: Colors.warning,
     fontSize: 10.5,
     fontWeight: '600',
   },
   xpWrapper: {
-    backgroundColor: '#22193E',
+    backgroundColor: Colors.bgAppAlt,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
   },
   xpText: {
-    color: '#C084FC',
+    color: Colors.accentPurple,
     fontSize: 12.5,
     fontWeight: '800',
   },

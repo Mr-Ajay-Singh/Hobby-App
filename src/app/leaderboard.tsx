@@ -19,6 +19,7 @@ import {
   LeaderboardRowItem,
   StickyUserRankFooter,
 } from '@/features/leaderboard';
+import { Colors } from '@/shared/theme';
 
 export default function LeaderboardScreen() {
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function LeaderboardScreen() {
           onPress={() => router.back()}
           style={styles.backBtn}
         >
-          <MaterialCommunityIcons name="chevron-left" size={24} color="#F1F5F9" />
+          <MaterialCommunityIcons name="chevron-left" size={24} color={Colors.textPrimary} />
         </TouchableOpacity>
         <Text style={styles.screenTitle}>League Leaderboard</Text>
         <View style={styles.placeholder} />
@@ -50,25 +51,25 @@ export default function LeaderboardScreen() {
 
         {isLoading ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#A855F7" />
+            <ActivityIndicator size="large" color={Colors.accentPurple} />
             <Text style={styles.loadingText}>Fetching League Standings...</Text>
           </View>
         ) : isError ? (
           <View style={styles.loadingContainer}>
-            <MaterialCommunityIcons name="alert-circle-outline" size={40} color="#EF4444" />
+            <MaterialCommunityIcons name="alert-circle-outline" size={40} color={Colors.danger} />
             <Text style={styles.loadingText}>Failed to load league standings</Text>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => refetch()}
               style={{
-                backgroundColor: '#9333EA',
+                backgroundColor: Colors.accentPurple,
                 paddingHorizontal: 16,
                 paddingVertical: 8,
                 borderRadius: 8,
                 marginTop: 8,
               }}
             >
-              <Text style={{ color: '#FFFFFF', fontWeight: '700', fontSize: 13 }}>Retry Connection</Text>
+              <Text style={{ color: Colors.textPrimary, fontWeight: '700', fontSize: 13 }}>Retry Connection</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -80,7 +81,7 @@ export default function LeaderboardScreen() {
               <RefreshControl
                 refreshing={isRefetching}
                 onRefresh={refetch}
-                tintColor="#A855F7"
+                tintColor={Colors.accentPurple}
               />
             }
             ListHeaderComponent={
@@ -110,7 +111,7 @@ export default function LeaderboardScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#0B0813',
+    backgroundColor: Colors.bgAppAlt,
   },
   navHeader: {
     flexDirection: 'row',
@@ -119,18 +120,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#1A1429',
+    borderBottomColor: Colors.borderSubtle,
   },
   backBtn: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#191329',
+    backgroundColor: Colors.bgCardAlt,
     alignItems: 'center',
     justifyContent: 'center',
   },
   screenTitle: {
-    color: '#F1F5F9',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '800',
     letterSpacing: 0.3,
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     paddingBottom: 110, // Extra padding for sticky footer
   },
   sectionHeader: {
-    color: '#64748B',
+    color: Colors.textMuted,
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.8,
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   loadingText: {
-    color: '#94A3B8',
+    color: Colors.textMuted,
     fontSize: 13,
     fontWeight: '600',
   },
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyText: {
-    color: '#64748B',
+    color: Colors.textMuted,
     fontSize: 13,
   },
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Colors } from '@/shared/theme';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SkillInfo } from '../schemas/skillChatSchema';
 
@@ -23,14 +24,14 @@ export const SkillChatHeader: React.FC<SkillChatHeaderProps> = ({
   const getLevelBadgeColor = (lvl: string) => {
     switch (lvl.toLowerCase()) {
       case 'expert':
-        return { bg: '#451A03', text: '#F59E0B', border: '#78350F' };
+        return { bg: Colors.bgCardAlt, text: Colors.warning, border: Colors.borderCard };
       case 'advanced':
-        return { bg: '#3B0764', text: '#C084FC', border: '#581C87' };
+        return { bg: Colors.bgCardAlt, text: Colors.accentPurple, border: Colors.borderCard };
       case 'intermediate':
-        return { bg: '#1E1B4B', text: '#818CF8', border: '#3730A3' };
+        return { bg: Colors.bgCardAlt, text: Colors.textPrimary, border: Colors.borderCard };
       case 'beginner':
       default:
-        return { bg: '#064E3B', text: '#34D399', border: '#065F46' };
+        return { bg: Colors.bgCardAlt, text: Colors.success, border: Colors.borderCard };
     }
   };
 
@@ -44,7 +45,7 @@ export const SkillChatHeader: React.FC<SkillChatHeaderProps> = ({
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         style={styles.iconBtn}
       >
-        <Feather name="arrow-left" size={22} color="#FFFFFF" />
+        <Feather name="arrow-left" size={22} color={Colors.textPrimary} />
       </TouchableOpacity>
 
       <View style={styles.titleContainer}>
@@ -71,7 +72,7 @@ export const SkillChatHeader: React.FC<SkillChatHeaderProps> = ({
           <View style={styles.onlineDot} />
           <Text style={styles.subtext}>Active AI Coach</Text>
           <Text style={styles.dotSeparator}>•</Text>
-          <MaterialCommunityIcons name="star-four-points" size={12} color="#FBBF24" />
+          <MaterialCommunityIcons name="star-four-points" size={12} color={Colors.warning} />
           <Text style={styles.scoreText}>{score} XP</Text>
         </View>
       </View>
@@ -83,7 +84,7 @@ export const SkillChatHeader: React.FC<SkillChatHeaderProps> = ({
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           style={styles.iconBtn}
         >
-          <Feather name="rotate-ccw" size={18} color="#9CA3AF" />
+          <Feather name="rotate-ccw" size={18} color={Colors.textSecondary} />
         </TouchableOpacity>
       </View>
     </View>
@@ -92,19 +93,19 @@ export const SkillChatHeader: React.FC<SkillChatHeaderProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0F121C',
+    backgroundColor: Colors.bgApp,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#1B2132',
+    borderBottomColor: Colors.borderSubtle,
   },
   iconBtn: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '700',
     flexShrink: 1,
@@ -144,19 +145,19 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: 3.5,
-    backgroundColor: '#22C55E',
+    backgroundColor: Colors.success,
   },
   subtext: {
-    color: '#8E9BB0',
+    color: Colors.textSecondary,
     fontSize: 11.5,
     fontWeight: '500',
   },
   dotSeparator: {
-    color: '#4B5563',
+    color: Colors.textMuted,
     fontSize: 11,
   },
   scoreText: {
-    color: '#FBBF24',
+    color: Colors.warning,
     fontSize: 11.5,
     fontWeight: '700',
   },

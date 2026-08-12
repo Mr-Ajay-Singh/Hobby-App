@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Colors } from '@/shared/theme';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { QuizItem } from '../schemas/skillChatSchema';
 import { useSubmitQuizMutation } from '../api/skillChatQueries';
@@ -67,7 +68,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({ quiz, onSubmitResults }) => 
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <MaterialCommunityIcons name="help-box-multiple-outline" size={18} color="#A855F7" />
+          <MaterialCommunityIcons name="help-box-multiple-outline" size={18} color={Colors.accentPurple} />
           <Text style={styles.headerTitle}>Interactive Practice Quiz</Text>
         </View>
         <View style={styles.badge}>
@@ -95,22 +96,22 @@ export const QuizCard: React.FC<QuizCardProps> = ({ quiz, onSubmitResults }) => 
             {/* Options */}
             <View style={styles.optionsList}>
               {q.options.map((opt, optIdx) => {
-                let optStyle = styles.optionPending;
-                let optTextStyle = styles.optionTextPending;
+                let optStyle: any = styles.optionPending;
+                let optTextStyle: any = styles.optionTextPending;
                 let iconName: any = 'circle';
-                let iconColor = '#64748B';
+                let iconColor: string = Colors.textMuted;
 
                 if (isAnswered) {
                   if (optIdx === q.correctIndex) {
                     optStyle = styles.optionCorrect;
                     optTextStyle = styles.optionTextCorrect;
                     iconName = 'check-circle';
-                    iconColor = '#22C55E';
+                    iconColor = Colors.success;
                   } else if (optIdx === selectedIdx) {
                     optStyle = styles.optionIncorrect;
                     optTextStyle = styles.optionTextIncorrect;
                     iconName = 'x-circle';
-                    iconColor = '#EF4444';
+                    iconColor = Colors.danger;
                   } else {
                     optStyle = styles.optionMuted;
                     optTextStyle = styles.optionTextMuted;
@@ -144,12 +145,12 @@ export const QuizCard: React.FC<QuizCardProps> = ({ quiz, onSubmitResults }) => 
                   <Feather
                     name={isCorrect ? 'check' : 'info'}
                     size={14}
-                    color={isCorrect ? '#22C55E' : '#F59E0B'}
+                    color={isCorrect ? Colors.success : Colors.warning}
                   />
                   <Text
                     style={[
                       styles.explanationTitle,
-                      { color: isCorrect ? '#22C55E' : '#F59E0B' },
+                      { color: isCorrect ? Colors.success : Colors.warning },
                     ]}
                   >
                     {isCorrect ? 'Correct! Well done.' : 'Explanation:'}
@@ -169,7 +170,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({ quiz, onSubmitResults }) => 
           onPress={handleSubmit}
           style={styles.submitBtn}
         >
-          <MaterialCommunityIcons name="send-check" size={16} color="#FFFFFF" />
+          <MaterialCommunityIcons name="send-check" size={16} color={Colors.textPrimary} />
           <Text style={styles.submitBtnText}>
             Submit Score ({correctCount}/{quiz.length}) to AI Coach
           </Text>
@@ -178,7 +179,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({ quiz, onSubmitResults }) => 
 
       {submitted && (
         <View style={styles.submittedBanner}>
-          <Feather name="check" size={14} color="#22C55E" />
+          <Feather name="check" size={14} color={Colors.success} />
           <Text style={styles.submittedText}>Results Submitted to Coach!</Text>
         </View>
       )}
@@ -186,7 +187,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({ quiz, onSubmitResults }) => 
       {/* Real-time XP Gain Toast */}
       {lastXpGain !== null && (
         <View style={styles.xpToastBanner}>
-          <MaterialCommunityIcons name="star-circle" size={16} color="#F59E0B" />
+          <MaterialCommunityIcons name="star-circle" size={16} color={Colors.warning} />
           <Text style={styles.xpToastText}>+{lastXpGain} XP Earned!</Text>
         </View>
       )}
@@ -194,7 +195,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({ quiz, onSubmitResults }) => 
       {/* Daily Cap Reached Notice */}
       {isCapReached && (
         <View style={styles.capNoticeBanner}>
-          <MaterialCommunityIcons name="trophy-outline" size={16} color="#38BDF8" />
+          <MaterialCommunityIcons name="trophy-outline" size={16} color={Colors.accentCyan} />
           <Text style={styles.capNoticeText}>🌟 Daily Practice Target Reached (20 XP Cap)!</Text>
         </View>
       )}
@@ -204,9 +205,9 @@ export const QuizCard: React.FC<QuizCardProps> = ({ quiz, onSubmitResults }) => 
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#120F1D',
+    backgroundColor: Colors.bgAppAlt,
     borderWidth: 1,
-    borderColor: '#2A1F45',
+    borderColor: Colors.borderCard,
     borderRadius: 16,
     padding: 12,
     marginVertical: 8,
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#201835',
+    borderBottomColor: Colors.borderSubtle,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -226,19 +227,19 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   headerTitle: {
-    color: '#E9D5FF',
+    color: Colors.textPrimary,
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 0.3,
   },
   badge: {
-    backgroundColor: '#2E1065',
+    backgroundColor: Colors.bgCardAlt,
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 8,
   },
   badgeText: {
-    color: '#C084FC',
+    color: Colors.accentPurple,
     fontSize: 10.5,
     fontWeight: '700',
   },
@@ -255,19 +256,19 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 10,
-    backgroundColor: '#3B1F6E',
+    backgroundColor: Colors.bgCardAlt,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 1,
   },
   qNumText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 11,
     fontWeight: '800',
   },
   questionText: {
     flex: 1,
-    color: '#F3E8FF',
+    color: Colors.textPrimary,
     fontSize: 13.5,
     fontWeight: '600',
     lineHeight: 19,
@@ -285,20 +286,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   optionPending: {
-    backgroundColor: '#191528',
-    borderColor: '#2D234A',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.borderCard,
   },
   optionCorrect: {
-    backgroundColor: '#052E16',
-    borderColor: '#16A34A',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.success,
   },
   optionIncorrect: {
-    backgroundColor: '#2D1016',
-    borderColor: '#DC2626',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.danger,
   },
   optionMuted: {
-    backgroundColor: '#141120',
-    borderColor: '#201835',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.borderSubtle,
     opacity: 0.6,
   },
   optionText: {
@@ -307,18 +308,18 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   optionTextPending: {
-    color: '#E2E8F0',
+    color: Colors.textPrimary,
   },
   optionTextCorrect: {
-    color: '#4ADE80',
+    color: Colors.success,
     fontWeight: '700',
   },
   optionTextIncorrect: {
-    color: '#F87171',
+    color: Colors.danger,
     fontWeight: '700',
   },
   optionTextMuted: {
-    color: '#64748B',
+    color: Colors.textMuted,
   },
   explanationBox: {
     marginTop: 8,
@@ -327,12 +328,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   explanationCorrect: {
-    backgroundColor: '#062817',
-    borderColor: '#15803D',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.success,
   },
   explanationIncorrect: {
-    backgroundColor: '#26160B',
-    borderColor: '#B45309',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.warning,
   },
   explanationHeader: {
     flexDirection: 'row',
@@ -345,7 +346,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   explanationText: {
-    color: '#CBD5E1',
+    color: Colors.textSecondary,
     fontSize: 12.5,
     lineHeight: 17,
   },
@@ -354,13 +355,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#9333EA',
+    backgroundColor: Colors.accentPurple,
     paddingVertical: 10,
     borderRadius: 12,
     marginTop: 4,
   },
   submitBtnText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 13,
     fontWeight: '700',
   },
@@ -369,13 +370,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#064E3B',
+    backgroundColor: Colors.bgCardAlt,
     paddingVertical: 6,
     borderRadius: 8,
     marginTop: 4,
   },
   submittedText: {
-    color: '#34D399',
+    color: Colors.success,
     fontSize: 12,
     fontWeight: '700',
   },
@@ -385,14 +386,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 6,
     backgroundColor: 'rgba(245, 158, 11, 0.15)',
-    borderColor: '#F59E0B',
+    borderColor: Colors.warning,
     borderWidth: 1,
     paddingVertical: 8,
     borderRadius: 10,
     marginTop: 8,
   },
   xpToastText: {
-    color: '#F59E0B',
+    color: Colors.warning,
     fontSize: 13,
     fontWeight: '800',
   },
@@ -402,14 +403,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 6,
     backgroundColor: 'rgba(56, 189, 248, 0.15)',
-    borderColor: '#38BDF8',
+    borderColor: Colors.accentCyan,
     borderWidth: 1,
     paddingVertical: 8,
     borderRadius: 10,
     marginTop: 8,
   },
   capNoticeText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 12,
     fontWeight: '700',
   },

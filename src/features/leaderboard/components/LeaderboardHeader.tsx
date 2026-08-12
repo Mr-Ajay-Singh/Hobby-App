@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LeaderboardType } from '../types';
+import { Colors } from '@/shared/theme';
 
 interface LeaderboardHeaderProps {
   selectedType: LeaderboardType;
@@ -27,7 +28,7 @@ export const LeaderboardHeader: React.FC<LeaderboardHeaderProps> = ({
           <MaterialCommunityIcons
             name="trophy"
             size={16}
-            color={selectedType === 'weekly' ? '#F59E0B' : '#94A3B8'}
+            color={selectedType === 'weekly' ? Colors.warning : Colors.textMuted}
           />
           <Text
             style={[
@@ -50,7 +51,7 @@ export const LeaderboardHeader: React.FC<LeaderboardHeaderProps> = ({
           <MaterialCommunityIcons
             name="earth"
             size={16}
-            color={selectedType === 'alltime' ? '#38BDF8' : '#94A3B8'}
+            color={selectedType === 'alltime' ? Colors.accentCyan : Colors.textMuted}
           />
           <Text
             style={[
@@ -74,11 +75,11 @@ const styles = StyleSheet.create({
   },
   segmentContainer: {
     flexDirection: 'row',
-    backgroundColor: '#1E1B2E',
+    backgroundColor: Colors.bgCard,
     borderRadius: 14,
     padding: 4,
     borderWidth: 1,
-    borderColor: '#2D264A',
+    borderColor: Colors.borderSubtle,
   },
   segmentBtn: {
     flex: 1,
@@ -90,15 +91,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   segmentBtnActive: {
-    backgroundColor: '#2E264E',
+    backgroundColor: Colors.bgCardAlt,
   },
   segmentText: {
-    color: '#94A3B8',
+    color: Colors.textMuted,
     fontSize: 13,
     fontWeight: '600',
   },
   segmentTextActive: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontWeight: '700',
   },
 });

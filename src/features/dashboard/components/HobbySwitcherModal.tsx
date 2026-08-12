@@ -14,6 +14,7 @@ import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fetchUserHobbiesList } from '../api/dashboardApi';
+import { Colors } from '@/shared/theme';
 
 const HOBBY_EMOJI_MAP: Record<string, string> = {
   piano: '🎹',
@@ -93,11 +94,11 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.titleRow}>
-              <MaterialCommunityIcons name="compass-outline" size={22} color="#38BDF8" />
+              <MaterialCommunityIcons name="compass-outline" size={22} color={Colors.accentCyan} />
               <Text style={styles.title}>My Hobbies & Skills</Text>
             </View>
             <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-              <Ionicons name="close" size={22} color="#9CA3AF" />
+              <Ionicons name="close" size={22} color={Colors.textSecondary} />
             </TouchableOpacity>
           </View>
 
@@ -106,7 +107,7 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
             <Text style={styles.sectionHeader}>Enrolled Hobbies</Text>
 
             {loading ? (
-              <ActivityIndicator size="small" color="#38BDF8" style={{ marginVertical: 20 }} />
+              <ActivityIndicator size="small" color={Colors.accentCyan} style={{ marginVertical: 20 }} />
             ) : userHobbies.length === 0 ? (
               <Text style={styles.emptyText}>No hobbies enrolled yet.</Text>
             ) : (
@@ -138,10 +139,10 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
 
                     {isActive ? (
                       <View style={styles.activeCheck}>
-                        <Feather name="check" size={16} color="#22C55E" />
+                        <Feather name="check" size={16} color={Colors.success} />
                       </View>
                     ) : (
-                      <Feather name="chevron-right" size={18} color="#6B7280" />
+                      <Feather name="chevron-right" size={18} color={Colors.textMuted} />
                     )}
                   </TouchableOpacity>
                 );
@@ -157,7 +158,7 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
               }}
               activeOpacity={0.85}
             >
-              <Feather name="plus-circle" size={18} color="#FFFFFF" />
+              <Feather name="plus-circle" size={18} color={Colors.textPrimary} />
               <Text style={styles.addHobbyBtnText}>+ Start New Hobby Onboarding</Text>
             </TouchableOpacity>
 
@@ -195,13 +196,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   sheetContainer: {
-    backgroundColor: '#161B28',
+    backgroundColor: Colors.bgCard,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     maxHeight: '85%',
     paddingBottom: 24,
     borderTopWidth: 1,
-    borderTopColor: '#242C3F',
+    borderTopColor: Colors.borderCard,
   },
   header: {
     flexDirection: 'row',
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#242C3F',
+    borderBottomColor: Colors.borderCard,
   },
   titleRow: {
     flexDirection: 'row',
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 18,
     fontWeight: '800',
   },
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#1E2638',
+    backgroundColor: Colors.borderSubtle,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   sectionHeader: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '700',
     textTransform: 'uppercase',
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   emptyText: {
-    color: '#6B7280',
+    color: Colors.textMuted,
     fontSize: 14,
     marginVertical: 12,
   },
@@ -251,16 +252,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#0F121C',
+    backgroundColor: Colors.bgApp,
     borderWidth: 1,
-    borderColor: '#242C3F',
+    borderColor: Colors.borderCard,
     borderRadius: 14,
     padding: 14,
     marginBottom: 10,
   },
   hobbyRowActive: {
     backgroundColor: 'rgba(56, 189, 248, 0.12)',
-    borderColor: '#38BDF8',
+    borderColor: Colors.accentCyan,
   },
   hobbyRowLeft: {
     flexDirection: 'row',
@@ -271,15 +272,15 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   hobbyRowTitle: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '700',
   },
   hobbyRowTitleActive: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
   },
   hobbyRowSub: {
-    color: '#6B7280',
+    color: Colors.textMuted,
     fontSize: 12,
     marginTop: 2,
     textTransform: 'capitalize',
@@ -293,7 +294,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   addHobbyBtn: {
-    backgroundColor: '#2563EB',
+    backgroundColor: Colors.primaryBtn,
     borderRadius: 14,
     paddingVertical: 14,
     flexDirection: 'row',
@@ -304,37 +305,37 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   addHobbyBtnText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 15,
     fontWeight: '800',
   },
   addCard: {
-    backgroundColor: '#0F121C',
+    backgroundColor: Colors.bgApp,
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#242C3F',
+    borderColor: Colors.borderCard,
     marginTop: 10,
     marginBottom: 20,
   },
   addCardTitle: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '800',
     marginBottom: 12,
   },
   textInput: {
-    backgroundColor: '#161B28',
-    borderColor: '#242C3F',
+    backgroundColor: Colors.bgCard,
+    borderColor: Colors.borderCard,
     borderWidth: 1,
     borderRadius: 12,
     padding: 12,
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 15,
     marginBottom: 14,
   },
   presetTitle: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontWeight: '600',
     marginBottom: 8,
@@ -349,7 +350,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#1E2638',
+    backgroundColor: Colors.borderSubtle,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 16,
@@ -360,7 +361,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   presetChipText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 12,
     fontWeight: '700',
   },
@@ -374,17 +375,17 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   cancelBtnText: {
-    color: '#9CA3AF',
+    color: Colors.textSecondary,
     fontWeight: '600',
   },
   submitBtn: {
-    backgroundColor: '#2563EB',
+    backgroundColor: Colors.primaryBtn,
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 10,
   },
   submitBtnText: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontWeight: '700',
   },
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { HOBBY_CATALOG, AVATAR_EMOJIS } from '../constants';
+import { Colors } from '@/shared/theme';
 
 interface Step1HobbySelectionProps {
   customHobby: string;
@@ -41,7 +42,7 @@ export const Step1HobbySelection: React.FC<Step1HobbySelectionProps> = ({
           setSelectedHobby(match ? match.name : '');
         }}
         placeholder="e.g. Cricket, Ludo, Guitar, Spanish..."
-        placeholderTextColor="#64748B"
+        placeholderTextColor={Colors.textMuted}
       />
 
       <Text style={styles.gridTitle}>Or Pick a Popular Hobby:</Text>
@@ -81,7 +82,7 @@ export const Step1HobbySelection: React.FC<Step1HobbySelectionProps> = ({
         value={displayName}
         onChangeText={setDisplayName}
         placeholder="Your Display Name (e.g. Alex Rivera)"
-        placeholderTextColor="#64748B"
+        placeholderTextColor={Colors.textMuted}
       />
 
       <Text style={styles.avatarLabel}>Choose Avatar Icon:</Text>
@@ -106,30 +107,30 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   stepTitle: {
-    color: '#F8FAFC',
+    color: Colors.textPrimary,
     fontSize: 20,
     fontWeight: '800',
     lineHeight: 26,
   },
   stepSub: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 18,
     marginBottom: 8,
   },
   textInput: {
-    backgroundColor: '#151124',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#292044',
+    borderColor: Colors.borderCard,
     borderRadius: 14,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '600',
   },
   gridTitle: {
-    color: '#E2E8F0',
+    color: Colors.textPrimary,
     fontSize: 13,
     fontWeight: '700',
     marginTop: 10,
@@ -144,31 +145,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#151124',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#261F3E',
+    borderColor: Colors.borderSubtle,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
   catalogCardSelected: {
-    backgroundColor: '#26134B',
-    borderColor: '#9333EA',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.accentPurple,
   },
   catalogEmoji: {
     fontSize: 18,
   },
   catalogName: {
-    color: '#CBD5E1',
+    color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '600',
   },
   catalogNameSelected: {
-    color: '#E9D5FF',
+    color: Colors.accentPurple,
     fontWeight: '800',
   },
   avatarLabel: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontWeight: '600',
     marginTop: 8,
@@ -182,15 +183,15 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 21,
-    backgroundColor: '#151124',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#261F3E',
+    borderColor: Colors.borderSubtle,
     alignItems: 'center',
     justifyContent: 'center',
   },
   avatarChipSelected: {
-    backgroundColor: '#3B156B',
-    borderColor: '#A855F7',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.accentPurple,
     borderWidth: 2,
   },
   avatarEmojiText: {

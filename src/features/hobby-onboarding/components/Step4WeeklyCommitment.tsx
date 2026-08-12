@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { WEEKLY_TARGETS } from '../constants';
+import { Colors } from '@/shared/theme';
 
 interface Step4WeeklyCommitmentProps {
   activeHobbyName: string;
@@ -45,7 +46,7 @@ export const Step4WeeklyCommitment: React.FC<Step4WeeklyCommitmentProps> = ({
       {/* Final Summary Card */}
       <View style={styles.summaryCard}>
         <View style={styles.summaryHeader}>
-          <Ionicons name="sparkles" size={18} color="#F59E0B" />
+          <Ionicons name="sparkles" size={18} color={Colors.warning} />
           <Text style={styles.summaryTitle}>Setup Ready!</Text>
         </View>
 
@@ -73,13 +74,13 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   stepTitle: {
-    color: '#F8FAFC',
+    color: Colors.textPrimary,
     fontSize: 20,
     fontWeight: '800',
     lineHeight: 26,
   },
   stepSub: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 18,
     marginBottom: 8,
@@ -88,33 +89,33 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   targetCard: {
-    backgroundColor: '#151124',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#261F3E',
+    borderColor: Colors.borderSubtle,
     borderRadius: 14,
     padding: 14,
   },
   targetCardSelected: {
-    backgroundColor: '#26134B',
-    borderColor: '#A855F7',
+    backgroundColor: Colors.bgCardAlt,
+    borderColor: Colors.accentPurple,
   },
   targetTitle: {
-    color: '#F1F5F9',
+    color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '700',
     marginBottom: 2,
   },
   targetTitleSelected: {
-    color: '#C084FC',
+    color: Colors.accentPurple,
   },
   targetDesc: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 12,
   },
   summaryCard: {
-    backgroundColor: '#19122D',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1,
-    borderColor: '#36245C',
+    borderColor: Colors.borderCard,
     borderRadius: 16,
     padding: 16,
     marginTop: 10,
@@ -127,16 +128,16 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   summaryTitle: {
-    color: '#F59E0B',
+    color: Colors.warning,
     fontSize: 14,
     fontWeight: '800',
   },
   summaryRow: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 13,
   },
   summaryBold: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontWeight: '700',
   },
 });
