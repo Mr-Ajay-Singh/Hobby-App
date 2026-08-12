@@ -20,7 +20,7 @@ export const SkillChatHeader: React.FC<SkillChatHeaderProps> = ({
   isRefreshing = false,
 }) => {
   const level = skillInfo?.currentLevel || 'beginner';
-  const score = skillInfo?.score || 25;
+  const score = typeof skillInfo?.score === 'number' ? skillInfo.score : 0;
   const title = skillInfo?.skillName || 'Multi-Modal Skill AI';
 
   const getLevelBadgeColor = (lvl: string) => {

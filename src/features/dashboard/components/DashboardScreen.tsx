@@ -12,7 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { fetchDashboardData } from '../api/dashboardApi';
+import { fetchDashboardData, fetchUserHobbiesList } from '../api/dashboardApi';
 import { DashboardData } from '../types';
 import { useApiConfigStore } from '@/features/skill-learning/store/useApiConfigStore';
 import { SkillChatConfigModal } from '@/features/skill-learning/components/SkillChatConfigModal';
@@ -53,7 +53,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { baseUrl } = useApiConfigStore();
-  const { activeUserHobbyId, setActiveUserHobbyId } = useActiveHobbyStore();
+  const { activeUserHobbyId, setActiveUserHobbyId, enrolledHobbyIds, syncEnrolledHobbyIds } =
+    useActiveHobbyStore();
   const [configModalVisible, setConfigModalVisible] = useState(false);
   const [editGoalModalVisible, setEditGoalModalVisible] = useState(false);
   const [switcherModalVisible, setSwitcherModalVisible] = useState(false);
@@ -67,15 +68,30 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
     staleTime: 1000 * 60 * 2, // 2 minutes
   });
 
+  // Fetch all user hobbies to compute total active hobbies portfolio count
+  const { data: hobbiesData } = useQuery({
+    queryKey: ['user-hobbies-list', baseUrl],
+    queryFn: () => fetchUserHobbiesList(),
+    staleTime: 1000 * 60 * 2,
+  });
+
+  // Sync fetched hobbies to local persistent enrolledHobbyIds array
+  useEffect(() => {
+    if (hobbiesData?.userHobbies && hobbiesData.userHobbies.length > 0) {
+      const fetchedIds = hobbiesData.userHobbies.map((h: any) => h._id);
+      syncEnrolledHobbyIds(fetchedIds);
+    }
+  }, [hobbiesData?.userHobbies, syncEnrolledHobbyIds]);
+
   const dashboard: DashboardData | null = data?.data || null;
   const hasActiveHobby = (data?.hasActiveHobby ?? true) && !!dashboard?.hobbyInfo;
 
   // Auto-sync active user hobby ID to persistent store if not set yet
   useEffect(() => {
-    if (dashboard?.hobbyInfo?.userHobbyId && !activeUserHobbyId) {
+    if (dashboard?.hobbyInfo?.userHobbyId) {
       setActiveUserHobbyId(dashboard.hobbyInfo.userHobbyId);
     }
-  }, [dashboard?.hobbyInfo?.userHobbyId, activeUserHobbyId, setActiveUserHobbyId]);
+  }, [dashboard?.hobbyInfo?.userHobbyId, setActiveUserHobbyId]);
 
   // 🔒 First-Time User Onboarding Gate: If user has no enrolled hobby, automatically route to mandatory onboarding
   useEffect(() => {
@@ -417,15 +433,19 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
                 <Text style={styles.statLbl}>Mastery Score Avg</Text>
               </View>
 
-              {/* Stat 4: Skills Tracked */}
+              {/* Stat 4: Active Hobbies Portfolio Count */}
               <View style={styles.statCard}>
                 <View style={[styles.statIconBg, { backgroundColor: Colors.successBg }]}>
                   <Feather name="layers" size={18} color={Colors.success} />
                 </View>
                 <Text style={styles.statVal}>
-                  {dashboard.quickStats.totalSkillsTracked}
+                  {Math.max(
+                    hobbiesData?.userHobbies?.length || 0,
+                    enrolledHobbyIds.length,
+                    1
+                  )}
                 </Text>
-                <Text style={styles.statLbl}>Skills Tracked</Text>
+                <Text style={styles.statLbl}>Active Hobbies</Text>
               </View>
             </View>
 

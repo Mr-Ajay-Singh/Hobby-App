@@ -147,6 +147,7 @@ export const chatHistoryMessageSchema = z.object({
 export const chatHistoryResponseSchema = z.object({
   success: z.boolean().default(true),
   conversationId: z.string().nullable().default(null),
+  skillInfo: skillInfoSchema.optional(),
   page: z.number().int().default(1),
   limit: z.number().int().default(20),
   totalMessages: z.number().int().default(0),

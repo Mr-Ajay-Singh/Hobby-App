@@ -25,6 +25,9 @@ export const formatHistoryMessages = (data: ChatHistoryResponse): ChatTurnItem[]
   if (data.conversationId) {
     useSkillChatStore.getState().setConversationId(data.conversationId);
   }
+  if (data.skillInfo) {
+    useSkillChatStore.getState().setSkillInfo(data.skillInfo);
+  }
 
   return (data.messages || []).map((msg) => {
     const timeStr = msg.createdAt

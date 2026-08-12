@@ -27,6 +27,10 @@ import { SkillProgressHeader } from './SkillProgressHeader';
 import { SkillMessageBubble } from './SkillMessageBubble';
 import { SkillChatConfigModal } from './SkillChatConfigModal';
 
+import { useQuery } from '@tanstack/react-query';
+import { useActiveHobbyStore } from '@/features/dashboard/store/useActiveHobbyStore';
+import { fetchDashboardData } from '@/features/dashboard/api/dashboardApi';
+
 interface SkillChatScreenProps {
   onBack?: () => void;
   userHobbyId?: string;
@@ -45,12 +49,14 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
     lastFailedPrompt,
     messages,
     setUserHobbyId,
+    setSkillInfo,
     setInputMessage,
     setMessages,
     resetChat,
   } = useSkillChatStore();
 
-  const effectiveUserHobbyId = userHobbyId || storeUserHobbyId;
+  const { activeUserHobbyId } = useActiveHobbyStore();
+  const effectiveUserHobbyId = userHobbyId || storeUserHobbyId || activeUserHobbyId;
 
   useEffect(() => {
     if (userHobbyId && userHobbyId !== storeUserHobbyId) {
@@ -69,6 +75,25 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
 
   // TanStack Query: Fetch History (uses effectiveUserHobbyId directly!)
   const historyQuery = useChatHistoryQuery(currentPage, 20, effectiveUserHobbyId);
+
+  // Fallback: Fetch Dashboard Data if skillInfo is empty (e.g. freshly onboarded hobby)
+  const dashboardQuery = useQuery({
+    queryKey: ['dashboard-summary', baseUrl, effectiveUserHobbyId],
+    queryFn: () => fetchDashboardData(effectiveUserHobbyId),
+    enabled: !skillInfo?.skillName && !!effectiveUserHobbyId,
+  });
+
+  useEffect(() => {
+    if (dashboardQuery.data?.data?.hobbyInfo?.hobbyName && !skillInfo?.skillName) {
+      const hInfo = dashboardQuery.data.data.hobbyInfo;
+      const gTarget = dashboardQuery.data.data.goalAndTarget;
+      setSkillInfo({
+        skillName: hInfo.hobbyName,
+        currentLevel: gTarget?.experienceLevel || 'beginner',
+        score: 0,
+      });
+    }
+  }, [dashboardQuery.data, skillInfo?.skillName, setSkillInfo]);
 
   // Sync TanStack Query history result with Zustand state on fetch or cache hit
   useEffect(() => {

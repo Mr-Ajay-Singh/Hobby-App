@@ -12,6 +12,17 @@ export const createApiClient = (baseURL: string): AxiosInstance => {
     },
   });
 
+  instance.interceptors.request.use(async (config) => {
+    try {
+      const { getDeviceId } = require('./deviceId');
+      const deviceId = await getDeviceId();
+      if (deviceId) {
+        config.headers['x-device-id'] = deviceId;
+      }
+    } catch (_) {}
+    return config;
+  });
+
   instance.interceptors.response.use(
     (response) => response,
     (error) => {

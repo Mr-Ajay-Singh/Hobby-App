@@ -6,5 +6,13 @@ export default function SkillChatRoute() {
   const router = useRouter();
   const { userHobbyId } = useLocalSearchParams<{ userHobbyId?: string }>();
 
-  return <SkillChatScreen onBack={() => router.back()} userHobbyId={userHobbyId} />;
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace('/');
+    }
+  };
+
+  return <SkillChatScreen onBack={handleBack} userHobbyId={userHobbyId} />;
 }
