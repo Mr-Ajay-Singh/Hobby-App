@@ -246,7 +246,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
                 </View>
                 <View style={styles.loadingBubble}>
                   <ActivityIndicator size="small" color={Colors.accentCyan} />
-                  <Text style={styles.loadingText}>Fetching from {baseUrl}...</Text>
+                  <Text style={styles.loadingText}>AI Coach is thinking...</Text>
                 </View>
               </View>
             )}
@@ -289,7 +289,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
             style={styles.textInput}
             value={inputMessage}
             onChangeText={setInputMessage}
-            placeholder="Type your prompt for the backend AI..."
+            placeholder="Ask your AI Coach anything..."
             placeholderTextColor={Colors.textMuted}
             multiline
             maxLength={500}

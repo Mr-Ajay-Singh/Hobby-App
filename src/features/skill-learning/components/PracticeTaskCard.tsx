@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { Colors } from '@/shared/theme';
 
 interface PracticeTaskCardProps {
   task: string;
@@ -12,7 +13,7 @@ export const PracticeTaskCard: React.FC<PracticeTaskCardProps> = ({ task }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Feather name="target" size={16} color="#A855F7" />
+        <Feather name="target" size={16} color={Colors.accentPurple} />
         <Text style={styles.title}>Practice Task</Text>
       </View>
       <Text style={styles.taskText}>{task}</Text>
@@ -22,9 +23,9 @@ export const PracticeTaskCard: React.FC<PracticeTaskCardProps> = ({ task }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1E132D',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1,
-    borderColor: '#3B1F6E',
+    borderColor: Colors.borderPurple,
     borderRadius: 14,
     padding: 12,
     marginVertical: 6,
@@ -36,13 +37,13 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   title: {
-    color: '#D8B4FE',
+    color: Colors.accentPurpleBadge,
     fontSize: 12.5,
     fontWeight: '700',
     letterSpacing: 0.3,
   },
   taskText: {
-    color: '#F3E8FF',
+    color: Colors.textPrimary,
     fontSize: 13.5,
     lineHeight: 19,
   },

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import * as Speech from 'expo-speech';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from '@/shared/theme';
 import { AudioContent } from '../schemas/skillChatSchema';
 
 interface AudioPlayerProps {
@@ -156,7 +157,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ audio }) => {
           <Ionicons
             name={isPlaying ? 'pause' : 'play'}
             size={18}
-            color="#FFFFFF"
+            color={Colors.primaryBtnText}
             style={{ marginLeft: isPlaying ? 0 : 2 }}
           />
         </TouchableOpacity>
@@ -167,7 +168,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ audio }) => {
               <MaterialCommunityIcons
                 name={isPlaying ? 'waveform' : 'microphone'}
                 size={13}
-                color="#22C55E"
+                color={Colors.success}
               />
               <Text style={styles.micText}>
                 {isPlaying ? 'Playing Narration' : 'AI Voice Narration'}
@@ -202,7 +203,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ audio }) => {
             <Feather
               name={showScript ? 'chevron-up' : 'file-text'}
               size={16}
-              color={showScript ? '#38BDF8' : '#9CA3AF'}
+              color={showScript ? Colors.accentCyan : Colors.textMuted}
             />
           </TouchableOpacity>
         ) : null}
@@ -220,9 +221,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ audio }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0F1A24',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#193348',
+    borderColor: Colors.borderCard,
     borderRadius: 16,
     padding: 12,
     marginVertical: 8,
@@ -236,10 +237,10 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#2F69FE',
+    backgroundColor: Colors.primaryBtn,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#2F69FE',
+    shadowColor: Colors.primaryBtn,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
     shadowRadius: 5,
@@ -260,58 +261,58 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   micText: {
-    color: '#22C55E',
+    color: Colors.success,
     fontSize: 12,
     fontWeight: '700',
   },
   speedBtn: {
-    backgroundColor: '#182535',
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 6,
   },
   speedText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 11,
     fontWeight: '700',
   },
   progressBarBg: {
     height: 4,
-    backgroundColor: '#1E2D3D',
+    backgroundColor: Colors.bgAppAlt,
     borderRadius: 2,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#38BDF8',
+    backgroundColor: Colors.accentCyan,
     borderRadius: 2,
   },
   scriptBtn: {
     width: 34,
     height: 34,
     borderRadius: 17,
-    backgroundColor: '#182535',
+    backgroundColor: Colors.bgCardSubtle,
     alignItems: 'center',
     justifyContent: 'center',
   },
   scriptBtnActive: {
-    backgroundColor: '#163B59',
+    backgroundColor: Colors.borderHighlight,
   },
   scriptDrawer: {
     marginTop: 10,
     paddingTop: 10,
     borderTopWidth: 1,
-    borderTopColor: '#1A2C3D',
+    borderTopColor: Colors.borderSubtle,
   },
   scriptLabel: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 10.5,
     fontWeight: '700',
     letterSpacing: 0.5,
     marginBottom: 4,
   },
   scriptText: {
-    color: '#CBD5E1',
+    color: Colors.textSecondary,
     fontSize: 13,
     lineHeight: 19,
     fontStyle: 'italic',

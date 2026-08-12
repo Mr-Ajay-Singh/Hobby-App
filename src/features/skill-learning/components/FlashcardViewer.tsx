@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from '@/shared/theme';
 import { FlashcardItem } from '../schemas/skillChatSchema';
 
 interface FlashcardViewerProps {
@@ -33,7 +34,7 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ flashcards }) 
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <MaterialCommunityIcons name="cards-outline" size={18} color="#38BDF8" />
+          <MaterialCommunityIcons name="cards-outline" size={18} color={Colors.accentCyan} />
           <Text style={styles.headerTitle}>Memorization Flashcards</Text>
         </View>
         <View style={styles.counterBadge}>
@@ -52,13 +53,13 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ flashcards }) 
           <View
             style={[
               styles.sideBadge,
-              { backgroundColor: isFlipped ? '#064E3B' : '#0F2B48' },
+              { backgroundColor: isFlipped ? Colors.successBg : Colors.bgAppAlt },
             ]}
           >
             <Text
               style={[
                 styles.sideBadgeText,
-                { color: isFlipped ? '#34D399' : '#38BDF8' },
+                { color: isFlipped ? Colors.success : Colors.accentCyan },
               ]}
             >
               {isFlipped ? 'ANSWER / BACK' : 'QUESTION / FRONT'}
@@ -78,7 +79,7 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ flashcards }) 
           onPress={handlePrev}
           style={styles.navBtn}
         >
-          <Feather name="chevron-left" size={18} color="#94A3B8" />
+          <Feather name="chevron-left" size={18} color={Colors.textMuted} />
           <Text style={styles.navBtnText}>Prev</Text>
         </TouchableOpacity>
 
@@ -87,7 +88,7 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ flashcards }) 
           onPress={handleFlip}
           style={styles.flipCenterBtn}
         >
-          <MaterialCommunityIcons name="rotate-3d-variant" size={16} color="#38BDF8" />
+          <MaterialCommunityIcons name="rotate-3d-variant" size={16} color={Colors.accentCyan} />
           <Text style={styles.flipCenterText}>
             {isFlipped ? 'Show Question' : 'Show Answer'}
           </Text>
@@ -99,7 +100,7 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ flashcards }) 
           style={styles.navBtn}
         >
           <Text style={styles.navBtnText}>Next</Text>
-          <Feather name="chevron-right" size={18} color="#94A3B8" />
+          <Feather name="chevron-right" size={18} color={Colors.textMuted} />
         </TouchableOpacity>
       </View>
     </View>
@@ -108,9 +109,9 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ flashcards }) 
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0F1622',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#1C293D',
+    borderColor: Colors.borderCard,
     borderRadius: 16,
     padding: 12,
     marginVertical: 8,
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#1A2536',
+    borderBottomColor: Colors.borderSubtle,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -130,34 +131,34 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   headerTitle: {
-    color: '#BAE6FD',
+    color: Colors.textCyan,
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 0.3,
   },
   counterBadge: {
-    backgroundColor: '#1E293B',
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 8,
   },
   counterText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 11,
     fontWeight: '700',
   },
   cardSurface: {
-    backgroundColor: '#151D2A',
+    backgroundColor: Colors.bgCardAlt,
     borderWidth: 1,
-    borderColor: '#243248',
+    borderColor: Colors.borderSubtle,
     borderRadius: 14,
     padding: 16,
     minHeight: 120,
     justifyContent: 'center',
   },
   cardSurfaceFlipped: {
-    backgroundColor: '#0E211A',
-    borderColor: '#134E35',
+    backgroundColor: Colors.successBg,
+    borderColor: Colors.successBorder,
   },
   sideRow: {
     flexDirection: 'row',
@@ -176,18 +177,18 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   tapPrompt: {
-    color: '#64748B',
+    color: Colors.textMuted,
     fontSize: 11,
   },
   cardText: {
-    color: '#F8FAFC',
+    color: Colors.textPrimary,
     fontSize: 15,
     fontWeight: '600',
     lineHeight: 22,
     textAlign: 'center',
   },
   cardTextFlipped: {
-    color: '#A7F3D0',
+    color: Colors.success,
   },
   navRow: {
     flexDirection: 'row',
@@ -199,13 +200,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#151C28',
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 10,
   },
   navBtnText: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 12,
     fontWeight: '600',
   },
@@ -213,15 +214,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: '#0F263E',
+    backgroundColor: Colors.bgAppAlt,
     borderWidth: 1,
-    borderColor: '#1D456E',
+    borderColor: Colors.borderHighlight,
     paddingHorizontal: 14,
     paddingVertical: 6,
     borderRadius: 10,
   },
   flipCenterText: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 12,
     fontWeight: '700',
   },

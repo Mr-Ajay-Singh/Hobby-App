@@ -286,19 +286,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   optionPending: {
-    backgroundColor: Colors.bgCardAlt,
+    backgroundColor: Colors.bgCardSubtle,
     borderColor: Colors.borderCard,
   },
   optionCorrect: {
-    backgroundColor: Colors.bgCardAlt,
+    backgroundColor: Colors.successBg,
     borderColor: Colors.success,
   },
   optionIncorrect: {
-    backgroundColor: Colors.bgCardAlt,
+    backgroundColor: Colors.dangerBg,
     borderColor: Colors.danger,
   },
   optionMuted: {
-    backgroundColor: Colors.bgCardAlt,
+    backgroundColor: Colors.bgCardSubtle,
     borderColor: Colors.borderSubtle,
     opacity: 0.6,
   },
@@ -328,11 +328,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   explanationCorrect: {
-    backgroundColor: Colors.bgCardAlt,
+    backgroundColor: Colors.successBg,
     borderColor: Colors.success,
   },
   explanationIncorrect: {
-    backgroundColor: Colors.bgCardAlt,
+    backgroundColor: Colors.warningBg,
     borderColor: Colors.warning,
   },
   explanationHeader: {

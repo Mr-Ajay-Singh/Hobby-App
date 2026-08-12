@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   rankText: {
-    color: Colors.textPrimary,
+    color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '900',
   },
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   practiceBtnText: {
-    color: Colors.textPrimary,
+    color: '#FFFFFF',
     fontSize: 12,
     fontWeight: '700',
   },

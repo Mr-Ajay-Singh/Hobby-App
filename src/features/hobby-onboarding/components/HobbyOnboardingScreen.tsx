@@ -24,7 +24,8 @@ export const HobbyOnboardingScreen: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
-  const searchParams = useLocalSearchParams<{ initialHobby?: string }>();
+  const searchParams = useLocalSearchParams<{ initialHobby?: string; isMandatory?: string }>();
+  const isMandatory = searchParams.isMandatory === 'true';
 
   const [step, setStep] = useState(searchParams.initialHobby ? 2 : 1);
   const [selectedHobby, setSelectedHobby] = useState(searchParams.initialHobby || '');
@@ -65,6 +66,15 @@ export const HobbyOnboardingScreen: React.FC = () => {
   };
 
   const confirmCancel = () => {
+    if (isMandatory) {
+      Alert.alert(
+        'Onboarding Required 🚀',
+        'Please complete setting up your first hobby profile to unlock your AI Coach and Dashboard.',
+        [{ text: 'Continue Setup', style: 'default' }]
+      );
+      return;
+    }
+
     Alert.alert(
       'Cancel Hobby Setup?',
       'Are you sure you want to cancel setting up this hobby?',
@@ -308,7 +318,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   footerNextText: {
-    color: Colors.textPrimary,
+    color: Colors.primaryBtnText,
     fontSize: 14,
     fontWeight: '800',
   },
@@ -321,7 +331,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   footerFinishText: {
-    color: Colors.textPrimary,
+    color: Colors.primaryBtnText,
     fontSize: 14,
     fontWeight: '800',
   },

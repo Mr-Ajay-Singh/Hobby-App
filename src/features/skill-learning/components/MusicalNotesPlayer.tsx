@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
+import { Colors } from '@/shared/theme';
 import { MusicalNotesContent } from '../schemas/skillChatSchema';
 
 interface MusicalNotesPlayerProps {
@@ -60,7 +61,7 @@ export const MusicalNotesPlayer: React.FC<MusicalNotesPlayerProps> = ({ data }) 
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <MaterialCommunityIcons name="music-clef-treble" size={18} color="#F59E0B" />
+          <MaterialCommunityIcons name="music-clef-treble" size={18} color={Colors.warning} />
           <Text style={styles.headerTitle}>
             {data.instrument || 'Instrument'} Note Sequence
           </Text>
@@ -113,7 +114,7 @@ export const MusicalNotesPlayer: React.FC<MusicalNotesPlayerProps> = ({ data }) 
         <Ionicons
           name={isPlaying ? 'pause' : 'play'}
           size={16}
-          color="#FFFFFF"
+          color={Colors.primaryBtnText}
         />
         <Text style={styles.playBtnText}>
           {isPlaying ? 'Pause Note Practice' : 'Play Note Sequence'}
@@ -125,9 +126,9 @@ export const MusicalNotesPlayer: React.FC<MusicalNotesPlayerProps> = ({ data }) 
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#17140B',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#3D2F12',
+    borderColor: Colors.borderCard,
     borderRadius: 16,
     padding: 12,
     marginVertical: 8,
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#2B210D',
+    borderBottomColor: Colors.borderSubtle,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -147,19 +148,19 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   headerTitle: {
-    color: '#FDE68A',
+    color: Colors.textAmber,
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 0.3,
   },
   bpmBadge: {
-    backgroundColor: '#3B2A08',
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 8,
   },
   bpmText: {
-    color: '#FBBF24',
+    color: Colors.warning,
     fontSize: 10.5,
     fontWeight: '700',
   },
@@ -171,9 +172,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   notePill: {
-    backgroundColor: '#241C0F',
+    backgroundColor: Colors.bgAppAlt,
     borderWidth: 1,
-    borderColor: '#3D2F18',
+    borderColor: Colors.borderSubtle,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -181,50 +182,50 @@ const styles = StyleSheet.create({
     minWidth: 54,
   },
   notePillActive: {
-    backgroundColor: '#D97706',
-    borderColor: '#F59E0B',
+    backgroundColor: Colors.warning,
+    borderColor: Colors.warningBorder,
     transform: [{ scale: 1.08 }],
   },
   noteName: {
-    color: '#FDE68A',
+    color: Colors.textAmber,
     fontSize: 14,
     fontWeight: '800',
   },
   noteNameActive: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
   },
   fingerBadge: {
-    backgroundColor: '#382B14',
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 5,
     paddingVertical: 1,
     borderRadius: 4,
     marginTop: 4,
   },
   fingerBadgeActive: {
-    backgroundColor: '#92400E',
+    backgroundColor: Colors.warningBorder,
   },
   fingerText: {
-    color: '#FBBF24',
+    color: Colors.warning,
     fontSize: 9.5,
     fontWeight: '700',
   },
   fingerTextActive: {
-    color: '#FEF3C7',
+    color: Colors.textPrimary,
   },
   playBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#B45309',
+    backgroundColor: Colors.warning,
     paddingVertical: 8,
     borderRadius: 10,
   },
   playBtnActive: {
-    backgroundColor: '#78350F',
+    backgroundColor: Colors.warningBorder,
   },
   playBtnText: {
-    color: '#FFFFFF',
+    color: Colors.primaryBtnText,
     fontSize: 12.5,
     fontWeight: '700',
   },

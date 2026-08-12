@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Colors } from '@/shared/theme';
 
 interface MarkdownTextProps {
   content: string;
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     height: 6,
   },
   h1: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 18,
     fontWeight: '800',
     marginTop: 10,
@@ -129,28 +130,28 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
   h2: {
-    color: '#F0F6FC',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '700',
     marginTop: 8,
     marginBottom: 4,
   },
   h3: {
-    color: '#7DD3FC',
+    color: Colors.accentCyan,
     fontSize: 14.5,
     fontWeight: '700',
     marginTop: 6,
     marginBottom: 3,
   },
   bodyText: {
-    color: '#E2E8F0',
+    color: Colors.textSecondary,
     fontSize: 14,
-    lineHeight: 21,
+    lineHeight: 22,
     marginVertical: 2,
   },
   boldText: {
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
   },
   bulletRow: {
     flexDirection: 'row',
@@ -159,14 +160,14 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
   },
   bulletDot: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 14,
     marginRight: 6,
     lineHeight: 20,
   },
   bulletText: {
     flex: 1,
-    color: '#E2E8F0',
+    color: Colors.textSecondary,
     fontSize: 13.5,
     lineHeight: 20,
   },
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
   },
   numberLabel: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 13,
     fontWeight: '700',
     marginRight: 6,
@@ -185,21 +186,21 @@ const styles = StyleSheet.create({
   },
   numberedText: {
     flex: 1,
-    color: '#E2E8F0',
+    color: Colors.textSecondary,
     fontSize: 13.5,
     lineHeight: 20,
   },
   quoteBox: {
     borderLeftWidth: 3,
-    borderLeftColor: '#38BDF8',
-    backgroundColor: '#0F1D2B',
+    borderLeftColor: Colors.accentCyan,
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 4,
     marginVertical: 4,
   },
   quoteText: {
-    color: '#94A3B8',
+    color: Colors.textMuted,
     fontSize: 13,
     fontStyle: 'italic',
     lineHeight: 19,

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from '@/shared/theme';
 import { ChecklistItem } from '../schemas/skillChatSchema';
 
 interface ChecklistViewProps {
@@ -23,19 +24,19 @@ export const ChecklistView: React.FC<ChecklistViewProps> = ({ checklist }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <MaterialCommunityIcons name="format-list-checks" size={18} color="#22C55E" />
+          <MaterialCommunityIcons name="format-list-checks" size={18} color={Colors.success} />
           <Text style={styles.headerTitle}>Action Checklist</Text>
         </View>
         <View
           style={[
             styles.progressBadge,
-            { backgroundColor: isAllComplete ? '#064E3B' : '#1E293B' },
+            { backgroundColor: isAllComplete ? Colors.successBg : Colors.bgCardSubtle },
           ]}
         >
           <Text
             style={[
               styles.progressText,
-              { color: isAllComplete ? '#34D399' : '#94A3B8' },
+              { color: isAllComplete ? Colors.success : Colors.textSecondary },
             ]}
           >
             {completedCount}/{checklist.length} Done
@@ -58,7 +59,7 @@ export const ChecklistView: React.FC<ChecklistViewProps> = ({ checklist }) => {
                 <Feather
                   name={isDone ? 'check-square' : 'square'}
                   size={18}
-                  color={isDone ? '#22C55E' : '#64748B'}
+                  color={isDone ? Colors.success : Colors.textMuted}
                 />
               </View>
 
@@ -85,9 +86,9 @@ export const ChecklistView: React.FC<ChecklistViewProps> = ({ checklist }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0F1A15',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#193828',
+    borderColor: Colors.borderCard,
     borderRadius: 16,
     padding: 12,
     marginVertical: 8,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#162C21',
+    borderBottomColor: Colors.borderSubtle,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   headerTitle: {
-    color: '#BBF7D0',
+    color: Colors.textPrimary,
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 0.3,
@@ -128,15 +129,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 10,
-    backgroundColor: '#13211B',
+    backgroundColor: Colors.bgAppAlt,
     borderWidth: 1,
-    borderColor: '#1E382B',
+    borderColor: Colors.borderSubtle,
     borderRadius: 12,
     padding: 10,
   },
   itemCardDone: {
-    backgroundColor: '#0A1812',
-    borderColor: '#11462E',
+    backgroundColor: Colors.successBg,
+    borderColor: Colors.successBorder,
     opacity: 0.8,
   },
   checkboxWrapper: {
@@ -152,26 +153,26 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   stepNum: {
-    color: '#34D399',
+    color: Colors.success,
     fontSize: 12,
     fontWeight: '800',
   },
   itemTitle: {
-    color: '#F0FDF4',
+    color: Colors.textPrimary,
     fontSize: 13,
     fontWeight: '700',
     flex: 1,
   },
   itemTitleDone: {
-    color: '#94A3B8',
+    color: Colors.textMuted,
     textDecorationLine: 'line-through',
   },
   itemInstruction: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 12,
     lineHeight: 16,
   },
   itemInstructionDone: {
-    color: '#64748B',
+    color: Colors.textMuted,
   },
 });

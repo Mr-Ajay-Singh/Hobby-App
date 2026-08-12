@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -67,6 +67,16 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
 
   const dashboard: DashboardData | null = data?.data || null;
   const hasActiveHobby = (data?.hasActiveHobby ?? true) && !!dashboard?.hobbyInfo;
+
+  // 🔒 First-Time User Onboarding Gate: If user has no enrolled hobby, automatically route to mandatory onboarding
+  useEffect(() => {
+    if (!isLoading && !isError && !hasActiveHobby) {
+      router.replace({
+        pathname: '/hobby-onboarding',
+        params: { isMandatory: 'true' },
+      });
+    }
+  }, [isLoading, isError, hasActiveHobby]);
 
   const formatStageLabel = (stage?: string) => {
     if (!stage) return 'Onboarding';
@@ -140,14 +150,23 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
           </View>
         ) : !hasActiveHobby || !dashboard || !dashboard.hobbyInfo ? (
           <View style={styles.emptyContainer}>
-            <MaterialCommunityIcons name="compass-outline" size={48} color={Colors.textMuted} />
-            <Text style={styles.emptyTitle}>No Active Hobby Found</Text>
+            <MaterialCommunityIcons name="rocket-launch-outline" size={48} color={Colors.accentCyan} />
+            <Text style={styles.emptyTitle}>Welcome to AI Skill Coach! 🚀</Text>
             <Text style={styles.emptySubtext}>
-              Start a practice conversation with your AI Coach to enroll in a new skill!
+              Please set up your first hobby profile to unlock your personalized AI Coach and learning dashboard.
             </Text>
-            <TouchableOpacity style={styles.primaryChatBtn} onPress={() => onOpenChat()}>
-              <Text style={styles.primaryChatBtnText}>Open AI Coach Chat</Text>
-              <Feather name="arrow-right" size={18} color={Colors.textPrimary} />
+            <TouchableOpacity
+              style={styles.primaryChatBtn}
+              onPress={() =>
+                router.push({
+                  pathname: '/hobby-onboarding',
+                  params: { isMandatory: 'true' },
+                })
+              }
+              activeOpacity={0.85}
+            >
+              <Text style={styles.primaryChatBtnText}>+ Complete Hobby Onboarding</Text>
+              <Feather name="arrow-right" size={18} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
         ) : (
@@ -357,7 +376,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
             <View style={styles.statsGrid}>
               {/* Stat 1: Practice Time */}
               <View style={styles.statCard}>
-                <View style={[styles.statIconBg, { backgroundColor: '#1E293B' }]}>
+                <View style={[styles.statIconBg, { backgroundColor: Colors.bgCardSubtle }]}>
                   <Feather name="clock" size={18} color={Colors.accentCyan} />
                 </View>
                 <Text style={styles.statVal}>
@@ -368,8 +387,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
 
               {/* Stat 2: Sessions Completed */}
               <View style={styles.statCard}>
-                <View style={[styles.statIconBg, { backgroundColor: '#312E81' }]}>
-                  <Feather name="check-circle" size={18} color="#818CF8" />
+                <View style={[styles.statIconBg, { backgroundColor: Colors.levelBg }]}>
+                  <Feather name="check-circle" size={18} color={Colors.levelText} />
                 </View>
                 <Text style={styles.statVal}>
                   {dashboard.quickStats.totalSessionsCompleted}
@@ -379,8 +398,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
 
               {/* Stat 3: Skill Mastery */}
               <View style={styles.statCard}>
-                <View style={[styles.statIconBg, { backgroundColor: '#451A03' }]}>
-                  <MaterialCommunityIcons name="star-four-points" size={18} color={Colors.warning} />
+                <View style={[styles.statIconBg, { backgroundColor: Colors.streakBg }]}>
+                  <MaterialCommunityIcons name="star-four-points" size={18} color={Colors.streakText} />
                 </View>
                 <Text style={styles.statVal}>
                   {dashboard.quickStats.overallSkillMasteryScore}
@@ -391,8 +410,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
 
               {/* Stat 4: Skills Tracked */}
               <View style={styles.statCard}>
-                <View style={[styles.statIconBg, { backgroundColor: '#064E3B' }]}>
-                  <Feather name="layers" size={18} color="#34D399" />
+                <View style={[styles.statIconBg, { backgroundColor: Colors.successBg }]}>
+                  <Feather name="layers" size={18} color={Colors.success} />
                 </View>
                 <Text style={styles.statVal}>
                   {dashboard.quickStats.totalSkillsTracked}
@@ -408,7 +427,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
               activeOpacity={0.85}
             >
               <View style={styles.btnIconCircle}>
-                <Ionicons name="chatbubbles" size={20} color={Colors.accentCyan} />
+                <Ionicons name="chatbubbles" size={20} color="#FFFFFF" />
               </View>
 
               <View style={styles.btnTextCol}>
@@ -416,7 +435,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
                 <Text style={styles.btnSubtext}>Chat, get lessons & submit assignments</Text>
               </View>
 
-              <Feather name="chevron-right" size={22} color={Colors.textPrimary} />
+              <Feather name="chevron-right" size={22} color="#FFFFFF" />
             </TouchableOpacity>
           </>
         )}
@@ -429,7 +448,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
           onPress={() => onOpenChat(dashboard?.hobbyInfo?.userHobbyId)}
           activeOpacity={0.85}
         >
-          <Ionicons name="chatbubbles" size={24} color={Colors.textPrimary} />
+          <Ionicons name="chatbubbles" size={24} color="#FFFFFF" />
         </TouchableOpacity>
       )}
 
@@ -739,19 +758,19 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   stepPill: {
-    backgroundColor: Colors.borderSubtle,
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#2D374D',
+    borderColor: Colors.borderSubtle,
   },
   stepPillCurrent: {
-    backgroundColor: 'rgba(56, 189, 248, 0.2)',
+    backgroundColor: 'rgba(56, 189, 248, 0.15)',
     borderColor: Colors.accentCyan,
   },
   stepPillCompleted: {
-    backgroundColor: 'rgba(34, 197, 94, 0.15)',
+    backgroundColor: Colors.successBg,
     borderColor: Colors.success,
   },
   stepPillText: {
@@ -768,7 +787,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   goalText: {
-    color: '#F3F4F6',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 22,
@@ -782,15 +801,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: '#1E1B4B',
+    backgroundColor: Colors.levelBg,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#3730A3',
+    borderColor: Colors.levelBorder,
   },
   levelBadgeText: {
-    color: '#818CF8',
+    color: Colors.levelText,
     fontSize: 11,
     fontWeight: '800',
   },
@@ -798,15 +817,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: '#451A03',
+    backgroundColor: Colors.streakBg,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#78350F',
+    borderColor: Colors.streakBorder,
   },
   countdownText: {
-    color: Colors.warning,
+    color: Colors.streakText,
     fontSize: 11,
     fontWeight: '800',
   },
@@ -909,7 +928,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   primaryChatBtnText: {
-    color: Colors.textPrimary,
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '800',
   },
@@ -917,7 +936,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#1E293B',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -925,7 +944,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   btnSubtext: {
-    color: '#93C5FD',
+    color: 'rgba(255, 255, 255, 0.85)',
     fontSize: 12,
     marginTop: 2,
   },

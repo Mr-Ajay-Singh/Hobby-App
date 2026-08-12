@@ -158,8 +158,23 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
               }}
               activeOpacity={0.85}
             >
-              <Feather name="plus-circle" size={18} color={Colors.textPrimary} />
+              <Feather name="plus-circle" size={18} color="#FFFFFF" />
               <Text style={styles.addHobbyBtnText}>+ Start New Hobby Onboarding</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.mandatoryTestBtn}
+              onPress={() => {
+                onClose();
+                router.push({
+                  pathname: '/hobby-onboarding',
+                  params: { isMandatory: 'true' },
+                });
+              }}
+              activeOpacity={0.85}
+            >
+              <Feather name="lock" size={15} color={Colors.accentPurple} />
+              <Text style={styles.mandatoryTestBtnText}>Test Mandatory First-Time Onboarding Flow</Text>
             </TouchableOpacity>
 
             <Text style={styles.presetTitle}>Quick Start Catalog:</Text>
@@ -305,7 +320,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   addHobbyBtnText: {
-    color: Colors.textPrimary,
+    color: Colors.primaryBtnText,
     fontSize: 15,
     fontWeight: '800',
   },
@@ -350,12 +365,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: Colors.borderSubtle,
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#2D374D',
+    borderColor: Colors.borderSubtle,
   },
   presetEmoji: {
     fontSize: 14,
@@ -363,6 +378,23 @@ const styles = StyleSheet.create({
   presetChipText: {
     color: Colors.accentCyan,
     fontSize: 12,
+    fontWeight: '700',
+  },
+  mandatoryTestBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: Colors.levelBg,
+    borderWidth: 1,
+    borderColor: Colors.levelBorder,
+    borderRadius: 14,
+    paddingVertical: 10,
+    marginBottom: 16,
+  },
+  mandatoryTestBtnText: {
+    color: Colors.levelText,
+    fontSize: 13,
     fontWeight: '700',
   },
   addCardActions: {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ToastAndroid, Platform } from 'react-native';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from '@/shared/theme';
 import { CodeSnippetContent } from '../schemas/skillChatSchema';
 
 interface CodeSnippetViewerProps {
@@ -24,7 +25,7 @@ export const CodeSnippetViewer: React.FC<CodeSnippetViewerProps> = ({ codeSnippe
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <MaterialCommunityIcons name="code-tags" size={18} color="#38BDF8" />
+          <MaterialCommunityIcons name="code-tags" size={18} color={Colors.accentCyan} />
           <Text style={styles.langBadge}>
             {(codeSnippet.language || 'Code').toUpperCase()}
           </Text>
@@ -38,7 +39,7 @@ export const CodeSnippetViewer: React.FC<CodeSnippetViewerProps> = ({ codeSnippe
           <Feather
             name={copied ? 'check' : 'copy'}
             size={13}
-            color={copied ? '#22C55E' : '#94A3B8'}
+            color={copied ? Colors.success : Colors.textMuted}
           />
           <Text style={[styles.copyBtnText, copied && styles.copyBtnTextCopied]}>
             {copied ? 'Copied' : 'Copy'}
@@ -62,9 +63,9 @@ export const CodeSnippetViewer: React.FC<CodeSnippetViewerProps> = ({ codeSnippe
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0A0E17',
+    backgroundColor: Colors.bgCardSubtle,
     borderWidth: 1,
-    borderColor: '#192233',
+    borderColor: Colors.borderCard,
     borderRadius: 16,
     padding: 12,
     marginVertical: 8,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingBottom: 6,
     borderBottomWidth: 1,
-    borderBottomColor: '#161F2E',
+    borderBottomColor: Colors.borderSubtle,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   langBadge: {
-    color: '#38BDF8',
+    color: Colors.accentCyan,
     fontSize: 11.5,
     fontWeight: '800',
     letterSpacing: 0.5,
@@ -93,28 +94,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#162030',
+    backgroundColor: Colors.bgCard,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
+    borderWidth: 1,
+    borderColor: Colors.borderSubtle,
   },
   copyBtnText: {
-    color: '#94A3B8',
+    color: Colors.textMuted,
     fontSize: 11,
     fontWeight: '600',
   },
   copyBtnTextCopied: {
-    color: '#22C55E',
+    color: Colors.success,
   },
   codeBlock: {
-    backgroundColor: '#05070B',
+    backgroundColor: Colors.bgInput,
     borderRadius: 10,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#121824',
+    borderColor: Colors.borderSubtle,
   },
   codeText: {
-    color: '#38BDF8',
+    color: Colors.textCyan,
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
     fontSize: 12.5,
     lineHeight: 18,
@@ -123,17 +126,17 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingTop: 8,
     borderTopWidth: 1,
-    borderTopColor: '#161F2E',
+    borderTopColor: Colors.borderSubtle,
   },
   outputLabel: {
-    color: '#22C55E',
+    color: Colors.success,
     fontSize: 10,
     fontWeight: '800',
     letterSpacing: 0.5,
     marginBottom: 3,
   },
   outputText: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
     fontSize: 12,
   },

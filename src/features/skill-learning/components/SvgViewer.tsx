@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from '@/shared/theme';
 
 interface SvgViewerProps {
   svgContent: string;
@@ -43,7 +44,7 @@ export const SvgViewer: React.FC<SvgViewerProps> = ({
       {/* Header with Title & Fullscreen Action */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <MaterialCommunityIcons name="vector-polyline" size={17} color="#38BDF8" />
+          <MaterialCommunityIcons name="vector-polyline" size={17} color={Colors.accentCyan} />
           <Text style={styles.title} numberOfLines={1}>
             {title}
           </Text>
@@ -54,7 +55,7 @@ export const SvgViewer: React.FC<SvgViewerProps> = ({
           onPress={() => setFullscreen(true)}
           style={styles.expandButton}
         >
-          <Feather name="maximize-2" size={14} color="#94A3B8" />
+          <Feather name="maximize-2" size={14} color={Colors.textMuted} />
           <Text style={styles.expandText}>Zoom</Text>
         </TouchableOpacity>
       </View>
@@ -79,7 +80,7 @@ export const SvgViewer: React.FC<SvgViewerProps> = ({
               onPress={() => setFullscreen(false)}
               style={styles.closeButton}
             >
-              <Feather name="x" size={20} color="#FFFFFF" />
+              <Feather name="x" size={20} color={Colors.textPrimary} />
             </TouchableOpacity>
           </View>
 
@@ -99,9 +100,9 @@ export const SvgViewer: React.FC<SvgViewerProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0F1622',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#1E2D42',
+    borderColor: Colors.borderCard,
     borderRadius: 16,
     padding: 12,
     marginVertical: 8,
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: '#E0F2FE',
+    color: Colors.textPrimary,
     fontSize: 13,
     fontWeight: '700',
     flex: 1,
@@ -128,18 +129,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#1E293B',
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 8,
   },
   expandText: {
-    color: '#94A3B8',
+    color: Colors.textSecondary,
     fontSize: 11,
     fontWeight: '600',
   },
   svgWrapper: {
-    backgroundColor: '#0A0F17',
+    backgroundColor: Colors.bgAppAlt,
     borderRadius: 12,
     padding: 8,
     alignItems: 'center',
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(5, 8, 15, 0.95)',
+    backgroundColor: Colors.bgOverlay,
     justifyContent: 'center',
     padding: 16,
   },
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   modalTitle: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '700',
   },
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#1E293B',
+    backgroundColor: Colors.bgCardSubtle,
     alignItems: 'center',
     justifyContent: 'center',
   },

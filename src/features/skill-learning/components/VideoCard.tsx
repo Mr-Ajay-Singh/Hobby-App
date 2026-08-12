@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from '@/shared/theme';
 import { VideoContent } from '../schemas/skillChatSchema';
 
 interface VideoCardProps {
@@ -20,7 +21,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <MaterialCommunityIcons name="video-vintage" size={18} color="#F43F5E" />
+          <MaterialCommunityIcons name="video-vintage" size={18} color={Colors.danger} />
           <Text style={styles.headerTitle}>Video Demonstration</Text>
         </View>
         {video.durationSeconds ? (
@@ -36,7 +37,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
         style={styles.previewBox}
       >
         <View style={styles.playIconCircle}>
-          <Feather name="play" size={22} color="#FFFFFF" style={{ marginLeft: 2 }} />
+          <Feather name="play" size={22} color={Colors.primaryBtnText} style={{ marginLeft: 2 }} />
         </View>
         <Text style={styles.videoTitle}>{video.title || 'Watch Video Guide'}</Text>
         <Text style={styles.urlHint}>Tap to watch external demonstration video</Text>
@@ -47,9 +48,9 @@ export const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1E1015',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#3D1B25',
+    borderColor: Colors.dangerBorder,
     borderRadius: 16,
     padding: 12,
     marginVertical: 8,
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#2B141C',
+    borderBottomColor: Colors.borderSubtle,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -69,26 +70,26 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   headerTitle: {
-    color: '#FECDD3',
+    color: Colors.danger,
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 0.3,
   },
   durationBadge: {
-    backgroundColor: '#3F121E',
+    backgroundColor: Colors.bgCardSubtle,
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 8,
   },
   durationText: {
-    color: '#FB7185',
+    color: Colors.danger,
     fontSize: 10.5,
     fontWeight: '700',
   },
   previewBox: {
-    backgroundColor: '#140A0E',
+    backgroundColor: Colors.bgAppAlt,
     borderWidth: 1,
-    borderColor: '#291219',
+    borderColor: Colors.borderSubtle,
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -98,20 +99,20 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#E11D48',
+    backgroundColor: Colors.danger,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
   },
   videoTitle: {
-    color: '#FFF1F2',
+    color: Colors.textPrimary,
     fontSize: 13.5,
     fontWeight: '700',
     textAlign: 'center',
     marginBottom: 4,
   },
   urlHint: {
-    color: '#9E717B',
+    color: Colors.textSecondary,
     fontSize: 11.5,
   },
 });
