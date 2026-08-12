@@ -1,0 +1,365 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Modal,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { fetchUserHobbiesList } from '../api/dashboardApi';
+
+interface HobbySwitcherModalProps {
+  visible: boolean;
+  onClose: () => void;
+  activeUserHobbyId?: string;
+  onSelectHobby: (userHobbyId: string) => void;
+  onHobbyEnrolled: () => void;
+  onOpenOnboardingFlow?: (initialHobbyName?: string) => void;
+}
+
+const CATALOG_PRESETS = [
+  { name: 'Piano', emoji: '🎹' },
+  { name: 'Guitar', emoji: '🎸' },
+  { name: 'Cricket', emoji: '🏏' },
+  { name: 'Ludo', emoji: '🎲' },
+  { name: 'Chess', emoji: '♟️' },
+  { name: 'Drawing', emoji: '🎨' },
+];
+
+export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
+  visible,
+  onClose,
+  activeUserHobbyId,
+  onSelectHobby,
+  onHobbyEnrolled,
+}) => {
+  const router = useRouter();
+  const [userHobbies, setUserHobbies] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const loadHobbies = async () => {
+    setLoading(true);
+    try {
+      const res = await fetchUserHobbiesList();
+      setUserHobbies(res.userHobbies || []);
+    } catch (err) {
+      console.warn('Failed to load user hobbies list:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (visible) {
+      loadHobbies();
+    }
+  }, [visible]);
+
+  return (
+    <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
+      <View style={styles.overlay}>
+        <View style={styles.sheetContainer}>
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.titleRow}>
+              <MaterialCommunityIcons name="compass-outline" size={22} color="#38BDF8" />
+              <Text style={styles.title}>My Hobbies & Skills</Text>
+            </View>
+            <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
+              <Ionicons name="close" size={22} color="#9CA3AF" />
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView style={styles.scrollBody} showsVerticalScrollIndicator={false}>
+            {/* 1. Enrolled Hobbies Section */}
+            <Text style={styles.sectionHeader}>Enrolled Hobbies</Text>
+
+            {loading ? (
+              <ActivityIndicator size="small" color="#38BDF8" style={{ marginVertical: 20 }} />
+            ) : userHobbies.length === 0 ? (
+              <Text style={styles.emptyText}>No hobbies enrolled yet.</Text>
+            ) : (
+              userHobbies.map((item) => {
+                const isActive = item._id === activeUserHobbyId;
+                const hobbyName = item.hobbyId?.name || 'Hobby';
+
+                return (
+                  <TouchableOpacity
+                    key={item._id}
+                    style={[styles.hobbyRow, isActive && styles.hobbyRowActive]}
+                    onPress={() => {
+                      onSelectHobby(item._id);
+                      onClose();
+                    }}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.hobbyRowLeft}>
+                      <Text style={styles.hobbyEmoji}>🎹</Text>
+                      <View>
+                        <Text style={[styles.hobbyRowTitle, isActive && styles.hobbyRowTitleActive]}>
+                          {hobbyName}
+                        </Text>
+                        <Text style={styles.hobbyRowSub}>
+                          {item.currentStage ? item.currentStage.replace('_', ' ') : 'active'} • {item.weeklyPracticeMinutes || 120} mins/wk
+                        </Text>
+                      </View>
+                    </View>
+
+                    {isActive ? (
+                      <View style={styles.activeCheck}>
+                        <Feather name="check" size={16} color="#22C55E" />
+                      </View>
+                    ) : (
+                      <Feather name="chevron-right" size={18} color="#6B7280" />
+                    )}
+                  </TouchableOpacity>
+                );
+              })
+            )}
+
+            {/* 2. Start Onboarding Questionnaire CTA */}
+            <TouchableOpacity
+              style={styles.addHobbyBtn}
+              onPress={() => {
+                onClose();
+                router.push('/hobby-onboarding');
+              }}
+              activeOpacity={0.85}
+            >
+              <Feather name="plus-circle" size={18} color="#FFFFFF" />
+              <Text style={styles.addHobbyBtnText}>+ Start New Hobby Onboarding</Text>
+            </TouchableOpacity>
+
+            <Text style={styles.presetTitle}>Quick Start Catalog:</Text>
+            <View style={styles.presetGrid}>
+              {CATALOG_PRESETS.map((preset) => (
+                <TouchableOpacity
+                  key={preset.name}
+                  style={styles.presetChip}
+                  onPress={() => {
+                    onClose();
+                    router.push({
+                      pathname: '/hobby-onboarding',
+                      params: { initialHobby: preset.name },
+                    });
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.presetEmoji}>{preset.emoji}</Text>
+                  <Text style={styles.presetChipText}>{preset.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    justifyContent: 'flex-end',
+  },
+  sheetContainer: {
+    backgroundColor: '#161B28',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: '85%',
+    paddingBottom: 24,
+    borderTopWidth: 1,
+    borderTopColor: '#242C3F',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#242C3F',
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  title: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '800',
+  },
+  closeBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#1E2638',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scrollBody: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+  },
+  sectionHeader: {
+    color: '#9CA3AF',
+    fontSize: 13,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 12,
+  },
+  emptyText: {
+    color: '#6B7280',
+    fontSize: 14,
+    marginVertical: 12,
+  },
+  hobbyRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#0F121C',
+    borderWidth: 1,
+    borderColor: '#242C3F',
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 10,
+  },
+  hobbyRowActive: {
+    backgroundColor: 'rgba(56, 189, 248, 0.12)',
+    borderColor: '#38BDF8',
+  },
+  hobbyRowLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  hobbyEmoji: {
+    fontSize: 22,
+  },
+  hobbyRowTitle: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  hobbyRowTitleActive: {
+    color: '#38BDF8',
+  },
+  hobbyRowSub: {
+    color: '#6B7280',
+    fontSize: 12,
+    marginTop: 2,
+    textTransform: 'capitalize',
+  },
+  activeCheck: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: 'rgba(34, 197, 94, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addHobbyBtn: {
+    backgroundColor: '#2563EB',
+    borderRadius: 14,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  addHobbyBtnText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  addCard: {
+    backgroundColor: '#0F121C',
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#242C3F',
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  addCardTitle: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '800',
+    marginBottom: 12,
+  },
+  textInput: {
+    backgroundColor: '#161B28',
+    borderColor: '#242C3F',
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 12,
+    color: '#FFFFFF',
+    fontSize: 15,
+    marginBottom: 14,
+  },
+  presetTitle: {
+    color: '#9CA3AF',
+    fontSize: 12,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  presetGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
+  },
+  presetChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#1E2638',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#2D374D',
+  },
+  presetEmoji: {
+    fontSize: 14,
+  },
+  presetChipText: {
+    color: '#38BDF8',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  addCardActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 10,
+  },
+  cancelBtn: {
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  cancelBtnText: {
+    color: '#9CA3AF',
+    fontWeight: '600',
+  },
+  submitBtn: {
+    backgroundColor: '#2563EB',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  submitBtnText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+  },
+});
