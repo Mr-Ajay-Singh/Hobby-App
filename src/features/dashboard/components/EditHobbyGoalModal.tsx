@@ -13,6 +13,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { updateHobbySettings } from '../api/dashboardApi';
 
 interface EditHobbyGoalModalProps {
@@ -48,10 +49,12 @@ export const EditHobbyGoalModal: React.FC<EditHobbyGoalModalProps> = ({
   currentWeeklyMinutes = 120,
   onSaved,
 }) => {
+  const insets = useSafeAreaInsets();
   const [goal, setGoal] = useState(currentGoal);
   const [experienceLevel, setExperienceLevel] = useState(currentExperienceLevel);
   const [weeklyMinutes, setWeeklyMinutes] = useState(currentWeeklyMinutes);
   const [loading, setLoading] = useState(false);
+  const [goalError, setGoalError] = useState('');
 
   useEffect(() => {
     if (visible) {
@@ -63,9 +66,10 @@ export const EditHobbyGoalModal: React.FC<EditHobbyGoalModalProps> = ({
 
   const handleSave = async () => {
     if (!goal.trim()) {
-      Alert.alert('Validation', 'Please enter a learning goal.');
+      setGoalError('Please enter a learning goal.');
       return;
     }
+    setGoalError('');
 
     setLoading(true);
     try {
@@ -91,7 +95,7 @@ export const EditHobbyGoalModal: React.FC<EditHobbyGoalModalProps> = ({
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.overlay}
       >
-        <View style={styles.sheetContainer}>
+        <View style={[styles.sheetContainer, { paddingBottom: Math.max(insets.bottom + 16, 24) }]}>
           {/* Modal Header */}
           <View style={styles.header}>
             <View style={styles.titleRow}>
@@ -109,11 +113,14 @@ export const EditHobbyGoalModal: React.FC<EditHobbyGoalModalProps> = ({
             <TextInput
               style={styles.textInput}
               value={goal}
-              onChangeText={setGoal}
+              onChangeText={(text) => { setGoal(text); if (goalError) setGoalError(''); }}
               placeholder="e.g. Play Chopin Nocturne Op. 9 No. 2"
               placeholderTextColor="#6B7280"
               multiline
             />
+            {goalError ? (
+              <Text style={styles.errorText}>{goalError}</Text>
+            ) : null}
 
             {/* 2. Experience Level Selector */}
             <Text style={styles.label}>Experience Level</Text>
@@ -255,7 +262,13 @@ const styles = StyleSheet.create({
     padding: 12,
     color: '#FFFFFF',
     fontSize: 15,
-    minHeight: 60,
+    minHeight: 80,
+  },
+  errorText: {
+    color: '#EF4444',
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 6,
   },
   levelRow: {
     flexDirection: 'row',

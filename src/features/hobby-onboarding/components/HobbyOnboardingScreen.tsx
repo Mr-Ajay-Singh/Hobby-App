@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQueryClient } from '@tanstack/react-query';
 import { submitHobbyOnboarding } from '../api/hobbyOnboardingApi';
 
@@ -21,6 +21,7 @@ import { Step4WeeklyCommitment } from './Step4WeeklyCommitment';
 
 export const HobbyOnboardingScreen: React.FC = () => {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
   const searchParams = useLocalSearchParams<{ initialHobby?: string }>();
 
@@ -178,14 +179,24 @@ export const HobbyOnboardingScreen: React.FC = () => {
       </ScrollView>
 
       {/* ── Bottom Sticky Action Footer Bar ───────────────────────────────────────── */}
-      <View style={styles.footerBar}>
+      <View style={[styles.footerBar, { paddingBottom: Math.max(insets.bottom + 12, 24) }]}>
         <TouchableOpacity style={styles.footerBackBtn} onPress={handlePrevStep} activeOpacity={0.7}>
           <Feather name="arrow-left" size={16} color="#94A3B8" />
           <Text style={styles.footerBackText}>{step === 1 ? 'Cancel' : 'Back'}</Text>
         </TouchableOpacity>
 
         {step < 4 ? (
-          <TouchableOpacity style={styles.footerNextBtn} onPress={handleNextStep} activeOpacity={0.85}>
+          <TouchableOpacity
+            style={[
+              styles.footerNextBtn,
+              (step === 1 && !activeHobbyName.trim()) || (step === 2 && !goal.trim())
+                ? styles.footerNextBtnDisabled
+                : null,
+            ]}
+            onPress={handleNextStep}
+            disabled={(step === 1 && !activeHobbyName.trim()) || (step === 2 && !goal.trim())}
+            activeOpacity={0.85}
+          >
             <Text style={styles.footerNextText}>Next Step</Text>
             <Feather name="arrow-right" size={16} color="#FFFFFF" />
           </TouchableOpacity>
@@ -290,6 +301,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 14,
+  },
+  footerNextBtnDisabled: {
+    backgroundColor: '#1E293B',
+    opacity: 0.5,
   },
   footerNextText: {
     color: '#FFFFFF',

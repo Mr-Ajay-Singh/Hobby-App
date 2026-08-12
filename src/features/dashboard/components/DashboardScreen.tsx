@@ -19,6 +19,29 @@ import { SkillChatConfigModal } from '@/features/skill-learning/components/Skill
 import { EditHobbyGoalModal } from './EditHobbyGoalModal';
 import { HobbySwitcherModal } from './HobbySwitcherModal';
 
+const HOBBY_EMOJI_MAP: Record<string, string> = {
+  piano: '🎹',
+  guitar: '🎸',
+  cricket: '🏏',
+  ludo: '🎲',
+  chess: '♟️',
+  drawing: '🎨',
+  spanish: '🇪🇸',
+  coding: '💻',
+  singing: '🎤',
+  photography: '📸',
+  cooking: '🍳',
+  yoga: '🧘',
+  swimming: '🏊',
+  running: '🏃',
+  reading: '📚',
+};
+
+const getHobbyEmoji = (hobbyName?: string): string => {
+  if (!hobbyName) return '🎯';
+  return HOBBY_EMOJI_MAP[hobbyName.toLowerCase()] || '🎯';
+};
+
 interface DashboardScreenProps {
   onOpenChat: (userHobbyId?: string) => void;
 }
@@ -65,6 +88,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
             style={styles.leaderboardHeaderBtn}
             onPress={() => router.push('/leaderboard')}
             activeOpacity={0.7}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
             <MaterialCommunityIcons name="trophy" size={20} color="#F59E0B" />
           </TouchableOpacity>
@@ -73,16 +97,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
             style={styles.iconBtn}
             onPress={() => refetch()}
             activeOpacity={0.7}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
             <Feather name="refresh-cw" size={18} color="#9CA3AF" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.iconBtn}
-            onPress={() => setConfigModalVisible(true)}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="settings-outline" size={20} color="#9CA3AF" />
           </TouchableOpacity>
         </View>
       </View>
@@ -90,7 +107,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
       {/* ─── Main Scrollable Content ───────────────────────────────────────── */}
       <ScrollView
         style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: Math.max(insets.bottom + 90, 110) },
+        ]}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
@@ -139,7 +159,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
                   onPress={() => setSwitcherModalVisible(true)}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.hobbyEmoji}>🎹</Text>
+                  <Text style={styles.hobbyEmoji}>{getHobbyEmoji(dashboard.hobbyInfo?.hobbyName)}</Text>
                   <Text style={styles.hobbyName} numberOfLines={1} ellipsizeMode="tail">
                     {dashboard.hobbyInfo?.hobbyName || 'Hobby'}
                   </Text>
@@ -400,6 +420,17 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
           </>
         )}
       </ScrollView>
+
+      {/* ─── Floating Action Button ─────────────────────────────────────── */}
+      {hasActiveHobby && dashboard && !isLoading && !isError && (
+        <TouchableOpacity
+          style={[styles.fab, { bottom: Math.max(insets.bottom + 20, 32) }]}
+          onPress={() => onOpenChat(dashboard?.hobbyInfo?.userHobbyId)}
+          activeOpacity={0.85}
+        >
+          <Ionicons name="chatbubbles" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
+      )}
 
       {/* ─── Config Modal ─────────────────────────────────────────────────── */}
       <SkillChatConfigModal
@@ -944,5 +975,20 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '800',
+  },
+  fab: {
+    position: 'absolute',
+    right: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 16,
+    backgroundColor: '#2563EB',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#3B82F6',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 8,
   },
 });

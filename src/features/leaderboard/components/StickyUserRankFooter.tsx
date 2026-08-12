@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LeaderboardUser } from '../types';
 
@@ -10,12 +11,13 @@ interface StickyUserRankFooterProps {
 
 export const StickyUserRankFooter: React.FC<StickyUserRankFooterProps> = ({ userRank }) => {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   if (!userRank) return null;
 
   const xpNeeded = userRank.xpNeededToOvertake || 5;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: Math.max(insets.bottom + 10, 24) }]}>
       <View style={styles.innerCard}>
         <View style={styles.rankBadge}>
           <Text style={styles.rankText}>#{userRank.rank}</Text>

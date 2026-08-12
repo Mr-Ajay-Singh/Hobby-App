@@ -12,7 +12,31 @@ import {
 } from 'react-native';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fetchUserHobbiesList } from '../api/dashboardApi';
+
+const HOBBY_EMOJI_MAP: Record<string, string> = {
+  piano: '🎹',
+  guitar: '🎸',
+  cricket: '🏏',
+  ludo: '🎲',
+  chess: '♟️',
+  drawing: '🎨',
+  spanish: '🇪🇸',
+  coding: '💻',
+  singing: '🎤',
+  photography: '📸',
+  cooking: '🍳',
+  yoga: '🧘',
+  swimming: '🏊',
+  running: '🏃',
+  reading: '📚',
+};
+
+const getHobbyEmoji = (hobbyName?: string): string => {
+  if (!hobbyName) return '🎯';
+  return HOBBY_EMOJI_MAP[hobbyName.toLowerCase()] || '🎯';
+};
 
 interface HobbySwitcherModalProps {
   visible: boolean;
@@ -40,6 +64,7 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
   onHobbyEnrolled,
 }) => {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [userHobbies, setUserHobbies] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -64,7 +89,7 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
       <View style={styles.overlay}>
-        <View style={styles.sheetContainer}>
+        <View style={[styles.sheetContainer, { paddingBottom: Math.max(insets.bottom + 16, 24) }]}>
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.titleRow}>
@@ -100,7 +125,7 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
                     activeOpacity={0.7}
                   >
                     <View style={styles.hobbyRowLeft}>
-                      <Text style={styles.hobbyEmoji}>🎹</Text>
+                      <Text style={styles.hobbyEmoji}>{getHobbyEmoji(hobbyName)}</Text>
                       <View>
                         <Text style={[styles.hobbyRowTitle, isActive && styles.hobbyRowTitleActive]}>
                           {hobbyName}

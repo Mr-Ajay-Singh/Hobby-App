@@ -24,7 +24,7 @@ export default function LeaderboardScreen() {
   const router = useRouter();
   const [selectedType, setSelectedType] = useState<LeaderboardType>('weekly');
 
-  const { data, isLoading, refetch, isRefetching } = useLeaderboardQuery(selectedType);
+  const { data, isLoading, isError, refetch, isRefetching } = useLeaderboardQuery(selectedType);
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -52,6 +52,24 @@ export default function LeaderboardScreen() {
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#A855F7" />
             <Text style={styles.loadingText}>Fetching League Standings...</Text>
+          </View>
+        ) : isError ? (
+          <View style={styles.loadingContainer}>
+            <MaterialCommunityIcons name="alert-circle-outline" size={40} color="#EF4444" />
+            <Text style={styles.loadingText}>Failed to load league standings</Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => refetch()}
+              style={{
+                backgroundColor: '#9333EA',
+                paddingHorizontal: 16,
+                paddingVertical: 8,
+                borderRadius: 8,
+                marginTop: 8,
+              }}
+            >
+              <Text style={{ color: '#FFFFFF', fontWeight: '700', fontSize: 13 }}>Retry Connection</Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <FlatList

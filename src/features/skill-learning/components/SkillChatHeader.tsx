@@ -85,15 +85,6 @@ export const SkillChatHeader: React.FC<SkillChatHeaderProps> = ({
         >
           <Feather name="rotate-ccw" size={18} color="#9CA3AF" />
         </TouchableOpacity>
-
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={onOpenSettings}
-          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          style={styles.iconBtn}
-        >
-          <Ionicons name="settings-outline" size={20} color="#9CA3AF" />
-        </TouchableOpacity>
       </View>
     </View>
   );

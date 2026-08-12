@@ -10,6 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getAutoDetectedHost } from '@/shared/lib/urlUtils';
 import { useApiConfigStore } from '../store/useApiConfigStore';
 import { AudioVoice } from '../schemas/skillChatSchema';
@@ -23,6 +24,7 @@ export const SkillChatConfigModal: React.FC<SkillChatConfigModalProps> = ({
   visible,
   onClose,
 }) => {
+  const insets = useSafeAreaInsets();
   const {
     baseUrl,
     model,
@@ -40,7 +42,11 @@ export const SkillChatConfigModal: React.FC<SkillChatConfigModalProps> = ({
   const detectedLanIp = getAutoDetectedHost();
 
   const handleSave = () => {
-    setBaseUrl(inputUrl.trim());
+    let cleanUrl = inputUrl.trim();
+    if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+      cleanUrl = `http://${cleanUrl}`;
+    }
+    setBaseUrl(cleanUrl);
     setModel(selectedModel);
     setVoice(selectedVoice);
     onClose();
@@ -62,7 +68,7 @@ export const SkillChatConfigModal: React.FC<SkillChatConfigModalProps> = ({
       onRequestClose={onClose}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.modalSheet}>
+        <View style={[styles.modalSheet, { paddingBottom: Math.max(insets.bottom + 16, 24) }]}>
           <View style={styles.sheetHeader}>
             <View style={styles.headerLeft}>
               <Ionicons name="server-outline" size={20} color="#38BDF8" />

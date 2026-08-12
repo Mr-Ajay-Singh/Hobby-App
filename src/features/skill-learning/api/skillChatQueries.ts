@@ -20,69 +20,66 @@ export const skillChatKeys = {
   session: (conversationId?: string) => [...skillChatKeys.all, 'session', conversationId] as const,
 };
 
+// Helper to format backend messages to ChatTurnItem format
+export const formatHistoryMessages = (data: ChatHistoryResponse): ChatTurnItem[] => {
+  if (data.conversationId) {
+    useSkillChatStore.getState().setConversationId(data.conversationId);
+  }
+
+  return (data.messages || []).map((msg) => {
+    const timeStr = msg.createdAt
+      ? new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : 'Recent';
+
+    if (msg.role === 'user') {
+      return {
+        id: msg.id,
+        role: 'user',
+        content: msg.content,
+        timestamp: timeStr,
+      };
+    }
+
+    let learningContent = msg.parsedContent;
+    if (!learningContent && msg.content) {
+      try {
+        learningContent = JSON.parse(msg.content);
+      } catch (_) {
+        learningContent = { formsDelivered: ['text'], text: msg.content };
+      }
+    }
+
+    return {
+      id: msg.id,
+      role: 'assistant',
+      data: {
+        success: true,
+        conversationId: msg.conversationId || data.conversationId || '',
+        messageId: msg.id,
+        responseType: 'learning_content',
+        learningContent: learningContent || { formsDelivered: ['text'], text: msg.content },
+      },
+      timestamp: timeStr,
+    };
+  });
+};
+
 // ─── TanStack Query: Fetch Chat History ──────────────────────────────────────
 
-export const useChatHistoryQuery = (page = 1, limit = 20, enabled = true) => {
-  const setConversationId = useSkillChatStore((s) => s.setConversationId);
-  const userHobbyId = useSkillChatStore((s) => s.userHobbyId);
-  const setMessages = useSkillChatStore((s) => s.setMessages);
+export const useChatHistoryQuery = (
+  page = 1,
+  limit = 20,
+  userHobbyIdOverride?: string,
+  enabled = true
+) => {
+  const storeUserHobbyId = useSkillChatStore((s) => s.userHobbyId);
+  const activeUserHobbyId = userHobbyIdOverride || storeUserHobbyId;
 
   return useQuery<ChatHistoryResponse, Error>({
-    queryKey: skillChatKeys.history(page, limit, userHobbyId),
-    queryFn: async () => {
-      const data = await fetchChatHistory({ page, limit, userHobbyId });
-
-      if (data.conversationId) {
-        setConversationId(data.conversationId);
-      }
-
-      // Convert backend history to ChatTurnItem format
-      const formatted: ChatTurnItem[] = (data.messages || []).map((msg) => {
-        const timeStr = msg.createdAt
-          ? new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          : 'Recent';
-
-        if (msg.role === 'user') {
-          return {
-            id: msg.id,
-            role: 'user',
-            content: msg.content,
-            timestamp: timeStr,
-          };
-        }
-
-        let learningContent = msg.parsedContent;
-        if (!learningContent && msg.content) {
-          try {
-            learningContent = JSON.parse(msg.content);
-          } catch (_) {
-            learningContent = { formsDelivered: ['text'], text: msg.content };
-          }
-        }
-
-        return {
-          id: msg.id,
-          role: 'assistant',
-          data: {
-            success: true,
-            conversationId: msg.conversationId || data.conversationId || '',
-            messageId: msg.id,
-            responseType: 'learning_content',
-            learningContent: learningContent || { formsDelivered: ['text'], text: msg.content },
-          },
-          timestamp: timeStr,
-        };
-      });
-
-      if (page === 1) {
-        setMessages(formatted);
-      } else {
-        setMessages((prev) => [...formatted, ...prev]);
-      }
-
-      return data;
-    },
+    queryKey: skillChatKeys.history(page, limit, activeUserHobbyId),
+    queryFn: () => fetchChatHistory({ page, limit, userHobbyId: activeUserHobbyId }),
     enabled,
+    staleTime: 1000 * 60 * 2, // 2 minutes stale time
   });
 };
 
