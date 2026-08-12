@@ -17,6 +17,34 @@ interface SvgViewerProps {
   title?: string;
 }
 
+// 🛡️ Error Boundary to prevent malformed SVG XML from crashing the React tree
+class SvgErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: any) {
+    console.warn('[SvgViewer] Handled malformed SVG render error:', error?.message);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View style={styles.fallbackBox}>
+          <MaterialCommunityIcons name="vector-polyline" size={24} color={Colors.accentCyan} />
+          <Text style={styles.fallbackText}>Visual Diagram (Raw render unavailable)</Text>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export const SvgViewer: React.FC<SvgViewerProps> = ({
   svgContent,
   title = 'Visual Learning Diagram',
@@ -34,10 +62,18 @@ export const SvgViewer: React.FC<SvgViewerProps> = ({
     cleanSvg = cleanSvg.replace(/^```\s*/, '').replace(/\s*```$/, '').trim();
   }
 
-  const isInvalid = !cleanSvg.includes('<svg') || !cleanSvg.includes('</svg>');
-  if (isInvalid) return null;
+  // Extract strict <svg ... </svg> block if wrapped in explanation text
+  const match = cleanSvg.match(/<svg[\s\S]*?<\/svg>/i);
+  if (!match) return null;
+  cleanSvg = match[0];
 
-  const cardWidth = windowWidth - 68;
+  // Sanitize ARIA & Web attributes for React Native Web DOM compatibility
+  cleanSvg = cleanSvg
+    .replace(/\bariaLabel=/gi, 'aria-label=')
+    .replace(/\bariaHidden=/gi, 'aria-hidden=')
+    .replace(/\bariaDescribedBy=/gi, 'aria-describedby=');
+
+  const cardWidth = Math.min(windowWidth - 68, 800);
 
   return (
     <View style={styles.container}>
@@ -60,9 +96,11 @@ export const SvgViewer: React.FC<SvgViewerProps> = ({
         </TouchableOpacity>
       </View>
 
-      {/* Embedded In-Card SVG */}
+      {/* Embedded In-Card SVG with Error Boundary */}
       <View style={styles.svgWrapper}>
-        <SvgXml xml={cleanSvg} width={cardWidth} height={160} />
+        <SvgErrorBoundary>
+          <SvgXml xml={cleanSvg} width={cardWidth} height={160} />
+        </SvgErrorBoundary>
       </View>
 
       {/* Fullscreen Zoom Modal */}
@@ -85,12 +123,17 @@ export const SvgViewer: React.FC<SvgViewerProps> = ({
           </View>
 
           <ScrollView
+            contentContainerStyle={styles.modalScrollContent}
             maximumZoomScale={3}
             minimumZoomScale={1}
-            contentContainerStyle={styles.modalScrollContent}
-            centerContent
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
           >
-            <SvgXml xml={cleanSvg} width={windowWidth - 32} height={320} />
+            <View style={styles.modalSvgContainer}>
+              <SvgErrorBoundary>
+                <SvgXml xml={cleanSvg} width={windowWidth - 32} height={400} />
+              </SvgErrorBoundary>
+            </View>
           </ScrollView>
         </View>
       </Modal>
@@ -147,6 +190,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     overflow: 'hidden',
   },
+  fallbackBox: {
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  fallbackText: {
+    color: Colors.textMuted,
+    fontSize: 12,
+    fontWeight: '600',
+  },
   modalOverlay: {
     flex: 1,
     backgroundColor: Colors.bgOverlay,
@@ -173,8 +227,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalScrollContent: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    flexGrow: 1,
+  },
+  modalSvgContainer: {
+    backgroundColor: Colors.bgCard,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: Colors.borderCard,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
 });

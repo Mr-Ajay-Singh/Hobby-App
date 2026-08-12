@@ -26,6 +26,7 @@ import { SkillChatHeader } from './SkillChatHeader';
 import { SkillProgressHeader } from './SkillProgressHeader';
 import { SkillMessageBubble } from './SkillMessageBubble';
 import { SkillChatConfigModal } from './SkillChatConfigModal';
+import { AdaptiveContainer } from '@/shared/components/layout/AdaptiveContainer';
 
 import { useQuery } from '@tanstack/react-query';
 import { useActiveHobbyStore } from '@/features/dashboard/store/useActiveHobbyStore';
@@ -140,7 +141,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
   const totalMessages = historyQuery.data?.totalMessages || 0;
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <AdaptiveContainer style={{ paddingTop: insets.top }}>
       {/* 1. Top Header */}
       <SkillChatHeader
         skillInfo={skillInfo}
@@ -304,6 +305,16 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
             multiline
             maxLength={500}
             onSubmitEditing={() => handleSendMessage()}
+            onKeyPress={(e) => {
+              if (
+                Platform.OS === 'web' &&
+                e.nativeEvent.key === 'Enter' &&
+                !(e.nativeEvent as any).shiftKey
+              ) {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
           />
 
           <TouchableOpacity
@@ -325,7 +336,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
         visible={configModalVisible}
         onClose={() => setConfigModalVisible(false)}
       />
-    </View>
+    </AdaptiveContainer>
   );
 };
 

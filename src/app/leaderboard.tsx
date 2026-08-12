@@ -20,6 +20,7 @@ import {
   StickyUserRankFooter,
 } from '@/features/leaderboard';
 import { Colors } from '@/shared/theme';
+import { AdaptiveContainer } from '@/shared/components/layout/AdaptiveContainer';
 
 export default function LeaderboardScreen() {
   const router = useRouter();
@@ -27,13 +28,21 @@ export default function LeaderboardScreen() {
 
   const { data, isLoading, isError, refetch, isRefetching } = useLeaderboardQuery(selectedType);
 
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace('/');
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
+    <AdaptiveContainer style={{ backgroundColor: Colors.bgAppAlt }}>
       {/* Top Header Navigation Bar */}
       <View style={styles.navHeader}>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => router.back()}
+          onPress={handleBack}
           style={styles.backBtn}
         >
           <MaterialCommunityIcons name="chevron-left" size={24} color={Colors.textPrimary} />
@@ -104,7 +113,7 @@ export default function LeaderboardScreen() {
           <StickyUserRankFooter userRank={data.currentUserRank} />
         )}
       </View>
-    </SafeAreaView>
+    </AdaptiveContainer>
   );
 }
 

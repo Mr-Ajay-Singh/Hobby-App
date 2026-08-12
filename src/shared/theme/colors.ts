@@ -141,7 +141,9 @@ export const LightThemeColors = {
   // ─── Surfaces & Backgrounds ───────────────────────────────────────────────
   bgApp: Palette.slate50,         // Slate 50 (#F8FAFC) — ultra-clean, warm neutral
   bgAppAlt: Palette.slate100,      // Slate 100 (#F1F5F9) — soft contrast
+  bgAppSubtle: Palette.slate100,
   bgCard: Palette.white,           // Crisp White (#FFFFFF) card containers
+  bgCardHover: '#F1F5F9',         // Soft hover elevation on web
   bgCardAlt: Palette.slate50,      // Soft offset container
   bgCardSubtle: Palette.slate100,  // Subtle card background
   bgInput: Palette.white,          // White input background
@@ -164,6 +166,7 @@ export const LightThemeColors = {
 
   // ─── Brand & Interactive CTAs ──────────────────────────────────────────────
   primaryBtn: Palette.blue600,     // Royal Blue CTA button
+  primaryBtnHover: Palette.blue700, // Darker blue on hover
   primaryBtnText: Palette.white,
   accentCyan: Palette.cyan600,     // Sky Blue 600
   accentPurple: Palette.purple600, // Deep Purple 600

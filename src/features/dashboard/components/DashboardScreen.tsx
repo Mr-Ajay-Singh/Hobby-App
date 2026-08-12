@@ -19,6 +19,7 @@ import { SkillChatConfigModal } from '@/features/skill-learning/components/Skill
 import { EditHobbyGoalModal } from './EditHobbyGoalModal';
 import { HobbySwitcherModal } from './HobbySwitcherModal';
 import { Colors } from '@/shared/theme';
+import { AdaptiveContainer } from '@/shared/components/layout/AdaptiveContainer';
 
 const HOBBY_EMOJI_MAP: Record<string, string> = {
   piano: '🎹',
@@ -111,7 +112,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
   };
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <AdaptiveContainer style={{ paddingTop: insets.top }}>
       {/* ─── Header ────────────────────────────────────────────────────────── */}
       <View style={styles.header}>
         <View>
@@ -508,7 +509,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
         }}
         onHobbyEnrolled={() => refetch()}
       />
-    </View>
+    </AdaptiveContainer>
   );
 };
 
@@ -911,7 +912,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   statCard: {
-    width: '48%',
+    flex: 1,
+    minWidth: 145,
     backgroundColor: Colors.bgCard,
     borderRadius: 14,
     padding: 14,

@@ -152,14 +152,6 @@ export const SkillMessageBubble: React.FC<SkillMessageBubbleProps> = ({
             <MaterialCommunityIcons name={typeIcon} size={14} color={typeColor} />
             <Text style={[styles.typeText, { color: typeColor }]}>{typeLabel}</Text>
           </View>
-
-          <View style={styles.formsRow}>
-            {forms.map((f, idx) => (
-              <View key={idx} style={styles.formPill}>
-                <Text style={styles.formPillText}>{f.toUpperCase()}</Text>
-              </View>
-            ))}
-          </View>
         </View>
 
         {/* 1. Markdown Text */}
