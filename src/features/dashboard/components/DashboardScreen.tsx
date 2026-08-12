@@ -43,6 +43,8 @@ const getHobbyEmoji = (hobbyName?: string): string => {
   return HOBBY_EMOJI_MAP[hobbyName.toLowerCase()] || '🎯';
 };
 
+import { useActiveHobbyStore } from '../store/useActiveHobbyStore';
+
 interface DashboardScreenProps {
   onOpenChat: (userHobbyId?: string) => void;
 }
@@ -51,22 +53,29 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { baseUrl } = useApiConfigStore();
+  const { activeUserHobbyId, setActiveUserHobbyId } = useActiveHobbyStore();
   const [configModalVisible, setConfigModalVisible] = useState(false);
   const [editGoalModalVisible, setEditGoalModalVisible] = useState(false);
   const [switcherModalVisible, setSwitcherModalVisible] = useState(false);
   const [onboardingModalVisible, setOnboardingModalVisible] = useState(false);
   const [onboardingHobbyName, setOnboardingHobbyName] = useState<string | undefined>(undefined);
-  const [selectedUserHobbyId, setSelectedUserHobbyId] = useState<string | undefined>(undefined);
 
-  // Fetch Dashboard Summary via TanStack Query
+  // Fetch Dashboard Summary via TanStack Query (uses persistent activeUserHobbyId)
   const { data, isLoading, isError, refetch, isRefetching } = useQuery({
-    queryKey: ['dashboard-summary', baseUrl, selectedUserHobbyId],
-    queryFn: () => fetchDashboardData(selectedUserHobbyId),
+    queryKey: ['dashboard-summary', baseUrl, activeUserHobbyId],
+    queryFn: () => fetchDashboardData(activeUserHobbyId),
     staleTime: 1000 * 60 * 2, // 2 minutes
   });
 
   const dashboard: DashboardData | null = data?.data || null;
   const hasActiveHobby = (data?.hasActiveHobby ?? true) && !!dashboard?.hobbyInfo;
+
+  // Auto-sync active user hobby ID to persistent store if not set yet
+  useEffect(() => {
+    if (dashboard?.hobbyInfo?.userHobbyId && !activeUserHobbyId) {
+      setActiveUserHobbyId(dashboard.hobbyInfo.userHobbyId);
+    }
+  }, [dashboard?.hobbyInfo?.userHobbyId, activeUserHobbyId, setActiveUserHobbyId]);
 
   // 🔒 First-Time User Onboarding Gate: If user has no enrolled hobby, automatically route to mandatory onboarding
   useEffect(() => {
@@ -473,9 +482,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
       <HobbySwitcherModal
         visible={switcherModalVisible}
         onClose={() => setSwitcherModalVisible(false)}
-        activeUserHobbyId={dashboard?.hobbyInfo?.userHobbyId}
+        activeUserHobbyId={activeUserHobbyId || dashboard?.hobbyInfo?.userHobbyId}
         onSelectHobby={(userHobbyId) => {
-          setSelectedUserHobbyId(userHobbyId);
+          setActiveUserHobbyId(userHobbyId);
         }}
         onHobbyEnrolled={() => refetch()}
       />

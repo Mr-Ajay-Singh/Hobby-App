@@ -13,6 +13,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQueryClient } from '@tanstack/react-query';
 import { Colors } from '@/shared/theme';
+import { useActiveHobbyStore } from '@/features/dashboard/store/useActiveHobbyStore';
 import { submitHobbyOnboarding } from '../api/hobbyOnboardingApi';
 
 import { Step1HobbySelection } from './Step1HobbySelection';
@@ -108,6 +109,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
       // Navigate straight to AI Chat for the new hobby!
       const userHobbyId = response?.data?.userHobby?._id || response?.userHobby?._id;
       if (userHobbyId) {
+        useActiveHobbyStore.getState().setActiveUserHobbyId(userHobbyId);
         router.replace({
           pathname: '/skill-chat',
           params: { userHobbyId },

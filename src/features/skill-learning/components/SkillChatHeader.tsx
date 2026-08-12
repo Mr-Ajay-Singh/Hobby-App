@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors } from '@/shared/theme';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SkillInfo } from '../schemas/skillChatSchema';
@@ -8,14 +8,16 @@ interface SkillChatHeaderProps {
   skillInfo?: SkillInfo | null;
   onBack: () => void;
   onOpenSettings: () => void;
-  onResetChat: () => void;
+  onRefreshChat: () => void;
+  isRefreshing?: boolean;
 }
 
 export const SkillChatHeader: React.FC<SkillChatHeaderProps> = ({
   skillInfo,
   onBack,
   onOpenSettings,
-  onResetChat,
+  onRefreshChat,
+  isRefreshing = false,
 }) => {
   const level = skillInfo?.currentLevel || 'beginner';
   const score = skillInfo?.score || 25;
@@ -80,11 +82,16 @@ export const SkillChatHeader: React.FC<SkillChatHeaderProps> = ({
       <View style={styles.rightActions}>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={onResetChat}
+          onPress={onRefreshChat}
+          disabled={isRefreshing}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           style={styles.iconBtn}
         >
-          <Feather name="rotate-ccw" size={18} color={Colors.textSecondary} />
+          {isRefreshing ? (
+            <ActivityIndicator size="small" color={Colors.accentCyan} />
+          ) : (
+            <Feather name="refresh-cw" size={18} color={Colors.textSecondary} />
+          )}
         </TouchableOpacity>
       </View>
     </View>

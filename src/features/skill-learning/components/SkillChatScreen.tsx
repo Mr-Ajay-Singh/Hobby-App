@@ -107,18 +107,8 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
     setCurrentPage((prev) => prev + 1);
   };
 
-  const handleResetChat = () => {
-    Alert.alert('Reset Chat', 'Clear chat history and start a new conversation?', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Reset',
-        style: 'destructive',
-        onPress: () => {
-          resetChat();
-          setCurrentPage(1);
-        },
-      },
-    ]);
+  const handleRefreshChat = () => {
+    historyQuery.refetch();
   };
 
   const hasMoreHistory = historyQuery.data?.hasMore || false;
@@ -131,7 +121,8 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
         skillInfo={skillInfo}
         onBack={() => (onBack ? onBack() : Alert.alert('Back', 'Navigating back...'))}
         onOpenSettings={() => setConfigModalVisible(true)}
-        onResetChat={handleResetChat}
+        onRefreshChat={handleRefreshChat}
+        isRefreshing={historyQuery.isFetching}
       />
 
       {/* 2. Real-Time Skill Mastery Tier Progress Banner */}
@@ -194,7 +185,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
                 Unable to load chat history
               </Text>
               <Text style={{ color: Colors.textSecondary, fontSize: 13, textAlign: 'center', lineHeight: 18 }}>
-                Check if the backend server is active at {baseUrl}
+                Please check your network connection and try again.
               </Text>
               <View style={{ flexDirection: 'row', gap: 10, marginTop: 6 }}>
                 <TouchableOpacity
@@ -205,14 +196,6 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
                   <Feather name="refresh-cw" size={14} color={Colors.accentCyan} />
                   <Text style={styles.retryButtonText}>Retry</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => setConfigModalVisible(true)}
-                  style={styles.configErrorButton}
-                >
-                  <Ionicons name="server-outline" size={15} color={Colors.warning} />
-                  <Text style={styles.configErrorButtonText}>Change Server IP</Text>
-                </TouchableOpacity>
               </View>
             </View>
           ) : (
@@ -220,12 +203,14 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
               <View style={styles.emptyStateIcon}>
                 <MaterialCommunityIcons name="robot-happy" size={36} color={Colors.accentCyan} />
               </View>
-              <Text style={styles.emptyStateTitle}>Multi-Modal Skill Learning</Text>
+              <Text style={styles.emptyStateTitle}>
+                {skillInfo?.skillName ? `${skillInfo.skillName} Coach 🚀` : 'Personal AI Coach 🚀'}
+              </Text>
               <Text style={styles.emptyStateSubtitle}>
-                Connected to <Text style={styles.serverHighlight}>{baseUrl}</Text>
+                Ready to practice & learn step-by-step
               </Text>
               <Text style={styles.emptyStateDesc}>
-                Lessons deliver Markdown, SVGs, audio narration, quizzes, and flashcards.
+                Ask any question, get personalized lessons, interactive drills, and instant feedback!
               </Text>
             </View>
           )

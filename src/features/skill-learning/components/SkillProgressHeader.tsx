@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Colors } from '@/shared/theme';
 import { SkillInfo } from '../schemas/skillChatSchema';
 import { getSkillLevelColor } from '../types';
 
@@ -11,8 +12,9 @@ export const SkillProgressHeader: React.FC<SkillProgressHeaderProps> = ({ skillI
   if (!skillInfo) return null;
 
   const level = (skillInfo.currentLevel || 'beginner').toLowerCase();
-  const score = typeof skillInfo.score === 'number' ? skillInfo.score : 25;
+  const score = typeof skillInfo.score === 'number' ? skillInfo.score : 0;
   const badgeColor = getSkillLevelColor(level, score);
+  const fillPercent = score > 0 ? Math.min(100, Math.max(2, score)) : 0;
 
   return (
     <View style={styles.container}>
@@ -31,7 +33,7 @@ export const SkillProgressHeader: React.FC<SkillProgressHeaderProps> = ({ skillI
             style={[
               styles.barFill,
               {
-                width: `${Math.min(100, Math.max(5, score))}%`,
+                width: `${fillPercent}%`,
                 backgroundColor: badgeColor,
               },
             ]}
@@ -47,9 +49,9 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 14,
     paddingVertical: 10,
-    backgroundColor: '#131826',
+    backgroundColor: Colors.bgCard,
     borderWidth: 1,
-    borderColor: '#20293D',
+    borderColor: Colors.borderCard,
     borderRadius: 14,
     marginVertical: 6,
   },
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
     fontSize: 14.5,
     fontWeight: '700',
     flex: 1,
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
   barBg: {
     flex: 1,
     height: 6,
-    backgroundColor: '#1E273A',
+    backgroundColor: Colors.borderSubtle,
     borderRadius: 3,
     overflow: 'hidden',
   },

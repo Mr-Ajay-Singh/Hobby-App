@@ -230,13 +230,13 @@ const styles = StyleSheet.create({
     maxWidth: '85%',
   },
   userText: {
-    color: Colors.textPrimary,
+    color: Colors.primaryBtnText,
     fontSize: 14.5,
     lineHeight: 21,
     fontWeight: '500',
   },
   userTime: {
-    color: 'rgba(255, 255, 255, 0.65)',
+    color: 'rgba(255, 255, 255, 0.75)',
     fontSize: 10.5,
     marginTop: 4,
     alignSelf: 'flex-end',
