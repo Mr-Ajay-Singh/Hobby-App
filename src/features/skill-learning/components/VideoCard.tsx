@@ -32,11 +32,14 @@ export const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const rawVideoId =
     video.videoId || video.embedUrl.match(/(?:embed\/|v=|\/vi\/|youtu\.be\/|\/v\/)([^#&?]*)/)?.[1];
-  const thumbnailUrl =
-    video.thumbnailUrl || (rawVideoId ? `https://i.ytimg.com/vi/${rawVideoId}/hqdefault.jpg` : null);
+  const thumbnailUrl = !imageError
+    ? video.thumbnailUrl || (rawVideoId ? `https://img.youtube.com/vi/${rawVideoId}/hqdefault.jpg` : null)
+    : null;
 
   // HTML Embed string for WebView inline & modal playback
   const embedHtml = `
@@ -119,7 +122,12 @@ export const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
           style={styles.previewBox}
         >
           {thumbnailUrl ? (
-            <Image source={{ uri: thumbnailUrl }} style={styles.thumbnail} resizeMode="cover" />
+            <Image
+              source={{ uri: thumbnailUrl }}
+              style={styles.thumbnail}
+              resizeMode="cover"
+              onError={() => setImageError(true)}
+            />
           ) : null}
           <View style={styles.overlay}>
             <View style={styles.playIconCircle}>
