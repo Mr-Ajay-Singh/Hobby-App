@@ -95,7 +95,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
   }, [hobbiesData?.userHobbies, syncEnrolledHobbyIds]);
 
   const dashboard: DashboardData | null = data?.data || null;
-  const hasActiveHobby = (data?.hasActiveHobby ?? true) && !!dashboard?.hobbyInfo;
+  const hasActiveHobby = Boolean(dashboard?.hobbyInfo?.userHobbyId || (data?.hasActiveHobby && data?.data?.hobbyInfo));
 
   // Auto-sync active user hobby ID to persistent store if not set yet
   useEffect(() => {
@@ -106,13 +106,13 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
 
   // 🔒 First-Time User Onboarding Gate: If user has no enrolled hobby, automatically route to mandatory onboarding
   useEffect(() => {
-    if (!isLoading && !isError && !hasActiveHobby) {
+    if (!isLoading && !isError && (data?.hasActiveHobby === false || (!hasActiveHobby && hobbiesData?.userHobbies?.length === 0))) {
       router.replace({
         pathname: '/hobby-onboarding',
         params: { isMandatory: 'true' },
       });
     }
-  }, [isLoading, isError, hasActiveHobby]);
+  }, [isLoading, isError, data?.hasActiveHobby, hasActiveHobby, hobbiesData?.userHobbies]);
 
   const formatStageLabel = (stage?: string) => {
     if (!stage) return 'Onboarding';

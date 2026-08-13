@@ -178,10 +178,14 @@ export const HobbyOnboardingScreen: React.FC = () => {
 
       {/* Bottom Sticky Action Footer Bar */}
       <View style={[styles.footerBar, { paddingBottom: Math.max(insets.bottom + 12, isDesktop ? 16 : 24) }]}>
-        <TouchableOpacity style={styles.footerBackBtn} onPress={handlePrevStep} activeOpacity={0.7}>
-          <Feather name="arrow-left" size={16} color={Colors.textSecondary} />
-          <Text style={styles.footerBackText}>{step === 1 ? 'Cancel' : 'Back'}</Text>
-        </TouchableOpacity>
+        {!(step === 1 && isMandatory) ? (
+          <TouchableOpacity style={styles.footerBackBtn} onPress={handlePrevStep} activeOpacity={0.7}>
+            <Feather name="arrow-left" size={16} color={Colors.textSecondary} />
+            <Text style={styles.footerBackText}>{step === 1 ? 'Cancel' : 'Back'}</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={{ width: 80 }} />
+        )}
 
         {step < 4 ? (
           <TouchableOpacity
