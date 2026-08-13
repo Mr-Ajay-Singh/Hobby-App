@@ -16,6 +16,8 @@ import { Colors } from '@/shared/theme';
 import { useActiveHobbyStore } from '@/features/dashboard/store/useActiveHobbyStore';
 import { submitHobbyOnboarding } from '../api/hobbyOnboardingApi';
 import { AdaptiveContainer } from '@/shared/components/layout/AdaptiveContainer';
+import { useResponsive } from '@/shared/hooks/useResponsive';
+import { DesktopSidebar } from '@/shared/components/layout/DesktopSidebar';
 
 import { Step1HobbySelection } from './Step1HobbySelection';
 import { Step2GoalDefinition } from './Step2GoalDefinition';
@@ -26,6 +28,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
+  const { isDesktop } = useResponsive();
   const searchParams = useLocalSearchParams<{ initialHobby?: string; isMandatory?: string }>();
   const isMandatory = searchParams.isMandatory === 'true';
 
@@ -125,31 +128,10 @@ export const HobbyOnboardingScreen: React.FC = () => {
     }
   };
 
-  return (
-    <AdaptiveContainer maxWidth={680} style={{ backgroundColor: Colors.bgAppAlt }}>
-      {/* ── Top Header Navigation Bar ────────────────────────────────────────────── */}
-      <View style={styles.navHeader}>
-        <TouchableOpacity style={styles.iconBtn} onPress={handlePrevStep} activeOpacity={0.7}>
-          <Feather name="arrow-left" size={20} color={Colors.textPrimary} />
-        </TouchableOpacity>
+  const stepLabels = ['1. Select Skill', '2. Goal', '3. Level', '4. Schedule'];
 
-        <View style={styles.headerTitleCenter}>
-          <Text style={styles.headerTitle}>Hobby Onboarding</Text>
-          <Text style={styles.headerSubtitle}>Step {step} of 4 • {step * 25}% Complete</Text>
-        </View>
-
-        {/* ❌ Explicit Close Button */}
-        <TouchableOpacity style={styles.iconBtn} onPress={confirmCancel} activeOpacity={0.7}>
-          <Ionicons name="close" size={22} color={Colors.textSecondary} />
-        </TouchableOpacity>
-      </View>
-
-      {/* Progress Track */}
-      <View style={styles.progressTrackBg}>
-        <View style={[styles.progressTrackFill, { width: `${step * 25}%` }]} />
-      </View>
-
-      {/* ── Main Scrollable Questionnaire Body ───────────────────────────────────── */}
+  const renderContent = () => (
+    <>
       <ScrollView style={styles.scrollBody} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {step === 1 && (
           <Step1HobbySelection
@@ -192,8 +174,8 @@ export const HobbyOnboardingScreen: React.FC = () => {
         )}
       </ScrollView>
 
-      {/* ── Bottom Sticky Action Footer Bar ───────────────────────────────────────── */}
-      <View style={[styles.footerBar, { paddingBottom: Math.max(insets.bottom + 12, 24) }]}>
+      {/* Bottom Sticky Action Footer Bar */}
+      <View style={[styles.footerBar, { paddingBottom: Math.max(insets.bottom + 12, isDesktop ? 16 : 24) }]}>
         <TouchableOpacity style={styles.footerBackBtn} onPress={handlePrevStep} activeOpacity={0.7}>
           <Feather name="arrow-left" size={16} color={Colors.textSecondary} />
           <Text style={styles.footerBackText}>{step === 1 ? 'Cancel' : 'Back'}</Text>
@@ -229,6 +211,86 @@ export const HobbyOnboardingScreen: React.FC = () => {
           </TouchableOpacity>
         )}
       </View>
+    </>
+  );
+
+  if (isDesktop) {
+    return (
+      <View style={styles.desktopLayoutRoot}>
+        <DesktopSidebar />
+        
+        <View style={styles.desktopMainContent}>
+          {/* Top Desktop Workspace Header */}
+          <View style={styles.desktopWorkspaceHeader}>
+            <View>
+              <Text style={styles.desktopHeaderTitle}>Hobby Setup & Skill Enrollment 🚀</Text>
+              <Text style={styles.desktopHeaderSub}>Configure your personalized AI Coach curriculum</Text>
+            </View>
+            
+            {/* Horizontal Stepper Chips */}
+            <View style={styles.desktopStepperRow}>
+              {stepLabels.map((lbl, idx) => {
+                const sNum = idx + 1;
+                const isActive = step === sNum;
+                const isDone = step > sNum;
+                return (
+                  <View
+                    key={lbl}
+                    style={[
+                      styles.desktopStepChip,
+                      isActive && styles.desktopStepChipActive,
+                      isDone && styles.desktopStepChipDone,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.desktopStepChipText,
+                        (isActive || isDone) && styles.desktopStepChipTextActive,
+                      ]}
+                    >
+                      {lbl}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+
+          {/* Desktop Wizard Card */}
+          <View style={styles.desktopCardWrapper}>
+            <View style={styles.desktopCardInner}>
+              {renderContent()}
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <AdaptiveContainer maxWidth={680} style={{ backgroundColor: Colors.bgAppAlt }}>
+      {/* Top Header Navigation Bar */}
+      <View style={styles.navHeader}>
+        <TouchableOpacity style={styles.iconBtn} onPress={handlePrevStep} activeOpacity={0.7}>
+          <Feather name="arrow-left" size={20} color={Colors.textPrimary} />
+        </TouchableOpacity>
+
+        <View style={styles.headerTitleCenter}>
+          <Text style={styles.headerTitle}>Hobby Onboarding</Text>
+          <Text style={styles.headerSubtitle}>Step {step} of 4 • {step * 25}% Complete</Text>
+        </View>
+
+        <TouchableOpacity style={styles.iconBtn} onPress={confirmCancel} activeOpacity={0.7}>
+          <Ionicons name="close" size={22} color={Colors.textSecondary} />
+        </TouchableOpacity>
+      </View>
+
+      {/* Progress Track */}
+      <View style={styles.progressTrackBg}>
+        <View style={[styles.progressTrackFill, { width: `${step * 25}%` }]} />
+      </View>
+
+      {renderContent()}
     </AdaptiveContainer>
   );
 };
@@ -337,5 +399,83 @@ const styles = StyleSheet.create({
     color: Colors.primaryBtnText,
     fontSize: 14,
     fontWeight: '800',
+  },
+  desktopLayoutRoot: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: Colors.bgApp,
+  },
+  desktopMainContent: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: Colors.bgApp,
+  },
+  desktopWorkspaceHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 32,
+    paddingTop: 24,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.borderCard,
+  },
+  desktopHeaderTitle: {
+    color: Colors.textPrimary,
+    fontSize: 22,
+    fontWeight: '800',
+  },
+  desktopHeaderSub: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  desktopStepperRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  desktopStepChip: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    backgroundColor: Colors.bgCardAlt,
+    borderWidth: 1,
+    borderColor: Colors.borderCard,
+  },
+  desktopStepChipActive: {
+    backgroundColor: 'rgba(56, 189, 248, 0.15)',
+    borderColor: Colors.accentCyan,
+  },
+  desktopStepChipDone: {
+    backgroundColor: 'rgba(56, 189, 248, 0.08)',
+    borderColor: 'rgba(56, 189, 248, 0.4)',
+  },
+  desktopStepChipText: {
+    color: Colors.textMuted,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  desktopStepChipTextActive: {
+    color: Colors.accentCyan,
+    fontWeight: '800',
+  },
+  desktopCardWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  desktopCardInner: {
+    width: 720,
+    maxWidth: '100%',
+    height: '92%',
+    maxHeight: 700,
+    backgroundColor: Colors.bgCard,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: Colors.borderCard,
+    overflow: 'hidden',
   },
 });
