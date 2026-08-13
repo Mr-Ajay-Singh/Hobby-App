@@ -28,23 +28,37 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       label: 'Dashboard',
       icon: 'grid' as const,
       route: '/',
-      onPress: () => router.push('/'),
+      onPress: () => {
+        if (!activeUserHobbyId) {
+          router.replace({ pathname: '/hobby-onboarding', params: { isMandatory: 'true' } });
+        } else {
+          router.push('/');
+        }
+      },
     },
     {
       label: 'AI Coach Chat',
       icon: 'message-square' as const,
       route: '/skill-chat',
-      onPress: () =>
-        router.push({
-          pathname: '/skill-chat',
-          params: activeUserHobbyId ? { userHobbyId: activeUserHobbyId } : undefined,
-        }),
+      onPress: () => {
+        if (!activeUserHobbyId) {
+          router.replace({ pathname: '/hobby-onboarding', params: { isMandatory: 'true' } });
+        } else {
+          router.push({ pathname: '/skill-chat', params: { userHobbyId: activeUserHobbyId } });
+        }
+      },
     },
     {
       label: 'Leaderboard',
       icon: 'award' as const,
       route: '/leaderboard',
-      onPress: () => router.push('/leaderboard'),
+      onPress: () => {
+        if (!activeUserHobbyId) {
+          router.replace({ pathname: '/hobby-onboarding', params: { isMandatory: 'true' } });
+        } else {
+          router.push('/leaderboard');
+        }
+      },
     },
   ];
 

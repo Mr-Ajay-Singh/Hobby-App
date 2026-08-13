@@ -27,6 +27,7 @@ import { SkillProgressHeader } from './SkillProgressHeader';
 import { SkillMessageBubble } from './SkillMessageBubble';
 import { SkillChatConfigModal } from './SkillChatConfigModal';
 import { AdaptiveContainer } from '@/shared/components/layout/AdaptiveContainer';
+import { useRouter } from 'expo-router';
 import { useResponsive } from '@/shared/hooks/useResponsive';
 import { DesktopSidebar } from '@/shared/components/layout/DesktopSidebar';
 
@@ -40,6 +41,7 @@ interface SkillChatScreenProps {
 }
 
 export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHobbyId }) => {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const flatListRef = useRef<FlatList | null>(null);
 
@@ -60,6 +62,16 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
 
   const { activeUserHobbyId } = useActiveHobbyStore();
   const effectiveUserHobbyId = userHobbyId || storeUserHobbyId || activeUserHobbyId;
+
+  // 🔒 Onboarding Enforcement Gate: If user has no active enrolled hobby, force redirect to onboarding
+  useEffect(() => {
+    if (!effectiveUserHobbyId) {
+      router.replace({
+        pathname: '/hobby-onboarding',
+        params: { isMandatory: 'true' },
+      });
+    }
+  }, [effectiveUserHobbyId]);
 
   useEffect(() => {
     if (userHobbyId && userHobbyId !== storeUserHobbyId) {
