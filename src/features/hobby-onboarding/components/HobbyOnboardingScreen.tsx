@@ -7,6 +7,8 @@ import {
   ScrollView,
   ActivityIndicator,
   Alert,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Feather, Ionicons } from '@expo/vector-icons';
@@ -267,31 +269,36 @@ export const HobbyOnboardingScreen: React.FC = () => {
     );
   }
 
-  return (
-    <AdaptiveContainer maxWidth={680} style={{ backgroundColor: Colors.bgAppAlt }}>
-      {/* Top Header Navigation Bar */}
-      <View style={styles.navHeader}>
-        <TouchableOpacity style={styles.iconBtn} onPress={handlePrevStep} activeOpacity={0.7}>
-          <Feather name="arrow-left" size={20} color={Colors.textPrimary} />
-        </TouchableOpacity>
+  const androidStatusBarHeight = Platform.OS === 'android' ? (StatusBar.currentHeight || 28) : 0;
+  const topHeaderPadding = Math.max(insets.top, androidStatusBarHeight, 16) + 8;
 
-        <View style={styles.headerTitleCenter}>
-          <Text style={styles.headerTitle}>Hobby Onboarding</Text>
-          <Text style={styles.headerSubtitle}>Step {step} of 4 • {step * 25}% Complete</Text>
+  return (
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <AdaptiveContainer maxWidth={680} style={{ backgroundColor: Colors.bgAppAlt }}>
+        {/* Top Header Navigation Bar */}
+        <View style={[styles.navHeader, { paddingTop: topHeaderPadding }]}>
+          <TouchableOpacity style={styles.iconBtn} onPress={handlePrevStep} activeOpacity={0.7}>
+            <Feather name="arrow-left" size={20} color={Colors.textPrimary} />
+          </TouchableOpacity>
+
+          <View style={styles.headerTitleCenter}>
+            <Text style={styles.headerTitle}>Hobby Onboarding</Text>
+            <Text style={styles.headerSubtitle}>Step {step} of 4 • {step * 25}% Complete</Text>
+          </View>
+
+          <TouchableOpacity style={styles.iconBtn} onPress={confirmCancel} activeOpacity={0.7}>
+            <Ionicons name="close" size={22} color={Colors.textSecondary} />
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.iconBtn} onPress={confirmCancel} activeOpacity={0.7}>
-          <Ionicons name="close" size={22} color={Colors.textSecondary} />
-        </TouchableOpacity>
-      </View>
+        {/* Progress Track */}
+        <View style={styles.progressTrackBg}>
+          <View style={[styles.progressTrackFill, { width: `${step * 25}%` }]} />
+        </View>
 
-      {/* Progress Track */}
-      <View style={styles.progressTrackBg}>
-        <View style={[styles.progressTrackFill, { width: `${step * 25}%` }]} />
-      </View>
-
-      {renderContent()}
-    </AdaptiveContainer>
+        {renderContent()}
+      </AdaptiveContainer>
+    </SafeAreaView>
   );
 };
 
