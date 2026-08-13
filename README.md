@@ -1,56 +1,145 @@
-# Welcome to your Expo app 👋
+# 📱 Hobby AI Skill Coach - React Native & Expo Web Frontend
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A cross-platform React Native (iOS, Android, and Web) application powered by Expo Router, TanStack Query, and Zustand. Features a responsive desktop/mobile UI, multi-modal AI skill chat, interactive quizzes, video player modals, global leaderboards, and a mandatory first-time onboarding gate.
 
-## Get started
+---
 
-1. Install dependencies
+## 🌟 Live Production Links
 
+* **Live Web Application**: `https://hobby.missioninvictus.com`
+* **Live API Base URL**: `https://hobby.missioninvictus.com/api/v1`
+
+---
+
+## 🛠️ Technology Stack
+
+* **Framework**: React Native v0.76+ & Expo SDK 52
+* **Navigation & Routing**: Expo Router v4 (File-based routing, SPA Single Mode)
+* **State Management**: Zustand (Global stores for active hobbies & API config)
+* **Data Fetching & Caching**: TanStack React Query v5 (Automatic stale-time invalidation)
+* **UI & Styling**: Vanilla React Native StyleSheet with custom dark/light theme tokens (`Colors.ts`)
+* **Components**: `react-native-webview` (In-App YouTube Player), `@expo/vector-icons`
+* **Icons & Assets**: Custom SVG diagrams, Feather & Material Community Icons
+
+---
+
+## ✨ Key Features & Screen Breakdown
+
+### 1. Mandatory First-Time Onboarding Gate (`/hobby-onboarding`)
+* **Locked Flow**: New visitors without an active hobby profile are automatically locked onto the Onboarding Wizard.
+* **4-Step Setup**:
+  1. **Hobby Selection**: Pick from popular catalog (Guitar, Piano, Cricket, Ludo, Chess, Coding, Drawing, Spanish) or enter custom skill + Leaderboard profile display name & avatar.
+  2. **Goal Definition**: Define primary learning objective.
+  3. **Skill Assessment**: Select experience level (Beginner, Intermediate, Advanced, Expert).
+  4. **Weekly Commitment**: Set weekly target practice minutes (e.g. 120 mins/week).
+
+### 2. Interactive Learning Dashboard (`/`)
+* **Active Stage Stepper**: Displays curriculum stage, progress bar, and step pills.
+* **Primary Goal & Target**: Displays active goal, level badge, and countdown timer.
+* **Weekly Practice Goal Tracker**: Visual ring badge and progress bar reflecting real-time practice minutes logged.
+* **Quick Stats Grid**: Total Practice Time, Completed Sessions, Skill Mastery Score Average, and Active Hobbies count.
+* **Responsive Desktop Layout**: Adaptive desktop sidebar (`DesktopSidebar.tsx`) for wide screens.
+
+### 3. Multi-Modal AI Skill Chat (`/skill-chat`)
+* Real-time conversation with specialized AI Coach.
+* Renders rich structured content:
+  * **Markdown Text**: Formatted lessons with bold headings and numbered steps.
+  * **SVG Diagrams**: Interactive vector graphics.
+  * **In-App Video Cards**: YouTube tutorial cards with `https://img.youtube.com/vi/` thumbnails, `onError` image fallbacks, inline player, and full-screen Theater Modal.
+  * **Interactive Quizzes**: 4-choice interactive quiz cards with instant feedback, explanations, and XP score rewards.
+  * **Checklists, Flashcards, Code Snippets & Musical Notes**.
+
+### 4. League Leaderboard (`/leaderboard`)
+* Toggle between **Weekly League** and **Global All-Time** standings.
+* Displays podium (Top 3 learners with gold/silver/bronze trophies) and ranking list.
+* Highlights requesting user rank and calculates **XP Needed to Overtake** the learner ahead.
+
+---
+
+## 📁 Repository Directory Structure
+
+```
+react-native-learning/
+├── src/
+│   ├── app/                                 # Expo Router File-Based Page Routes
+│   │   ├── _layout.tsx                      # Root Provider Layout & Web Document Title
+│   │   ├── index.tsx                        # Dashboard Main Screen Route
+│   │   ├── hobby-onboarding.tsx             # Hobby Onboarding Route
+│   │   ├── leaderboard.tsx                  # League Leaderboard Route
+│   │   └── skill-chat.tsx                   # Multi-Modal AI Skill Chat Route
+│   ├── features/                            # Feature-Driven Architecture
+│   │   ├── dashboard/                       # Dashboard Feature
+│   │   │   ├── api/dashboardApi.ts          # Dashboard & User Hobbies API calls
+│   │   │   ├── components/                  # DashboardScreen, HobbySwitcherModal, EditGoalModal
+│   │   │   ├── store/useActiveHobbyStore.ts # Active Hobby state store
+│   │   │   └── types/                       # TypeScript Data Interfaces
+│   │   ├── hobby-onboarding/                # Onboarding Feature
+│   │   │   ├── api/hobbyOnboardingApi.ts    # Onboarding submission API call
+│   │   │   ├── components/                  # Step1-4 Wizard Components & Screen
+│   │   │   └── constants.ts                 # Popular Hobby Catalog & Avatars
+│   │   ├── leaderboard/                     # Leaderboard Feature
+│   │   │   ├── api/leaderboardApi.ts        # Leaderboard query API call
+│   │   │   ├── components/                  # LeaderboardScreen & Podium Cards
+│   │   │   └── types/                       # Leaderboard Type Definitions
+│   │   └── skill-learning/                  # AI Skill Coaching Feature
+│   │       ├── api/skillChatApi.ts          # Learn-skill & quiz submission APIs
+│   │       ├── components/                  # SkillChatScreen, VideoCard, QuizCard, ConfigModal
+│   │       ├── schemas/skillChatSchema.ts   # Zod Runtime Response Schemas
+│   │       └── store/useApiConfigStore.ts   # API base URL & model state store
+│   └── shared/                              # Shared Utilities & Components
+│       ├── components/layout/               # AdaptiveContainer, DesktopSidebar
+│       ├── hooks/useResponsive.ts           # Responsive screen breakpoint detector
+│       ├── lib/                             # apiClient, deviceId, queryClient, urlUtils
+│       └── theme/                           # Colors, Typography, Spacing Design System
+├── app.json                                 # Expo App Config ("output": "single")
+├── package.json                             # Dependency manifest
+└── tsconfig.json                            # TypeScript Config
+```
+
+---
+
+## 🏃 Local Setup & Development
+
+1. **Clone repository**:
+   ```bash
+   git clone https://github.com/Mr-Ajay-Singh/Hobby-App.git
+   cd Hobby-App
+   ```
+2. **Install dependencies**:
    ```bash
    npm install
    ```
-
-2. Start the app
-
+3. **Start local Metro bundler**:
    ```bash
    npx expo start
    ```
+4. **Run in Web Browser**:
+   Press **`w`** in terminal or run `npx expo start --web`.
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📦 Export Web Production Build
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+To generate static Single Page Application (SPA) web build for hosting:
 
 ```bash
-npm run reset-project
+NODE_OPTIONS="--max-old-space-size=256" npx expo export -p web
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+*(Generates production files in `./dist/` folder)*
 
-### Other setup steps
+---
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## 🚀 Production Deployment to Backend (`public/`)
 
-## Learn more
+Copy exported web build into Express backend static folder:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+cp -r ./dist/* /var/www/hobby-backend/public/
+pm2 restart hobby-backend
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📄 License
+ISC License © 2026 Mr. Ajay Singh.
