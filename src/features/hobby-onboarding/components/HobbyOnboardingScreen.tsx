@@ -191,7 +191,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
           <TouchableOpacity
             style={[
               styles.footerNextBtn,
-              (step === 1 && !activeHobbyName.trim()) || (step === 2 && !goal.trim())
+              ((step === 1 && !activeHobbyName.trim()) || (step === 2 && !goal.trim()))
                 ? styles.footerNextBtnDisabled
                 : null,
             ]}
@@ -199,8 +199,24 @@ export const HobbyOnboardingScreen: React.FC = () => {
             disabled={(step === 1 && !activeHobbyName.trim()) || (step === 2 && !goal.trim())}
             activeOpacity={0.85}
           >
-            <Text style={styles.footerNextText}>Next Step</Text>
-            <Feather name="arrow-right" size={16} color={Colors.textPrimary} />
+            <Text
+              style={[
+                styles.footerNextText,
+                ((step === 1 && !activeHobbyName.trim()) || (step === 2 && !goal.trim())) &&
+                  styles.footerNextTextDisabled,
+              ]}
+            >
+              Next Step
+            </Text>
+            <Feather
+              name="arrow-right"
+              size={16}
+              color={
+                (step === 1 && !activeHobbyName.trim()) || (step === 2 && !goal.trim())
+                  ? '#94A3B8'
+                  : '#FFFFFF'
+              }
+            />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
@@ -281,18 +297,30 @@ export const HobbyOnboardingScreen: React.FC = () => {
       <AdaptiveContainer maxWidth={680} style={{ backgroundColor: Colors.bgAppAlt }}>
         {/* Top Header Navigation Bar */}
         <View style={[styles.navHeader, { paddingTop: topHeaderPadding }]}>
-          <TouchableOpacity style={styles.iconBtn} onPress={handlePrevStep} activeOpacity={0.7}>
-            <Feather name="arrow-left" size={20} color={Colors.textPrimary} />
-          </TouchableOpacity>
+          {step > 1 ? (
+            <TouchableOpacity style={styles.iconBtn} onPress={handlePrevStep} activeOpacity={0.7}>
+              <Feather name="arrow-left" size={20} color={Colors.textPrimary} />
+            </TouchableOpacity>
+          ) : !isMandatory ? (
+            <TouchableOpacity style={styles.iconBtn} onPress={handlePrevStep} activeOpacity={0.7}>
+              <Feather name="arrow-left" size={20} color={Colors.textPrimary} />
+            </TouchableOpacity>
+          ) : (
+            <View style={{ width: 40 }} />
+          )}
 
           <View style={styles.headerTitleCenter}>
             <Text style={styles.headerTitle}>Hobby Onboarding</Text>
             <Text style={styles.headerSubtitle}>Step {step} of 4 • {step * 25}% Complete</Text>
           </View>
 
-          <TouchableOpacity style={styles.iconBtn} onPress={confirmCancel} activeOpacity={0.7}>
-            <Ionicons name="close" size={22} color={Colors.textSecondary} />
-          </TouchableOpacity>
+          {!isMandatory ? (
+            <TouchableOpacity style={styles.iconBtn} onPress={confirmCancel} activeOpacity={0.7}>
+              <Ionicons name="close" size={22} color={Colors.textSecondary} />
+            </TouchableOpacity>
+          ) : (
+            <View style={{ width: 40 }} />
+          )}
         </View>
 
         {/* Progress Track */}
@@ -384,19 +412,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: Colors.primaryBtn,
+    backgroundColor: '#2563EB',
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 14,
   },
   footerNextBtnDisabled: {
-    backgroundColor: Colors.bgCardAlt,
-    opacity: 0.5,
+    backgroundColor: '#E2E8F0',
+    opacity: 0.8,
   },
   footerNextText: {
-    color: Colors.primaryBtnText,
+    color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '800',
+  },
+  footerNextTextDisabled: {
+    color: '#64748B',
   },
   footerFinishBtn: {
     backgroundColor: Colors.success,
