@@ -69,9 +69,7 @@ export const SvgViewer: React.FC<SvgViewerProps> = ({
 
   // Sanitize ARIA & Web attributes for React Native Web DOM compatibility
   cleanSvg = cleanSvg
-    .replace(/\bariaLabel=/gi, 'aria-label=')
-    .replace(/\bariaHidden=/gi, 'aria-hidden=')
-    .replace(/\bariaDescribedBy=/gi, 'aria-describedby=');
+    .replace(/\saria[a-z0-9_-]*=("[^"]*"|'[^']*'|[^\s>]+)/gi, '');
 
   const cardWidth = Math.min(windowWidth - 68, 800);
 

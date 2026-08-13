@@ -15,6 +15,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Colors } from '@/shared/theme';
 import { useActiveHobbyStore } from '@/features/dashboard/store/useActiveHobbyStore';
 import { submitHobbyOnboarding } from '../api/hobbyOnboardingApi';
+import { AdaptiveContainer } from '@/shared/components/layout/AdaptiveContainer';
 
 import { Step1HobbySelection } from './Step1HobbySelection';
 import { Step2GoalDefinition } from './Step2GoalDefinition';
@@ -125,7 +126,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
+    <AdaptiveContainer maxWidth={680} style={{ backgroundColor: Colors.bgAppAlt }}>
       {/* ── Top Header Navigation Bar ────────────────────────────────────────────── */}
       <View style={styles.navHeader}>
         <TouchableOpacity style={styles.iconBtn} onPress={handlePrevStep} activeOpacity={0.7}>
@@ -228,7 +229,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
           </TouchableOpacity>
         )}
       </View>
-    </SafeAreaView>
+    </AdaptiveContainer>
   );
 };
 

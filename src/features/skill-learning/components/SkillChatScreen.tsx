@@ -27,6 +27,8 @@ import { SkillProgressHeader } from './SkillProgressHeader';
 import { SkillMessageBubble } from './SkillMessageBubble';
 import { SkillChatConfigModal } from './SkillChatConfigModal';
 import { AdaptiveContainer } from '@/shared/components/layout/AdaptiveContainer';
+import { useResponsive } from '@/shared/hooks/useResponsive';
+import { DesktopSidebar } from '@/shared/components/layout/DesktopSidebar';
 
 import { useQuery } from '@tanstack/react-query';
 import { useActiveHobbyStore } from '@/features/dashboard/store/useActiveHobbyStore';
@@ -137,12 +139,24 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
     historyQuery.refetch();
   };
 
+  const { isDesktop } = useResponsive();
   const hasMoreHistory = historyQuery.data?.hasMore || false;
   const totalMessages = historyQuery.data?.totalMessages || 0;
 
   return (
-    <AdaptiveContainer style={{ paddingTop: insets.top }}>
-      {/* 1. Top Header */}
+    <AdaptiveContainer
+      style={[
+        { paddingTop: insets.top },
+        isDesktop && { flexDirection: 'row', backgroundColor: Colors.bgApp },
+      ]}
+    >
+      {/* ─── Desktop Left Navigation Sidebar ───────────────────────────────────── */}
+      {isDesktop && (
+        <DesktopSidebar onOpenSettings={() => setConfigModalVisible(true)} />
+      )}
+
+      <View style={{ flex: 1 }}>
+        {/* 1. Top Header */}
       <SkillChatHeader
         skillInfo={skillInfo}
         onBack={() => (onBack ? onBack() : Alert.alert('Back', 'Navigating back...'))}
@@ -330,6 +344,7 @@ export const SkillChatScreen: React.FC<SkillChatScreenProps> = ({ onBack, userHo
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
+    </View>
 
       {/* 6. API Configuration Sheet */}
       <SkillChatConfigModal

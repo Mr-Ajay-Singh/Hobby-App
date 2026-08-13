@@ -16,6 +16,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { updateHobbySettings } from '../api/dashboardApi';
 import { Colors } from '@/shared/theme';
+import { useResponsive } from '@/shared/hooks/useResponsive';
 
 interface EditHobbyGoalModalProps {
   visible: boolean;
@@ -51,6 +52,7 @@ export const EditHobbyGoalModal: React.FC<EditHobbyGoalModalProps> = ({
   onSaved,
 }) => {
   const insets = useSafeAreaInsets();
+  const { isDesktop } = useResponsive();
   const [goal, setGoal] = useState(currentGoal);
   const [experienceLevel, setExperienceLevel] = useState(currentExperienceLevel);
   const [weeklyMinutes, setWeeklyMinutes] = useState(currentWeeklyMinutes);
@@ -91,12 +93,18 @@ export const EditHobbyGoalModal: React.FC<EditHobbyGoalModalProps> = ({
   };
 
   return (
-    <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
+    <Modal visible={visible} animationType={isDesktop ? 'fade' : 'slide'} transparent onRequestClose={onClose}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={styles.overlay}
+        style={[styles.overlay, isDesktop && styles.overlayDesktop]}
       >
-        <View style={[styles.sheetContainer, { paddingBottom: Math.max(insets.bottom + 16, 24) }]}>
+        <View
+          style={[
+            styles.sheetContainer,
+            isDesktop && styles.sheetContainerDesktop,
+            { paddingBottom: Math.max(insets.bottom + 16, 24) },
+          ]}
+        >
           {/* Modal Header */}
           <View style={styles.header}>
             <View style={styles.titleRow}>
@@ -206,6 +214,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
     justifyContent: 'flex-end',
   },
+  overlayDesktop: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
   sheetContainer: {
     backgroundColor: Colors.bgCard,
     borderTopLeftRadius: 24,
@@ -214,6 +227,13 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     borderTopWidth: 1,
     borderTopColor: Colors.borderCard,
+  },
+  sheetContainerDesktop: {
+    width: 560,
+    maxWidth: '100%',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: Colors.borderCard,
   },
   header: {
     flexDirection: 'row',

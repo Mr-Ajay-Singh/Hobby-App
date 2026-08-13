@@ -21,9 +21,12 @@ import {
 } from '@/features/leaderboard';
 import { Colors } from '@/shared/theme';
 import { AdaptiveContainer } from '@/shared/components/layout/AdaptiveContainer';
+import { useResponsive } from '@/shared/hooks/useResponsive';
+import { DesktopSidebar } from '@/shared/components/layout/DesktopSidebar';
 
 export default function LeaderboardScreen() {
   const router = useRouter();
+  const { isDesktop } = useResponsive();
   const [selectedType, setSelectedType] = useState<LeaderboardType>('weekly');
 
   const { data, isLoading, isError, refetch, isRefetching } = useLeaderboardQuery(selectedType);
@@ -37,9 +40,17 @@ export default function LeaderboardScreen() {
   };
 
   return (
-    <AdaptiveContainer style={{ backgroundColor: Colors.bgAppAlt }}>
-      {/* Top Header Navigation Bar */}
-      <View style={styles.navHeader}>
+    <AdaptiveContainer
+      style={[
+        { backgroundColor: Colors.bgAppAlt },
+        isDesktop && { flexDirection: 'row' },
+      ]}
+    >
+      {isDesktop && <DesktopSidebar />}
+
+      <View style={{ flex: 1 }}>
+        {/* Top Header Navigation Bar */}
+        <View style={styles.navHeader}>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={handleBack}
@@ -113,6 +124,7 @@ export default function LeaderboardScreen() {
           <StickyUserRankFooter userRank={data.currentUserRank} />
         )}
       </View>
+    </View>
     </AdaptiveContainer>
   );
 }

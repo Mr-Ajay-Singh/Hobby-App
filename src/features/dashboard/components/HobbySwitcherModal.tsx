@@ -15,6 +15,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fetchUserHobbiesList } from '../api/dashboardApi';
 import { Colors } from '@/shared/theme';
+import { useResponsive } from '@/shared/hooks/useResponsive';
 
 const HOBBY_EMOJI_MAP: Record<string, string> = {
   piano: '🎹',
@@ -66,6 +67,7 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
 }) => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { isDesktop } = useResponsive();
   const [userHobbies, setUserHobbies] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -88,9 +90,15 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
   }, [visible]);
 
   return (
-    <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
-      <View style={styles.overlay}>
-        <View style={[styles.sheetContainer, { paddingBottom: Math.max(insets.bottom + 16, 24) }]}>
+    <Modal visible={visible} animationType={isDesktop ? 'fade' : 'slide'} transparent onRequestClose={onClose}>
+      <View style={[styles.overlay, isDesktop && styles.overlayDesktop]}>
+        <View
+          style={[
+            styles.sheetContainer,
+            isDesktop && styles.sheetContainerDesktop,
+            { paddingBottom: Math.max(insets.bottom + 16, 24) },
+          ]}
+        >
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.titleRow}>
@@ -162,21 +170,6 @@ export const HobbySwitcherModal: React.FC<HobbySwitcherModalProps> = ({
               <Text style={styles.addHobbyBtnText}>+ Start New Hobby Onboarding</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.mandatoryTestBtn}
-              onPress={() => {
-                onClose();
-                router.push({
-                  pathname: '/hobby-onboarding',
-                  params: { isMandatory: 'true' },
-                });
-              }}
-              activeOpacity={0.85}
-            >
-              <Feather name="lock" size={15} color={Colors.accentPurple} />
-              <Text style={styles.mandatoryTestBtnText}>Test Mandatory First-Time Onboarding Flow</Text>
-            </TouchableOpacity>
-
             <Text style={styles.presetTitle}>Quick Start Catalog:</Text>
             <View style={styles.presetGrid}>
               {CATALOG_PRESETS.map((preset) => (
@@ -210,6 +203,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
     justifyContent: 'flex-end',
   },
+  overlayDesktop: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
   sheetContainer: {
     backgroundColor: Colors.bgCard,
     borderTopLeftRadius: 24,
@@ -218,6 +216,13 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     borderTopWidth: 1,
     borderTopColor: Colors.borderCard,
+  },
+  sheetContainerDesktop: {
+    width: 560,
+    maxWidth: '100%',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: Colors.borderCard,
   },
   header: {
     flexDirection: 'row',

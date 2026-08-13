@@ -11,7 +11,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { fetchDashboardData, fetchUserHobbiesList } from '../api/dashboardApi';
 import { DashboardData } from '../types';
 import { useApiConfigStore } from '@/features/skill-learning/store/useApiConfigStore';
@@ -20,6 +20,8 @@ import { EditHobbyGoalModal } from './EditHobbyGoalModal';
 import { HobbySwitcherModal } from './HobbySwitcherModal';
 import { Colors } from '@/shared/theme';
 import { AdaptiveContainer } from '@/shared/components/layout/AdaptiveContainer';
+import { useResponsive } from '@/shared/hooks/useResponsive';
+import { DesktopSidebar } from '@/shared/components/layout/DesktopSidebar';
 
 const HOBBY_EMOJI_MAP: Record<string, string> = {
   piano: '🎹',
@@ -54,6 +56,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { baseUrl } = useApiConfigStore();
+  const { isDesktop } = useResponsive();
   const { activeUserHobbyId, setActiveUserHobbyId, enrolledHobbyIds, syncEnrolledHobbyIds } =
     useActiveHobbyStore();
   const [configModalVisible, setConfigModalVisible] = useState(false);
@@ -68,6 +71,13 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
     queryFn: () => fetchDashboardData(activeUserHobbyId),
     staleTime: 1000 * 60 * 2, // 2 minutes
   });
+
+  // Automatically refetch dashboard data every time user returns to Dashboard (e.g. from Skill Chat)
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
 
   // Fetch all user hobbies to compute total active hobbies portfolio count
   const { data: hobbiesData } = useQuery({
@@ -112,9 +122,24 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
   };
 
   return (
-    <AdaptiveContainer style={{ paddingTop: insets.top }}>
-      {/* ─── Header ────────────────────────────────────────────────────────── */}
-      <View style={styles.header}>
+    <AdaptiveContainer
+      style={[
+        { paddingTop: insets.top },
+        isDesktop && { flexDirection: 'row', backgroundColor: Colors.bgApp },
+      ]}
+    >
+      {/* ─── Desktop Left Navigation Sidebar ───────────────────────────────────── */}
+      {isDesktop && (
+        <DesktopSidebar
+          onOpenSwitcher={() => setSwitcherModalVisible(true)}
+          onOpenSettings={() => setConfigModalVisible(true)}
+        />
+      )}
+
+      {/* ─── Main Content Workspace Container ──────────────────────────────────── */}
+      <View style={styles.mainContentWrapper}>
+        {/* ─── Header ────────────────────────────────────────────────────────── */}
+        <View style={styles.header}>
         <View>
           <Text style={styles.headerSubtitle}>Skill Learning Hub</Text>
           <Text style={styles.headerTitle}>My Dashboard 🚀</Text>
@@ -470,9 +495,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
           </>
         )}
       </ScrollView>
+      </View>
 
-      {/* ─── Floating Action Button ─────────────────────────────────────── */}
-      {hasActiveHobby && dashboard && !isLoading && !isError && (
+      {/* ─── Floating Action Button (Mobile Only) ─────────────────────────── */}
+      {hasActiveHobby && dashboard && !isLoading && !isError && !isDesktop && (
         <TouchableOpacity
           style={[styles.fab, { bottom: Math.max(insets.bottom + 20, 32) }]}
           onPress={() => onOpenChat(dashboard?.hobbyInfo?.userHobbyId)}
@@ -514,6 +540,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onOpenChat }) 
 };
 
 const styles = StyleSheet.create({
+  mainContentWrapper: {
+    flex: 1,
+    width: '100%',
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.bgApp,
