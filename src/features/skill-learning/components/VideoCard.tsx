@@ -218,6 +218,11 @@ const styles = StyleSheet.create({
     padding: 12,
     marginVertical: 8,
     overflow: 'hidden',
+    maxWidth: 640,
+    width: '100%',
+  },
+  containerExpanded: {
+    borderColor: Colors.accentCyan,
   },
   header: {
     flexDirection: 'row',
@@ -257,7 +262,7 @@ const styles = StyleSheet.create({
   },
   inlinePlayerContainer: {
     width: '100%',
-    height: 210,
+    height: 220,
     borderRadius: 12,
     overflow: 'hidden',
     backgroundColor: '#0b0f19',
@@ -267,10 +272,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#0b0f19',
   },
   previewBox: {
-    backgroundColor: Colors.bgAppAlt,
+    backgroundColor: '#1E293B',
     borderRadius: 12,
     overflow: 'hidden',
-    height: 180,
+    height: 200,
     justifyContent: 'flex-end',
     position: 'relative',
   },
@@ -299,18 +304,19 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   infoFooter: {
-    backgroundColor: 'rgba(11, 15, 25, 0.88)',
-    padding: 10,
+    backgroundColor: 'rgba(15, 23, 42, 0.92)',
+    padding: 12,
   },
   videoTitle: {
-    color: Colors.textPrimary,
-    fontSize: 13,
+    color: '#FFFFFF',
+    fontSize: 13.5,
     fontWeight: '700',
-    marginBottom: 2,
+    marginBottom: 3,
+    lineHeight: 18,
   },
   urlHint: {
-    color: Colors.accentCyan,
-    fontSize: 11,
+    color: '#38BDF8',
+    fontSize: 11.5,
     fontWeight: '600',
   },
 
