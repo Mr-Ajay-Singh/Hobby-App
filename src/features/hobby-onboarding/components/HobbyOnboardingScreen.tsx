@@ -94,7 +94,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
 
   const handleFinish = async () => {
     if (!activeHobbyName.trim()) {
-      Alert.alert('Error', 'Hobby name is missing.');
+      Alert.alert('Selection Required', 'Please select or enter a hobby.');
       return;
     }
 
@@ -109,13 +109,24 @@ export const HobbyOnboardingScreen: React.FC = () => {
         avatar: avatarEmoji,
       });
 
-      queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] });
-      queryClient.invalidateQueries({ queryKey: ['leaderboard'] });
+      const rawId =
+        response?.data?.userHobby?._id ||
+        response?.data?.userHobbyId ||
+        response?.userHobby?._id ||
+        response?.userHobbyId ||
+        response?.data?._id;
 
-      // Navigate straight to AI Chat for the new hobby!
-      const userHobbyId = response?.data?.userHobby?._id || response?.userHobby?._id;
+      const userHobbyId = rawId ? String(rawId) : undefined;
+
       if (userHobbyId) {
         useActiveHobbyStore.getState().setActiveUserHobbyId(userHobbyId);
+      }
+
+      await queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] });
+      await queryClient.invalidateQueries({ queryKey: ['user-hobbies-list'] });
+      await queryClient.invalidateQueries({ queryKey: ['leaderboard'] });
+
+      if (userHobbyId) {
         router.replace({
           pathname: '/skill-chat',
           params: { userHobbyId },
@@ -124,6 +135,7 @@ export const HobbyOnboardingScreen: React.FC = () => {
         router.replace('/');
       }
     } catch (err: any) {
+      console.error('[Onboarding] Enrollment submission error:', err);
       Alert.alert('Enrollment Error', err.message || 'Failed to finish onboarding.');
     } finally {
       setSubmitting(false);
