@@ -8,7 +8,8 @@
     "scheme": "reactnativelearning",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.invictus.hobbyapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +19,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.reactnativelearning"
+      "package": "com.invictus.hobbyapp"
     },
     "web": {
       "output": "static",

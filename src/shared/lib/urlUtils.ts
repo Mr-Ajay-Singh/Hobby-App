@@ -51,9 +51,8 @@ export const getAutoDetectedHost = (): string => {
 };
 
 /**
- * Returns default API server baseUrl with the specified port.
+ * Returns default API server baseUrl pointing to live production server.
  */
-export const getDefaultBaseUrl = (port = 4021): string => {
-  const host = getAutoDetectedHost();
-  return `http://${host}:${port}`;
+export const getDefaultBaseUrl = (): string => {
+  return 'https://hobby.missioninvictus.com';
 };

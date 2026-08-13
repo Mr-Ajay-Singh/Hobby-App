@@ -15,7 +15,7 @@ export interface ApiConfigState {
 }
 
 const DEFAULT_CONFIG = {
-  baseUrl: getDefaultBaseUrl(4021),
+  baseUrl: getDefaultBaseUrl(),
   model: 'gemini',
   voice: 'alloy' as AudioVoice,
   requestedForms: [
