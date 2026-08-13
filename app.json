@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Hobby Coach - AI Skill Learning",
-    "slug": "react-native-learning",
+    "name": "Hobby App",
+    "slug": "hobby-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
